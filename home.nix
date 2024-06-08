@@ -76,6 +76,8 @@
   programs.home-manager.enable = true;
 
   home.file.".ssh/config".source = ./config/ssh/config;
+  home.file.".zshrc".source = ./config/zsh/zshrc;
+  home.file.".gitconfig".source = ./config/git/config;
 
   programs.zsh = {
     enable = true;
