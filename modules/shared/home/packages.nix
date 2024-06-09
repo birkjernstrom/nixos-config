@@ -13,6 +13,9 @@ with pkgs; [
   git
   delta  # Git diff
 
+  # Node
+  nodejs_20
+
   # Python
   pyenv
   poetry
