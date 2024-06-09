@@ -3,7 +3,7 @@
 let
   user = "birk";
   sharedFiles = import ../shared/home/files.nix { inherit config pkgs; };
-  sharedPrograms = import ../shared/home/programs.nix { inherit config pkgs; };
+  sharedPrograms = import ../shared/home/programs { inherit config pkgs lib; };
 in
 {
   users.users.${user} = {
