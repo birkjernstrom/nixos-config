@@ -12,6 +12,7 @@ with pkgs; [
   neovim
   git
   delta  # Git diff
+  gh    # GitHub CLI
 
   # Node
   nodejs_20

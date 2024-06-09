@@ -13,6 +13,15 @@ in
     shell = pkgs.zsh;
   };
 
+  homebrew = {
+    enable = true;
+    casks = pkgs.callPackage ./casks.nix {};
+    masApps = {
+      # Mac App Store Installations
+      # "1password" = 1333542190;
+    };
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
