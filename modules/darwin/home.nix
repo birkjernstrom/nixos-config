@@ -11,10 +11,6 @@ in
     home = "/Users/${user}";
     isHidden = false;
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      pkgs.delta
-      pkgs.bat
-    ];
   };
 
   home-manager = {
@@ -22,6 +18,7 @@ in
     useUserPackages = true;
     users.${user} = { pkgs, config, lib, ... }:{
       home = {
+        packages = pkgs.callPackage ./packages.nix {};
         file = lib.mkMerge [
           sharedFiles
         ];
