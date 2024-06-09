@@ -3,6 +3,7 @@
 let
   user = "birk";
   sharedFiles = import ../shared/home/files.nix { inherit config pkgs; };
+  sharedPrograms = import ../shared/home/programs.nix { inherit config pkgs; };
 in
 {
   users.users.${user} = {
@@ -10,6 +11,9 @@ in
     home = "/Users/${user}";
     isHidden = false;
     shell = pkgs.zsh;
+    packages = with pkgs; [
+      
+    ];
   };
 
   home-manager = {
@@ -22,7 +26,10 @@ in
         ];
         stateVersion = "24.05";
       };
-      programs = {};
+
+      programs = lib.mkMerge [
+        sharedPrograms
+      ];
     };
   };
 }

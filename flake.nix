@@ -36,7 +36,7 @@
       };
     };
     darwinConfigurations = {
-      "Birks-MacBook-Pro" = darwin.lib.darwinSystem {
+      darwin = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           home-manager.darwinModules.home-manager
