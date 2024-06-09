@@ -19,6 +19,7 @@
       #  Regular aliases
       ".." = "cd ..";
       "-" = "cd -";
+      "ll" = "ls -ahl";
 
       # zoxide override
       "cat" = "bat";
