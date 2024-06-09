@@ -14,7 +14,7 @@
     ];
     shellAliases = {
       # zoxide override
-      "cd" = "zoxide";
+      "cd" = "z";
 
       #  Regular aliases
       ".." = "cd ..";
