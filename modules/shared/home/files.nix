@@ -2,6 +2,6 @@
 
 {
   ".ssh/config".source = ../../../dotfiles/ssh/config;
-  ".zshrc".source = ../../../config/zsh/zshrc;
-  ".gitconfig".source = ../../../config/git/config;
+  ".gitconfig".source = ../../../dotfiles/git/config;
+  ".gitignore".source = ../../../dotfiles/git/ignore;
 }
