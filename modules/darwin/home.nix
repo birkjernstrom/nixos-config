@@ -13,6 +13,7 @@ in
     shell = pkgs.zsh;
     packages = with pkgs; [
       pkgs.delta
+      pkgs.bat
     ];
   };
 
