@@ -37,6 +37,10 @@
       "gc" = "git commit";
       "gd" = "git diff";
     };
+
+    sessionVariables = {
+      EDITOR = "nvim";
+    };
   };
 
   bat.enable = true;
@@ -49,6 +53,11 @@
   fzf = {
     enable = true;
     enableZshIntegration = true;
+    defaultOptions = [
+      "--height 40%"
+      "--layout=reverse"
+      "--border"
+    ];
   };
 
   starship = {
