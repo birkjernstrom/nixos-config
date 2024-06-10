@@ -52,11 +52,8 @@ in
         AppleShowAllExtensions = true;
         ApplePressAndHoldEnabled = false;
 
-        # 120, 90, 60, 30, 12, 6, 2
-        KeyRepeat = 2;
-
-        # 120, 94, 68, 35, 25, 15
-        InitialKeyRepeat = 15;
+        KeyRepeat = 1;
+        InitialKeyRepeat = 10;
 
         "com.apple.mouse.tapBehavior" = 1;
         "com.apple.sound.beep.volume" = 0.0;
