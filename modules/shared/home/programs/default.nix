@@ -3,12 +3,15 @@
 let
   zshConfig = import ./zsh.nix { inherit config pkgs lib; };
   gitConfig = import ./git.nix { inherit config pkgs lib; };
+  tmuxConfig = import ./tmux.nix { inherit config pkgs lib; };
 in
 lib.mkMerge [
   zshConfig
   gitConfig
+  tmuxConfig
   {
     bat.enable = true;
+    tmux.enable = true;
 
     zoxide = {
       enable = true;

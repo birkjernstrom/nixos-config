@@ -7,6 +7,7 @@ with pkgs; [
   fzf
   zoxide
   starship
+  tmux
 
   # Development
   neovim
