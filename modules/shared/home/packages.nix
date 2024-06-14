@@ -8,6 +8,7 @@ with pkgs; [
   zoxide
   starship
   tmux
+  ripgrep
 
   # Development
   neovim
