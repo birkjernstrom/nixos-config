@@ -28,6 +28,9 @@
       "n" = "nvim";
       "v" = "nvim";
 
+      # sesh - map to former t from same author
+      "t" = "sesh connect";
+
       # git
       "g" = "git";
       "gp" = "git push";

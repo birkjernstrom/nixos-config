@@ -9,6 +9,7 @@ with pkgs; [
   starship
   tmux
   ripgrep
+  sesh
 
   # Development
   neovim
