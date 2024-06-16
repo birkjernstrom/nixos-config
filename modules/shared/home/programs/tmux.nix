@@ -1,14 +1,15 @@
 { config, pkgs, ... }:
 
 let
-  tokyo-night-tmux = pkgs.tmuxPlugins.mkTmuxPlugin {
-    pluginName = "tokyo-night";
+  minimal-tmux-status = pkgs.tmuxPlugins.mkTmuxPlugin {
+    pluginName = "minimal-tmux-status";
+    rtpFilePath = "minimal.tmux";
     version = "1.0";
     src = pkgs.fetchFromGitHub {
-      owner = "janoamaral";
-      repo = "tokyo-night-tmux";
-      rev = "c3bc283cceeefaa7e5896878fe20711f466ab591";
-      sha256 = "sha256-3rMYYzzSS2jaAMLjcQoKreE0oo4VWF9dZgDtABCUOtY=";
+      owner = "niksingh710";
+      repo = "minimal-tmux-status";
+      rev = "131306e6924a8e71dfc6be20dd1a10441248c690";
+      sha256 = "sha256-cwWoKsiDLSlSLis5tzqP2kFwTbl9PlzMYNdo2lDk0So=";
     };
   };
 in
@@ -58,11 +59,13 @@ in
     plugins = with pkgs; [
       # No need to load `sensible` as it is loaded by default
       {
-        plugin = tokyo-night-tmux;
+        plugin = minimal-tmux-status;
         extraConfig = ''
-          set -g @tokyo-night-tmux_window_id_style digital
-          set -g @tokyo-night-tmux_pane_id_style hsquare
-          set -g @tokyo-night-tmux_zoom_id_style dsquare
+          set -g @minimal-tmux-bg "#8ba4b0"  # Kanagawa dragonBlue2
+          set -g @minimal-tmux-justify "centre"
+          set -g @minimal-tmux-indicator-str "  tmux  "
+          set -g @minimal-tmux-indicator true
+          set -g @minimal-tmux-status "top"
         '';
       }
       tmuxPlugins.tmux-fzf
