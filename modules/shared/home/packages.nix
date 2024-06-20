@@ -19,6 +19,7 @@ with pkgs; [
 
   # Node
   nodejs_20
+  corepack  # To install pnpm as needed etc
 
   # Python
   pyenv
