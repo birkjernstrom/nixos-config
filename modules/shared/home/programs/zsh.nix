@@ -31,6 +31,10 @@
       # sesh - map to former t from same author
       "t" = "sesh connect";
 
+      # Use zsh after nix develop -- unfortunately from within bash
+      # https://github.com/NixOS/nix/issues/4609
+      "nixdev" = "nix develop --command zsh";
+
       # git
       "g" = "git";
       "gp" = "git push";
