@@ -22,4 +22,7 @@ _:
 
   # Browsers
   "google-chrome"
+
+  # Terminal emulators
+  "wezterm"
 ]

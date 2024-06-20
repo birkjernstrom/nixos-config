@@ -8,4 +8,10 @@
     source = ../../../dotfiles/nvim;
     recursive = true;
   };
+
+  # Wezterm
+  ".config/wezterm" = {
+    source = ../../../dotfiles/wezterm;
+    recursive = true;
+  };
 }
