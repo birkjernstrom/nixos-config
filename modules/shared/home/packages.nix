@@ -21,6 +21,7 @@ customShellScripts ++ [
   git
   delta  # Git diff
   gh    # GitHub CLI
+  lazydocker
 
   # Node
   nodejs_20
