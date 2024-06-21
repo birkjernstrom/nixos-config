@@ -3,6 +3,12 @@
 {
   ".ssh/config".source = ../../../dotfiles/ssh/config;
 
+  # Tmuxp templates
+  ".config/tmuxp" = {
+    source = ../../../dotfiles/tmuxp;
+    recursive = true;
+  };
+
   # Prefer to configure nvim directly with lua
   ".config/nvim" = {
     source = ../../../dotfiles/nvim;

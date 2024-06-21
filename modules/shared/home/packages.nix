@@ -1,15 +1,20 @@
 { pkgs, ... }:
 
-with pkgs; [
+with pkgs;
+let customShellScripts = import ../../../sh { inherit pkgs; }; in
+customShellScripts ++ [
   # Terminal
   zsh
   bat
   fzf
   zoxide
   starship
-  tmux
   ripgrep
   sesh
+
+  # Tmux
+  tmux
+  tmuxp
 
   # Development
   neovim

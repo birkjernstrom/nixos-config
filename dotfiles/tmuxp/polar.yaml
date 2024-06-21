@@ -1,0 +1,35 @@
+session_name: polar
+start_directory: ~/dev/polar
+shell_command_before:
+  - nixdev
+windows:
+  - window_name: backend
+    start_directory: ./server
+    layout: main-horizontal
+    options:
+      main-pane-height: 75%
+    panes:
+      - shell_command:
+        - poetry shell
+        - nvim
+      - shell_command:
+        - poetry install
+        - poetry shell
+        - docker compose up -d --build
+        - poetry run task db_migrate
+  - window_name: frontend
+    start_directory: ./clients
+    layout: main-horizontal
+    options:
+      main-pane-height: 75%
+    panes:
+      - nvim
+      - shell_command:
+        - pnpm install
+  - window_name: procs
+    layout: even-vertical
+    panes:
+      - cd server && poetry run task api
+      - cd server && poetry run task worker
+      - cd server && poetry run task worker_github_crawl
+      - cd clients && pnpm dev

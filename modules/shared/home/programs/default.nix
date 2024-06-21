@@ -12,6 +12,7 @@ lib.mkMerge [
   {
     bat.enable = true;
     tmux.enable = true;
+    tmux.tmuxp.enable = true;
     ripgrep.enable = true;
 
     zoxide = {
