@@ -42,6 +42,7 @@
       "gbd" = "git branch -d";
       "gs" = "git status";
       "gc" = "git commit";
+      "gcm" = "git commit -m";
       "gd" = "git diff";
     };
 
