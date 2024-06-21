@@ -66,7 +66,7 @@ in
         launchanim = true;
         mouse-over-hilite-stack = true;
         orientation = "bottom";
-        tilesize = 48;
+        tilesize = 32;
         # Spaces, no re-arrange
         mru-spaces = false;
       };
