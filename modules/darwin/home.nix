@@ -2,6 +2,7 @@
 
 let
   user = "birk";
+  darwinServices = import ./services { inherit config pkgs lib; };
   sharedFiles = import ../shared/home/files.nix { inherit config pkgs; };
   sharedPrograms = import ../shared/home/programs { inherit config pkgs lib; };
 in
@@ -34,9 +35,13 @@ in
         stateVersion = "24.05";
       };
 
+
       programs = lib.mkMerge [
         sharedPrograms
       ];
+
     };
   };
+
+  services = darwinServices;
 }
