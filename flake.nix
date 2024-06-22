@@ -46,7 +46,20 @@
               users.${user} = import ./modules/nixos/home.nix;
             };
           }
-	  ./hosts/nixos
+	  ./hosts/nixos/desktop-home.nix
+	];
+      };
+      utm-aarch64 = lib.nixosSystem {
+        system = "aarch64-linux";
+	modules = [
+          home-manager.nixosModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.${user} = import ./modules/nixos/home.nix;
+            };
+          }
+	  ./hosts/nixos/utm-aarch64.nix
 	];
       };
     };

@@ -3,7 +3,7 @@
 {
   imports =
     [
-      ./hardware.nix
+      ./hardware/utm-aarch64.nix
       ../../modules/nixos
       ../../modules/shared
     ];
