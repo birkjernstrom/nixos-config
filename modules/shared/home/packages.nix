@@ -30,4 +30,5 @@ customShellScripts ++ [
   # Python
   pyenv
   poetry
+  python313
 ]
