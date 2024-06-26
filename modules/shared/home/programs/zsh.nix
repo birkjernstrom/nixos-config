@@ -49,6 +49,7 @@
     sessionVariables = {
       EDITOR = "nvim";
       DISABLE_AUTO_TITLE = "true";
+      TERM = "xterm-256color";
     };
   };
 }

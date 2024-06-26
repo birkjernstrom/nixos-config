@@ -16,16 +16,19 @@ in
 {
   tmux = {
     enable = true;
-    terminal = "xterm-256color";
+    terminal = "screen-256color";
     shell = "${pkgs.zsh}/bin/zsh";
     prefix = "C-s";
     baseIndex = 1;
     mouse = true;
     keyMode = "vi";
+    escapeTime = 10;
 
     extraConfig = ''
       unbind r
       bind r source-file ~/.config/tmux/tmux.conf
+
+      set-option -a terminal-features 'xterm-256color:RGB'
 
       # Create panes
       unbind %
