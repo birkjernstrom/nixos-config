@@ -26,10 +26,15 @@ windows:
       - nvim
       - shell_command:
         - pnpm install
-  - window_name: procs
+  - window_name: server-procs
+    start_directory: ./server
     layout: even-vertical
     panes:
-      - cd server && poetry run task api
-      - cd server && poetry run task worker
-      - cd server && poetry run task worker_github_crawl
-      - cd clients && pnpm dev
+      - poetry run task api
+      - poetry run task worker
+      - poetry run task worker_github_crawl
+  - window_name: client-procs
+    start_directory: ./clients
+    layout: even-vertical
+    panes:
+      - pnpm dev
