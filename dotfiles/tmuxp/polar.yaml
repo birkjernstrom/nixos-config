@@ -38,3 +38,10 @@ windows:
     layout: even-vertical
     panes:
       - pnpm dev
+  - window_name: webhooks
+    start_directory: ./server
+    layout: even-vertical
+    panes:
+      - ngrok start polar-api
+      - stripe listen --forward-to http://127.0.0.1:8000/api/v1/integrations/stripe/webhook --forward-connect-to http://127.0.0.1:8000/api/v1/integrations/stripe/webhook-connect
+
