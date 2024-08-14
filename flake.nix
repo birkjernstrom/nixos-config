@@ -49,6 +49,19 @@
 	  ./hosts/nixos/desktop-home.nix
 	];
       };
+      framework-amd-7040 = lib.nixosSystem {
+        system = "x86_64-linux";
+	modules = [
+          home-manager.nixosModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.${user} = import ./modules/nixos/home.nix;
+            };
+          }
+	  ./hosts/nixos/framework-amd-7040.nix
+	];
+      };
       utm-aarch64 = lib.nixosSystem {
         system = "aarch64-linux";
 	modules = [

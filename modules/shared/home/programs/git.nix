@@ -14,8 +14,7 @@
         format = "ssh";
       };
       "gpg \"ssh\"" = {
-        # Change path for NixOS
-        program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
       };
       init = {
         defaultBranch = "main";
