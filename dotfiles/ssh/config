@@ -4,7 +4,6 @@ Host github.com
     IdentitiesOnly yes
 
 Host ssh.ohio.render.com
-    UseKeychain yes
     AddKeysToAgent yes
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
