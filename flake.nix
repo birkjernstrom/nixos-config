@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-22.05";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -30,10 +31,12 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }:
+  outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }:
     let
       lib = nixpkgs.lib;
-      user = "birk";
+      settings = {
+        username = "birk";
+      };
     in {
     nixosConfigurations = {
       nixos = lib.nixosSystem {
@@ -43,11 +46,16 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${user} = import ./modules/nixos/home.nix;
+              users.${settings.username} = import ./modules/nixos/home.nix;
             };
           }
 	  ./hosts/nixos/desktop-home.nix
 	];
+        specialArgs = {
+          inherit settings;
+          inherit nixpkgs-stable;
+          isDarwin = false;
+        };
       };
       framework-amd-7040 = lib.nixosSystem {
         system = "x86_64-linux";
@@ -56,11 +64,16 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${user} = import ./modules/nixos/home.nix;
+              users.${settings.username} = import ./modules/nixos/home.nix;
             };
           }
 	  ./hosts/nixos/framework-amd-7040.nix
 	];
+        specialArgs = {
+          inherit settings;
+          inherit nixpkgs-stable;
+          isDarwin = false;
+        };
       };
       utm-aarch64 = lib.nixosSystem {
         system = "aarch64-linux";
@@ -69,11 +82,16 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${user} = import ./modules/nixos/home.nix;
+              users.${settings.username} = import ./modules/nixos/home.nix;
             };
           }
 	  ./hosts/nixos/utm-aarch64.nix
 	];
+        specialArgs = {
+          inherit settings;
+          inherit nixpkgs-stable;
+          isDarwin = false;
+        };
       };
     };
     darwinConfigurations = {
@@ -83,7 +101,7 @@
           home-manager.darwinModules.home-manager
           nix-homebrew.darwinModules.nix-homebrew {
             nix-homebrew = {
-              inherit user;
+              user = settings.username;
               enable = true;
               taps = {
                 "homebrew/homebrew-core" = homebrew-core;
@@ -96,6 +114,11 @@
           }
           ./hosts/darwin
         ];
+        specialArgs = {
+          inherit settings;
+          inherit nixpkgs-stable;
+          isDarwin = true;
+        };
       };
     };
   };

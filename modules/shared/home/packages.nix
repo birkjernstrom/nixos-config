@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, nixpkgs-stable, ... }:
 
 with pkgs;
-let customShellScripts = import ../../../sh { inherit pkgs; }; in
+let
+  customShellScripts = import ../../../sh { inherit pkgs; };
+in
 customShellScripts ++ [
   # Terminal
   zsh
@@ -19,7 +21,6 @@ customShellScripts ++ [
   # Development
   neovim
   git
-  delta  # Git diff
   gh    # GitHub CLI
   lazydocker
 
@@ -32,3 +33,9 @@ customShellScripts ++ [
   poetry
   python313
 ]
+++
+(with nixpkgs-stable;
+[
+  # Disable short-term due to nix issues with delta
+  # delta # Git diff
+])

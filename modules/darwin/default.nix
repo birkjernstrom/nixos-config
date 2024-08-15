@@ -1,8 +1,5 @@
-{ config, pkgs, ... }:
+{ config, pkgs, nixpkgs-stable, settings, isDarwin, ... }:
 
-let
-  user = "birk";
-in
 {
   imports = [
       ./home.nix
@@ -23,10 +20,13 @@ in
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Setup user, packages, programs
   nix = {
     package = pkgs.nix;
-    settings.trusted-users = [ "@admin" "${user}" ];
+    settings.trusted-users = [ "@admin" "${settings.username}" ];
     settings.experimental-features = "nix-command flakes";
 
     gc = {
@@ -36,8 +36,6 @@ in
       options = "--delete-older-than 30d";
     };
   };
-
-  fonts.fontDir.enable = true;
 
   system = {
     # Used for backwards compatibility, please read the changelog before changing.

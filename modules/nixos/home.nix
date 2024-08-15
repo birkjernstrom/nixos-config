@@ -1,7 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, nixpkgs-stable, lib, settings, isDarwin, ... }:
 
 let
-  user = "birk";
   sharedFiles = import ../shared/home/files.nix { inherit config pkgs; };
   sharedPrograms = import ../shared/home/programs { inherit config pkgs lib; };
 in
@@ -10,12 +9,15 @@ in
   # manage.
   home = {
     stateVersion = "24.05"; # Please read the comment before changing.
-    username = "${user}";
+    username = "${settings.username}";
     homeDirectory = "/home/${user}";
     file = lib.mkMerge [
       sharedFiles
     ];
-    packages = pkgs.callPackage ./packages.nix {};
+    packages = pkgs.callPackage ./packages.nix {
+      inherit pkgs;
+      inherit nixpkgs-stable;
+    };
   };
 
   programs = lib.mkMerge [

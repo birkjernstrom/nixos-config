@@ -1,15 +1,15 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs, lib, home-manager, nixpkgs-stable, settings, isDarwin, ... }:
 
 let
-  user = "birk";
-  darwinServices = import ./services { inherit config pkgs lib; };
-  sharedFiles = import ../shared/home/files.nix { inherit config pkgs; };
-  sharedPrograms = import ../shared/home/programs { inherit config pkgs lib; };
+  inherit settings;
+  darwinServices = import ./services { inherit config pkgs lib settings isDarwin; };
+  sharedFiles = import ../shared/home/files.nix { inherit config pkgs settings isDarwin; };
+  sharedPrograms = import ../shared/home/programs { inherit config pkgs lib settings isDarwin; };
 in
 {
-  users.users.${user} = {
-    name = "${user}";
-    home = "/Users/${user}";
+  users.users.${settings.username} = {
+    name = "${settings.username}";
+    home = "/Users/${settings.username}";
     isHidden = false;
     shell = pkgs.zsh;
   };
@@ -26,9 +26,12 @@ in
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.${user} = { pkgs, config, lib, ... }:{
+    users.${settings.username} = { pkgs, config, lib, ... }:{
       home = {
-        packages = pkgs.callPackage ./packages.nix {};
+        packages = pkgs.callPackage ./packages.nix {
+          inherit pkgs;
+          inherit nixpkgs-stable;
+        };
         file = lib.mkMerge [
           sharedFiles
         ];

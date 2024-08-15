@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, settings, isDarwin, ... }:
 
 {
   git = {
@@ -13,9 +13,14 @@
       gpg = {
         format = "ssh";
       };
-      "gpg \"ssh\"" = {
-        program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
-      };
+      "gpg \"ssh\"" =
+        if isDarwin then {
+          # _1password-gui is broken on darwin. So cannot make it shared & need
+          # to install 1password as a cask on macOS + provide an absolute path.
+          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        } else {
+          program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+        };
       init = {
         defaultBranch = "main";
       };

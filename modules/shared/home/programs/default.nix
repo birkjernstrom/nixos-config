@@ -1,9 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, settings, isDarwin, ... }:
 
 let
-  zshConfig = import ./zsh.nix { inherit config pkgs lib; };
-  gitConfig = import ./git.nix { inherit config pkgs lib; };
-  tmuxConfig = import ./tmux.nix { inherit config pkgs lib; };
+  zshConfig = import ./zsh.nix { inherit config pkgs lib settings isDarwin; };
+  gitConfig = import ./git.nix { inherit config pkgs lib settings isDarwin; };
+  tmuxConfig = import ./tmux.nix { inherit config pkgs lib settings isDarwin; };
 in
 lib.mkMerge [
   zshConfig
