@@ -1,4 +1,4 @@
-{ pkgs, nixpkgs-stable, ... }:
+{ config, pkgs, ... }:
 
 with pkgs;
 let
@@ -33,9 +33,3 @@ customShellScripts ++ [
   poetry
   python313
 ]
-++
-(with nixpkgs-stable;
-[
-  # Disable short-term due to nix issues with delta
-  # delta # Git diff
-])

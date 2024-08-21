@@ -14,7 +14,7 @@ let
   };
 in
 {
-  tmux = {
+  config.programs.tmux = {
     enable = true;
     terminal = "screen-256color";
     shell = "${pkgs.zsh}/bin/zsh";

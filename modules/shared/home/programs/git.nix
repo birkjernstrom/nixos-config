@@ -1,7 +1,7 @@
-{ config, pkgs, settings, isDarwin, ... }:
+{ config, pkgs, lib, isDarwin, ... }:
 
 {
-  git = {
+  config.programs.git = {
     enable = true;
     userName = "Birk Jernstrom";
     userEmail = "birkjernstrom@gmail.com";
@@ -13,14 +13,15 @@
       gpg = {
         format = "ssh";
       };
-      "gpg \"ssh\"" =
-        if isDarwin then {
-          # _1password-gui is broken on darwin. So cannot make it shared & need
-          # to install 1password as a cask on macOS + provide an absolute path.
-          program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
-        } else {
+      "gpg \"ssh\"" = {
+        # if isDarwin then {
+        #   # _1password-gui is broken on darwin. So cannot make it shared & need
+        #   # to install 1password as a cask on macOS + provide an absolute path.
+        #   program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+        # } else {
           program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
-        };
+        # };
+      };
       init = {
         defaultBranch = "main";
       };
@@ -63,12 +64,12 @@
 
       "build/"
 
-       # Cocoa development
-       "*~.nib"
-       "*.pbxuser"
-       "*.mode*"
-       "*.perspective*"
-       "xuserdata"
+      # Cocoa development
+      "*~.nib"
+      "*.pbxuser"
+      "*.mode*"
+      "*.perspective*"
+      "xuserdata"
     ];
     aliases = {
       init-submodules = "git submodule init && git submodule foreach git submodule init";

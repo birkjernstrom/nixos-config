@@ -1,29 +1,29 @@
-{ config, pkgs, nixpkgs-stable, lib, settings, isDarwin, ... }:
+{ config, pkgs, ... }:
 
-let
-  sharedFiles = import ../shared/home/files.nix { inherit config pkgs; };
-  sharedPrograms = import ../shared/home/programs { inherit config pkgs lib; };
-in
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
-  home = {
-    stateVersion = "24.05"; # Please read the comment before changing.
-    username = "${settings.username}";
-    homeDirectory = "/home/${user}";
-    file = lib.mkMerge [
-      sharedFiles
-    ];
-    packages = pkgs.callPackage ./packages.nix {
-      inherit pkgs;
-      inherit nixpkgs-stable;
+  imports = [
+    ../shared/home/files.nix
+    ../shared/home/programs
+  ];
+
+  config = {
+    # Home Manager needs a bit of information about you and the paths it should
+    # manage.
+    home = {
+      stateVersion = "24.05"; # Please read the comment before changing.
+      packages = with pkgs; [
+        # NixOS specific packages below
+
+        # Build tools
+        gnumake
+        gcc
+
+        # Development
+        wezterm
+      ];
+    };
+    programs = {
+      wezterm.enable = true;
     };
   };
-
-  programs = lib.mkMerge [
-    sharedPrograms
-    {
-      wezterm.enable = true;
-    }
-  ];
 }

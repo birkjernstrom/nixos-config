@@ -52,44 +52,24 @@
 	  ./hosts/nixos/desktop-home.nix
 	];
         specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
+          inherit inputs;
           isDarwin = false;
         };
       };
-      framework-amd-7040 = lib.nixosSystem {
+      laptop = lib.nixosSystem {
         system = "x86_64-linux";
 	modules = [
+          ./hosts/nixos/laptop/configuration.nix
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.${settings.username} = import ./modules/nixos/home.nix;
+              users.birk = import ./hosts/nixos/laptop/home.nix;
             };
           }
-	  ./hosts/nixos/framework-amd-7040.nix
 	];
         specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
-          isDarwin = false;
-        };
-      };
-      utm-aarch64 = lib.nixosSystem {
-        system = "aarch64-linux";
-	modules = [
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${settings.username} = import ./modules/nixos/home.nix;
-            };
-          }
-	  ./hosts/nixos/utm-aarch64.nix
-	];
-        specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
+          inherit inputs;
           isDarwin = false;
         };
       };
@@ -115,8 +95,7 @@
           ./hosts/darwin
         ];
         specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
+          inherit inputs;
           isDarwin = true;
         };
       };
