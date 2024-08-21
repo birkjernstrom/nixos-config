@@ -17,13 +17,7 @@
         # Build tools
         gnumake
         gcc
-
-        # Development
-        wezterm
       ];
-    };
-    programs = {
-      wezterm.enable = true;
     };
   };
 }
