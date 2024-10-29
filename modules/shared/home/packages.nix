@@ -13,6 +13,7 @@ customShellScripts ++ [
   starship
   ripgrep
   sesh
+  atuin
 
   # Tmux
   tmux

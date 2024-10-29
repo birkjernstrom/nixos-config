@@ -6,7 +6,6 @@ let
   tmuxConfig = import ./tmux.nix { inherit config pkgs lib settings isDarwin; };
 in
 lib.mkMerge [
-  zshConfig
   gitConfig
   tmuxConfig
   {
@@ -20,14 +19,14 @@ lib.mkMerge [
       enableZshIntegration = true;
     };
 
-    fzf = {
+    atuin = {
       enable = true;
       enableZshIntegration = true;
-      defaultOptions = [
-        "--height 40%"
-        "--layout=reverse"
-        "--border"
-      ];
+      settings = {
+        auto_sync = true;
+        filter_mode = "host";
+        style = "compact";
+      };
     };
 
     starship = {
@@ -56,4 +55,5 @@ lib.mkMerge [
 
     poetry.enable = true;
   }
+  zshConfig
 ]
