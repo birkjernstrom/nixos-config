@@ -5,6 +5,9 @@
       ./home.nix
   ];
 
+  # Until upgrade to Sequoia
+  ids.uids.nixbld = 300;
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = [];
