@@ -37,5 +37,5 @@ customShellScripts ++ [
 (with nixpkgs-stable;
 [
   # Disable short-term due to nix issues with delta
-  # delta # Git diff
+  delta # Git diff
 ])
