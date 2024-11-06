@@ -26,6 +26,7 @@ lib.mkMerge [
         auto_sync = true;
         filter_mode = "host";
         style = "compact";
+        inline_height = 20;
       };
     };
 
