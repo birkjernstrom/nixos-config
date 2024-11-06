@@ -1,14 +1,42 @@
-{ config, pkgs, lib, settings, isDarwin, ... }:
+{ pkgs, inputs, ... }:
 
-let
-  zshConfig = import ./zsh.nix { inherit config pkgs lib settings isDarwin; };
-  gitConfig = import ./git.nix { inherit config pkgs lib settings isDarwin; };
-  tmuxConfig = import ./tmux.nix { inherit config pkgs lib settings isDarwin; };
-in
-lib.mkMerge [
-  gitConfig
-  tmuxConfig
-  {
+{
+  home.packages = with pkgs; [
+    zsh
+    bat
+    fzf
+    zoxide
+    starship
+    ripgrep
+    sesh
+    atuin
+
+    # Tmux
+    tmux
+    tmuxp
+
+    # Development
+    neovim
+    git
+    gh    # GitHub CLI
+    lazydocker
+
+    # Node
+    nodejs_20
+    corepack  # To install pnpm as needed etc
+
+    # Python
+    pyenv
+    poetry
+    uv
+    python313
+  ] ++ (with inputs.nixpkgs-stable;
+  [
+    # Disable short-term due to nix issues with delta
+    delta # Git diff
+  ]);
+
+  programs = {
     bat.enable = true;
     tmux.enable = true;
     tmux.tmuxp.enable = true;
@@ -55,6 +83,5 @@ lib.mkMerge [
     };
 
     poetry.enable = true;
-  }
-  zshConfig
-]
+  };
+}

@@ -1,7 +1,7 @@
-{ config, pkgs, settings, isDarwin, ... }:
+{ pkgs, isDarwin, ... }:
 
 {
-  git = {
+  programs.git = {
     enable = true;
     userName = "Birk Jernstrom";
     userEmail = "birkjernstrom@gmail.com";

@@ -1,7 +1,7 @@
-{ config, pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
-  zsh = {
+  programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;

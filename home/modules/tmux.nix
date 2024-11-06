@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   minimal-tmux-status = pkgs.tmuxPlugins.mkTmuxPlugin {
@@ -14,7 +14,7 @@ let
   };
 in
 {
-  tmux = {
+  programs.tmux = {
     enable = true;
     terminal = "screen-256color";
     shell = "${pkgs.zsh}/bin/zsh";

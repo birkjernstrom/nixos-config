@@ -1,7 +1,11 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  yabai = {
+  environment.systemPackages = with pkgs; [
+    yabai
+  ];
+
+  services.yabai = {
     enable = true;
 
     config = {

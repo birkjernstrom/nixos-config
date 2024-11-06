@@ -1,5 +1,5 @@
 {
-  description = "Birk NixOS & Nix Darwing Configurations";
+  description = "Birk NixOS & Nix Darwin Configurations";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -33,93 +33,13 @@
 
   outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }:
     let
-      lib = nixpkgs.lib;
-      settings = {
-        username = "birk";
-      };
+      kit = import ./lib/kit.nix { inherit inputs; };
     in {
-    nixosConfigurations = {
-      nixos = lib.nixosSystem {
-        system = "x86_64-linux";
-	modules = [
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${settings.username} = import ./modules/nixos/home.nix;
-            };
-          }
-	  ./hosts/nixos/desktop-home.nix
-	];
-        specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
-          isDarwin = false;
-        };
-      };
-      framework-amd-7040 = lib.nixosSystem {
-        system = "x86_64-linux";
-	modules = [
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${settings.username} = import ./modules/nixos/home.nix;
-            };
-          }
-	  ./hosts/nixos/framework-amd-7040.nix
-	];
-        specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
-          isDarwin = false;
-        };
-      };
-      utm-aarch64 = lib.nixosSystem {
-        system = "aarch64-linux";
-	modules = [
-          home-manager.nixosModules.home-manager {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${settings.username} = import ./modules/nixos/home.nix;
-            };
-          }
-	  ./hosts/nixos/utm-aarch64.nix
-	];
-        specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
-          isDarwin = false;
-        };
-      };
-    };
-    darwinConfigurations = {
-      darwin = darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [
-          home-manager.darwinModules.home-manager
-          nix-homebrew.darwinModules.nix-homebrew {
-            nix-homebrew = {
-              user = settings.username;
-              enable = true;
-              taps = {
-                "homebrew/homebrew-core" = homebrew-core;
-                "homebrew/homebrew-cask" = homebrew-cask;
-                "homebrew/homebrew-bundle" = homebrew-bundle;
-              };
-              mutableTaps = false;
-              autoMigrate = true;
-            };
-          }
-          ./hosts/darwin
-        ];
-        specialArgs = {
-          inherit settings;
-          inherit nixpkgs-stable;
-          isDarwin = true;
-        };
-      };
+
+    darwinConfigurations.mbp = kit.mkSystem "mbp" {
+      system = "aarch64-darwin";
+      user = "birk";
+      isDarwin = true;
     };
   };
 }

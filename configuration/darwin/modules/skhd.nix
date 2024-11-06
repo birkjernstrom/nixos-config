@@ -1,7 +1,11 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  skhd = {
+  environment.systemPackages = with pkgs; [
+    skhd
+  ];
+
+  services.skhd = {
     enable = true;
     skhdConfig = ''
       # Start Yabai
