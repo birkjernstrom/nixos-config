@@ -1,6 +1,5 @@
 local wezterm = require("wezterm")
 local wt_action = wezterm.action
-local kanagawa = require("kanagawa-dragon")
 
 -- Inspiraton from Josh Medeski
 local cmd_alt_tmux_prefix = function(key, tmux_key)
@@ -28,7 +27,7 @@ local config = {
 		harfbuzz_features = { "calt=0", "clig=0", "liga=0", "zero" },
 	}),
 	font_size = 16,
-	colors = kanagawa,
+	color_scheme = "rose-pine",
 	force_reverse_video_cursor = true,
 	window_decorations = "RESIZE",
 	window_padding = {
