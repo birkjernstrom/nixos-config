@@ -7,5 +7,7 @@
     ./cli.nix
     ./git.nix
     ./tmux.nix
+
+    ./scripts
   ];
 }
