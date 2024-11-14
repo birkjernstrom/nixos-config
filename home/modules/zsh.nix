@@ -27,16 +27,6 @@
       # https://github.com/NixOS/nix/issues/4609
       "nixdev" = "nix develop --command zsh";
 
-      # git
-      "g" = "git";
-      "gp" = "git push";
-      "gpo" = "git push -u origin";
-      "gb" = "git branch";
-      "gbd" = "git branch -d";
-      "gs" = "git status";
-      "gc" = "git commit";
-      "gcm" = "git commit -m";
-      "gd" = "git diff";
     };
 
     sessionVariables = {

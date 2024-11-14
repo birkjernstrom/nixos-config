@@ -75,4 +75,18 @@
       update-submodules = "git submodule update && git submodule foreach git submodule update";
     };
   };
+
+  programs.zsh = {
+    shellAliases = {
+      "g" = "git";
+      "gp" = "git push";
+      "gpo" = "git push -u origin";
+      "gb" = "git branch";
+      "gbd" = "git branch -d";
+      "gs" = "git status";
+      "gc" = "git commit";
+      "gcm" = "git commit -m";
+      "gd" = "git diff";
+    };
+  };
 }
