@@ -20,6 +20,7 @@
     git
     gh    # GitHub CLI
     lazydocker
+    redis
 
     # Node
     nodejs_20
