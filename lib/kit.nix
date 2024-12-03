@@ -48,6 +48,7 @@
             "homebrew/homebrew-core" = inputs.homebrew-core;
             "homebrew/homebrew-cask" = inputs.homebrew-cask;
             "homebrew/homebrew-bundle" = inputs.homebrew-bundle;
+            "speakeasy-api/homebrew-tap" = inputs.homebrew-speakeasy;
           };
           mutableTaps = false;
           autoMigrate = true;

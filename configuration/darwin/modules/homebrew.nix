@@ -30,9 +30,16 @@
       # Terminal emulators
       "wezterm"
     ];
+    brews = [
+      "speakeasy-api/homebrew-tap/speakeasy"
+    ];
     masApps = {
       # Mac App Store Installations
       # "1password" = 1333542190;
     };
   };
+
+  programs.zsh.interactiveShellInit = ''
+    eval "$(/opt/homebrew/bin/brew shellenv)" 
+  '';
 }
