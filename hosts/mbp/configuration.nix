@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ../../configuration/shared
     ../../configuration/darwin
   ];
 

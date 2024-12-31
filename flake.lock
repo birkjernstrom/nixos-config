@@ -248,7 +248,47 @@
         "homebrew-speakeasy": "homebrew-speakeasy",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-stable": "nixpkgs-stable"
+        "nixpkgs-stable": "nixpkgs-stable",
+        "secrets": "secrets",
+        "sops-nix": "sops-nix"
+      }
+    },
+    "secrets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1732572382,
+        "narHash": "sha256-IrcLApEU27F3aTNekVtEny9bDZMWR7rXPvzzNTdYhN4=",
+        "ref": "main",
+        "rev": "878f1214777114e3a1944da96c779039ec853e63",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/birkjernstrom/secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/birkjernstrom/secrets.git"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1732186149,
+        "narHash": "sha256-N9JGWe/T8BC0Tss2Cv30plvZUYoiRmykP7ZdY2on2b0=",
+        "owner": "mic92",
+        "repo": "sops-nix",
+        "rev": "53c853fb1a7e4f25f68805ee25c83d5de18dc699",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "systems": {

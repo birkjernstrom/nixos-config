@@ -10,6 +10,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ############################################################################
+    # SOPS
+    ############################################################################
+
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    secrets = {
+      url = "git+ssh://git@github.com/birkjernstrom/secrets.git?ref=main&shallow=1";
+      flake = false;
+    };
+
+    ############################################################################
+    # DARWIN
+    ############################################################################
+
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
