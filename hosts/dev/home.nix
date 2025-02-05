@@ -7,7 +7,8 @@
 
   config.features = {
     programming = {
-      python.enable = false;
+      python.enable = true;
+      node.enable = true;
     };
   };
 }

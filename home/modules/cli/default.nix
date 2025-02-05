@@ -1,6 +1,13 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
+with lib;
 {
+  imports = [
+    ./git.nix
+    ./zsh.nix
+    ./tmux.nix
+  ];
+
   config = {
     home.packages = with pkgs; [
       zsh
@@ -9,43 +16,23 @@
       zoxide
       starship
       ripgrep
-      sesh
       atuin
-
-      # Tmux
-      tmux
-      tmuxp
-
-      # Development
+      vim
       neovim
-      git
-      gh    # GitHub CLI
-      lazydocker
-      redis
-
-      # Node
-      nodejs_20
-      corepack  # To install pnpm as needed etc
-    ] ++ (with inputs.nixpkgs-stable;
-    [
-      # Disable short-term due to nix issues with delta
-      delta # Git diff
-    ]);
+    ];
 
     programs = {
       bat.enable = true;
-      tmux.enable = true;
-      tmux.tmuxp.enable = true;
       ripgrep.enable = true;
 
       zoxide = {
         enable = true;
-        enableZshIntegration = true;
+        enableZshIntegration = config.features.cli.zsh.enable;
       };
 
       atuin = {
         enable = true;
-        enableZshIntegration = true;
+        enableZshIntegration = config.features.cli.zsh.enable;
         settings = {
           auto_sync = true;
           filter_mode = "host";
@@ -56,7 +43,7 @@
 
       starship = {
         enable = true;
-        enableZshIntegration = true;
+        enableZshIntegration = config.features.cli.zsh.enable;
         settings = {
           character = {
             success_symbol = "";
@@ -67,6 +54,19 @@
             style = "blue bold";
           };
         };
+      };
+    };
+
+    programs.zsh = mkIf config.features.cli.zsh.enable {
+      shellAliases = {
+        # zoxide override
+        "cd" = "z";
+
+        # zoxide override
+        "cat" = "bat";
+
+        # neovim
+        "n" = "nvim";
       };
     };
   };

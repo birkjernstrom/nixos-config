@@ -2,13 +2,10 @@
 
 {
   imports = [
-    ./cli.nix
+    ./cli
     ./programming
     ./sops.nix
     ./dotfiles.nix
-    ./zsh.nix
-    ./git.nix
-    ./tmux.nix
 
     ./scripts
   ];
