@@ -58,7 +58,8 @@
       kit = import ./lib/kit.nix { inherit inputs; };
     in {
 
-    nixosConfigurations.dev = kit.mkSystem "dev" {
+    # Development server
+    nixosConfigurations.burken = kit.mkSystem "burken" {
       system = "aarch64-linux";
       user = "birk";
       isDarwin = false;

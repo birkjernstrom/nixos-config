@@ -7,6 +7,6 @@
     ../../configuration/nixos
   ];
 
-  networking.hostName = "birkdev"; # Define your hostname.
+  networking.hostName = "burken";
   services.openssh.enable = true;
 }
