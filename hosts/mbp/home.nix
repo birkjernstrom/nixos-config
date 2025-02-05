@@ -9,7 +9,6 @@
     cli = {
       git.enable = true;
       tmux.enable = true;
-      zsh.enable = true;
     };
     programming = {
       python.enable = true;

@@ -4,7 +4,6 @@ with lib;
 {
   imports = [
     ./git.nix
-    ./zsh.nix
     ./tmux.nix
   ];
 
@@ -19,6 +18,7 @@ with lib;
       atuin
       vim
       neovim
+      jq
     ];
 
     programs = {
@@ -27,12 +27,12 @@ with lib;
 
       zoxide = {
         enable = true;
-        enableZshIntegration = config.features.cli.zsh.enable;
+        enableZshIntegration = true;
       };
 
       atuin = {
         enable = true;
-        enableZshIntegration = config.features.cli.zsh.enable;
+        enableZshIntegration = true;
         settings = {
           auto_sync = true;
           filter_mode = "host";
@@ -43,7 +43,7 @@ with lib;
 
       starship = {
         enable = true;
-        enableZshIntegration = config.features.cli.zsh.enable;
+        enableZshIntegration = true;
         settings = {
           character = {
             success_symbol = "";
@@ -57,8 +57,16 @@ with lib;
       };
     };
 
-    programs.zsh = mkIf config.features.cli.zsh.enable {
+    programs.zsh = {
+      enable = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
       shellAliases = {
+        #  Regular aliases
+        ".." = "cd ..";
+        "-" = "cd -";
+        "ll" = "ls -ahl";
+
         # zoxide override
         "cd" = "z";
 
@@ -67,6 +75,18 @@ with lib;
 
         # neovim
         "n" = "nvim";
+
+        # Use zsh after nix develop -- unfortunately from within bash
+        # https://github.com/NixOS/nix/issues/4609
+        "nixdev" = "nix develop --command zsh";
+      };
+
+      sessionVariables = {
+        EDITOR = "nvim";
+        DISABLE_AUTO_TITLE = "true";
+        TERM = "xterm-256color";
+
+        ANTHROPIC_API_KEY = ''$(cat ${config.sops.secrets."anthropic".path})'';
       };
     };
   };
