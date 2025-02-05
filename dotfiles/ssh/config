@@ -7,3 +7,8 @@ Host ssh.ohio.render.com
     AddKeysToAgent yes
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
+
+Host birkdev
+    AddKeysToAgent yes
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/id_ed25519

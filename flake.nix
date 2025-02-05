@@ -58,6 +58,12 @@
       kit = import ./lib/kit.nix { inherit inputs; };
     in {
 
+    nixosConfigurations.dev = kit.mkSystem "dev" {
+      system = "aarch64-linux";
+      user = "birk";
+      isDarwin = false;
+    };
+
     darwinConfigurations.mbp = kit.mkSystem "mbp" {
       system = "aarch64-darwin";
       user = "birk";
