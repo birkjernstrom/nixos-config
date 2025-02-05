@@ -27,6 +27,7 @@
   };
 
   users.users.${settings.user} = {
+    initialHashedPassword = "$y$j9T$pGr6IAgTcXi4ctQhj0qv4.$uDZgQTTdx16qjyjSyLyRiRntEnCuH/SehKLSKZW1v60";
     isNormalUser = true;
     name = "${settings.user}";
     home = "/home/${settings.user}";

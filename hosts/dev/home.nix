@@ -1,7 +1,13 @@
-{ config, pkgs, lib, inputs, settings, isDarwin, ... }:
+{ config, ... }:
 
 {
   imports = [
     ../../home
   ];
+
+  config.features = {
+    programming = {
+      python.enable = false;
+    };
+  };
 }
