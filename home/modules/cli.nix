@@ -16,11 +16,12 @@
     tmuxp
 
     # Development
-    neovim
+    neovim-unwrapped
     git
     gh    # GitHub CLI
     lazydocker
     redis
+    claude-code
 
     # Node
     nodejs_20
