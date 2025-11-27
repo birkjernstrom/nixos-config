@@ -51,9 +51,11 @@
             "speakeasy-api/homebrew-tap" = inputs.homebrew-speakeasy;
           };
           mutableTaps = false;
-          autoMigrate = true;
         };
       }
+      ({config, ...}: {
+        homebrew.taps = builtins.attrNames config.nix-homebrew.taps;
+      })
     ] else []);
   };
 }

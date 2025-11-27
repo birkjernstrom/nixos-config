@@ -34,7 +34,7 @@
     pyenv
     poetry
     uv
-    python313
+    python314
   ] ++ (with inputs.nixpkgs-stable;
   [
     # Disable short-term due to nix issues with delta
