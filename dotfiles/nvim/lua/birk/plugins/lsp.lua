@@ -62,23 +62,14 @@ local on_attach = function(client, bufnr)
 end
 
 return {
-	"neovim/nvim-lspconfig",
+	"williamboman/mason.nvim",
 	dependencies = {
-		-- Managed installations of LSPs
-		"williamboman/mason.nvim",
-		"williamboman/mason-lspconfig.nvim",
-
-		-- LSP Status Updates
-		{ "j-hui/fidget.nvim", opts = {} },
-
 		-- Better Lua & Nvim development
 		"folke/neodev.nvim",
 	},
 	config = function()
 		require("mason").setup()
 		require("neodev").setup()
-		local lspconfig = require("lspconfig")
-		local mason_lspconfig = require("mason-lspconfig")
 		local capabilities = vim.lsp.protocol.make_client_capabilities()
 		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
@@ -101,18 +92,13 @@ return {
 		}
 
 		for server_name, server_config in pairs(servers) do
-			lspconfig[server_name].setup({
+			vim.lsp.config[server_name] = {
 				capabilities = capabilities,
 				on_attach = on_attach,
 				settings = server_config,
 				filetypes = server_config.filetypes,
-			})
+			}
 		end
-
-		mason_lspconfig.setup({
-			ensure_installed = vim.tbl_keys(servers),
-			automatic_enable = false, -- Enable after Neovim 0.11
-			automatic_installation = true,
-		})
+		vim.lsp.enable(vim.tbl_keys(servers))
 	end,
 }

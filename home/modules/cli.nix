@@ -16,7 +16,7 @@
     tmuxp
 
     # Development
-    neovim-unwrapped
+    neovim
     git
     gh    # GitHub CLI
     lazydocker
@@ -26,6 +26,9 @@
     # Node
     nodejs_20
     corepack  # To install pnpm as needed etc
+
+    # Go
+    go
 
     # Python
     pyenv
