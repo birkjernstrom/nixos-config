@@ -2,5 +2,8 @@
 
 {
   programs.nvf.settings.vim.assistant = {
+    copilot = {
+      enable = true;
+    };
   };
 }
