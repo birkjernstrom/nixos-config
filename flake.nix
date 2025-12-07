@@ -10,6 +10,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ############################################################################
     # SOPS
     ############################################################################
@@ -53,7 +58,7 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }:
+  outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, nvf, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }:
     let
       kit = import ./lib/kit.nix { inherit inputs; };
     in {
