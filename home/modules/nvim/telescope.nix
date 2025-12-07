@@ -7,7 +7,10 @@
       findFiles = "<leader><space>";
       liveGrep = "<leader>fg";
       lspDocumentSymbols = "<leader>fs";
-      lspReferences = "<leader>fr";
+      lspReferences = "gr";
+      lspDefinitions = "gd";
+      lspImplementations = "gi";
+      lspTypeDefinitions = "gt";
       buffers = "<leader>fb";
       diagnostics = "<leader>fd";
       gitFiles = "<leader>gf";
