@@ -8,7 +8,7 @@
     ./cli.nix
     ./git.nix
     ./tmux.nix
-    ./nvim.nix
+    ./nvim
 
     ./scripts
   ];
