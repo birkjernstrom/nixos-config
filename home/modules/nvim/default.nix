@@ -6,7 +6,9 @@
     ./options.nix
     ./keymaps.nix
     ./lsp.nix
+    ./ai.nix
     ./telescope.nix
+    ./harpoon.nix
     ./neotree.nix
   ];
 
