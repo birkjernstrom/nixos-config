@@ -9,7 +9,6 @@
       "ngrok"
       "postico"
       "visual-studio-code"
-      "utm"  # QEMU VM
 
       # Communication Tools
       "discord"

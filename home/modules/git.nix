@@ -3,13 +3,15 @@
 {
   programs.git = {
     enable = true;
-    userName = "Birk Jernstrom";
-    userEmail = "birkjernstrom@gmail.com";
     signing = {
       key = "~/.ssh/github.pub";
       signByDefault = true;
     };
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Birk Jernstrom";
+        email = "birkjernstrom@gmail.com";
+      };
       gpg = {
         format = "ssh";
       };
@@ -52,6 +54,10 @@
       diff = {
         colorMoved = "default";
       };
+      alias = {
+        init-submodules = "git submodule init && git submodule foreach git submodule init";
+        update-submodules = "git submodule update && git submodule foreach git submodule update";
+      };
     };
     ignores = [
       "*.~"
@@ -70,10 +76,6 @@
        "*.perspective*"
        "xuserdata"
     ];
-    aliases = {
-      init-submodules = "git submodule init && git submodule foreach git submodule init";
-      update-submodules = "git submodule update && git submodule foreach git submodule update";
-    };
   };
 
   programs.zsh = {
