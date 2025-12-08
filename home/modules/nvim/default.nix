@@ -6,8 +6,8 @@
     ./options.nix
     ./keymaps.nix
     ./lsp.nix
+    ./snacks
     ./ai.nix
-    ./telescope.nix
     ./harpoon.nix
     ./neotree.nix
   ];
