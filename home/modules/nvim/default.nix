@@ -6,7 +6,7 @@
     ./options.nix
     ./keymaps.nix
     ./lsp.nix
-    ./snacks
+    ./snacks.nix
     ./ai.nix
     ./harpoon.nix
     ./neotree.nix

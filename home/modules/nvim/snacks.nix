@@ -2,48 +2,26 @@
 
 {
   programs.nvf.settings.vim = {
-    utility.snacks-nvim.setupOpts.picker = {
+    utility.snacks-nvim = {
       enable = true;
+      setupOpts = {
+        picker = { enable = true; };
+        explorer = { enable = true; };
+        input = { enable = true; };
+        git = { enable = true; };
+        gh = { enable = true; };
+        gitbrowse = { enable = true; };
+      };
     };
 
     keymaps = [
       # Top Pickers & Explorers
-      {
-        mode = "n";
-        key = "<leader><space>";
-        action = ":lua Snacks.picker.smart()<CR>";
-        desc = "Smart Find Files";
-      }
-      {
-        mode = "n";
-        key = "<leader>fg";
-        action = ":lua Snacks.picker.grep()<CR>";
-        desc = "Grep";
-      }
-      {
-        mode = "n";
-        key = "<leader>,";
-        action = ":lua Snacks.picker.buffers()<CR>";
-        desc = "Buffers";
-      }
-      {
-        mode = "n";
-        key = "<leader>:";
-        action = ":lua Snacks.picker.command_history()<CR>";
-        desc = "Command History";
-      }
-      {
-        mode = "n";
-        key = "<leader>n";
-        action = ":lua Snacks.picker.notifications()<CR>";
-        desc = "Notifications";
-      }
-      {
-        mode = "n";
-        key = "<leader>e";
-        action = ":lua Snacks.explorer()<CR>";
-        desc = "File Explorer";
-      }
+      { mode = "n"; key = "<leader><space>"; action = ":lua Snacks.picker.smart()<CR>"; desc = "Smart Find Files"; }
+      { mode = "n"; key = "<leader>fg"; action = ":lua Snacks.picker.grep()<CR>"; desc = "Grep"; }
+      { mode = "n"; key = "<leader>,"; action = ":lua Snacks.picker.buffers()<CR>"; desc = "Buffers"; }
+      { mode = "n"; key = "<leader>:"; action = ":lua Snacks.picker.command_history()<CR>"; desc = "Command History"; }
+      { mode = "n"; key = "<leader>n"; action = ":lua Snacks.picker.notifications()<CR>"; desc = "Notifications"; }
+      { mode = "n"; key = "<leader>e"; action = ":lua Snacks.explorer()<CR>"; desc = "File Explorer"; }
 
       # find
       { mode = "n"; key = "<leader>fb"; action = ":lua Snacks.picker.buffers()<CR>"; desc = "Buffers"; }
@@ -65,6 +43,7 @@
       { mode = "n"; key = "<leader>gI"; action = ":lua Snacks.picker.gh_issue({ state = \"all\" })<CR>"; desc = "GitHub Issues (all)"; }
       { mode = "n"; key = "<leader>gp"; action = ":lua Snacks.picker.gh_pr()<CR>"; desc = "GitHub Pull Requests (open)"; }
       { mode = "n"; key = "<leader>gP"; action = ":lua Snacks.picker.gh_pr({ state = \"all\" })<CR>"; desc = "GitHub Pull Requests (all)"; }
+      { mode = "n"; key = "<leader>gt"; action = ":lua Snacks.gitbrowse()<CR>"; desc = "Git Browse"; }
       # Grep
       { mode = "n"; key = "<leader>sb"; action = ":lua Snacks.picker.lines()<CR>"; desc = "Buffer Lines"; }
       { mode = "n"; key = "<leader>sB"; action = ":lua Snacks.picker.grep_buffers()<CR>"; desc = "Grep Open Buffers"; }
