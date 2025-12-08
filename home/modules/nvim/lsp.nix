@@ -10,6 +10,20 @@
       };
     };
 
+    formatter.conform-nvim = {
+      enable = true;
+      setupOpts = {
+        formatters_by_ft = {
+          lua = [ "stylua" ];
+          python = [ "ruff" "black" ];
+          javascript = [ "prettierd" "prettier" ];
+          typescript = [ "prettierd" "prettier" ];
+          javascriptreact = [ "prettierd" "prettier" ];
+          typescriptreact = [ "prettierd" "prettier" ];
+        };
+      };
+    };
+
     languages = {
       enableDAP = true;
       enableTreesitter = true;
