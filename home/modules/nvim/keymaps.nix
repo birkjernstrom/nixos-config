@@ -89,5 +89,14 @@
       { mode = "n"; key = "<leader>e"; action = ":Neotree toggle reveal float<CR>"; }
       { mode = "n"; key = "<leader><tab>"; action = ":Neotree toggle reveal left<CR>"; }
     ];
+
+    lsp.trouble.mappings = {
+      documentDiagnostics = "<leader>xd";
+      workspaceDiagnostics = "<leader>xw";
+      locList = "<leader>xl";
+      lspReferences = "<leader>xr";
+      quickfix = "<leader>xq";
+      symbols = "<leader>xs";
+    };
   };
 }

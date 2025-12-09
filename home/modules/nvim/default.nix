@@ -94,6 +94,7 @@
             renameSymbol = "<leader>cr";
             codeAction = "<leader>ca";
           };
+          trouble.enable = true;
         };
 
         languages = {
