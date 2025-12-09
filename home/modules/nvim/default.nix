@@ -35,7 +35,6 @@
 
         statusline.lualine.enable = true;
         autocomplete.nvim-cmp.enable = true;
-        diagnostics.nvim-lint.enable = true;
 
         utility.snacks-nvim = {
           enable = true;
@@ -61,6 +60,17 @@
             file2 = "<M-2>";
             file3 = "<M-3>";
             file4 = "<M-4>";
+          };
+        };
+
+        diagnostics.nvim-lint = {
+          enable = true;
+          linters_by_ft = {
+            javascript = [ "eslint_d" ];
+            typescript = [ "eslint_d" ];
+            javascriptreact = [ "eslint_d" ];
+            typescriptreact = [ "eslint_d" ];
+            python = [ "ruff" "mypy" ];
           };
         };
 
