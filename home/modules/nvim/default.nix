@@ -29,12 +29,15 @@
           style = "mocha";
         };
 
-        git.gitsigns = {
-          enable = true;
+        git = {
+          gitsigns = {
+            enable = true;
+          };
         };
 
-        statusline.lualine.enable = true;
-        autocomplete.nvim-cmp.enable = true;
+        statusline = {
+          lualine.enable = true;
+        };
 
         utility = {
           snacks-nvim = {
@@ -50,43 +53,79 @@
           undotree.enable = true;
         };
 
-        filetree.neo-tree = {
-          enable = true;
+        mini = {
+          pairs.enable = true;
+          ai.enable = true;
+          surround.enable = true;
+          comment.enable = true;
+          snippets.enable = true;
         };
 
-        navigation.harpoon = {
-          enable = true;
-          mappings = {
-            listMarks = "<C-b>";
-            markFile = "<leader>b";
-            file1 = "<M-1>";
-            file2 = "<M-2>";
-            file3 = "<M-3>";
-            file4 = "<M-4>";
+        assistant = {
+          copilot = {
+            enable = true;
+            cmp.enable = true;
           };
         };
 
-        diagnostics.nvim-lint = {
-          enable = true;
-          linters_by_ft = {
-            javascript = [ "eslint_d" ];
-            typescript = [ "eslint_d" ];
-            javascriptreact = [ "eslint_d" ];
-            typescriptreact = [ "eslint_d" ];
-            python = [ "ruff" "mypy" ];
+        autocomplete = {
+          nvim-cmp = {
+            enable = true;
+            sourcePlugins = [
+              "copilot-cmp"
+              "cmp-nvim-lsp"
+              "mini-snippets"
+              "cmp-buffer"
+              "cmp-path"
+            ];
           };
         };
 
-        formatter.conform-nvim = {
-          enable = true;
-          setupOpts = {
-            formatters_by_ft = {
-              lua = [ "stylua" ];
-              python = [ "ruff" "black" ];
-              javascript = [ "prettierd" "prettier" ];
-              typescript = [ "prettierd" "prettier" ];
-              javascriptreact = [ "prettierd" "prettier" ];
-              typescriptreact = [ "prettierd" "prettier" ];
+        filetree = {
+          neo-tree = {
+            enable = true;
+          };
+        };
+
+        navigation = {
+          harpoon = {
+            enable = true;
+            mappings = {
+              listMarks = "<C-b>";
+              markFile = "<leader>b";
+              file1 = "<M-1>";
+              file2 = "<M-2>";
+              file3 = "<M-3>";
+              file4 = "<M-4>";
+            };
+          };
+        };
+
+        diagnostics = {
+          nvim-lint = {
+            enable = true;
+            linters_by_ft = {
+              javascript = [ "eslint_d" ];
+              typescript = [ "eslint_d" ];
+              javascriptreact = [ "eslint_d" ];
+              typescriptreact = [ "eslint_d" ];
+              python = [ "ruff" "mypy" ];
+            };
+          };
+        };
+
+        formatter = {
+          conform-nvim = {
+            enable = true;
+            setupOpts = {
+              formatters_by_ft = {
+                lua = [ "stylua" ];
+                python = [ "ruff" "black" ];
+                javascript = [ "prettierd" "prettier" ];
+                typescript = [ "prettierd" "prettier" ];
+                javascriptreact = [ "prettierd" "prettier" ];
+                typescriptreact = [ "prettierd" "prettier" ];
+              };
             };
           };
         };
