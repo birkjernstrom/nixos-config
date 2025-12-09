@@ -88,6 +88,9 @@
       # Neotree
       { mode = "n"; key = "<leader>e"; action = ":Neotree toggle reveal float<CR>"; }
       { mode = "n"; key = "<leader><tab>"; action = ":Neotree toggle reveal left<CR>"; }
+
+      # Undotree
+      { mode = "n"; key = "<leader>zz"; action = ":UndotreeToggle<CR>"; desc = "Undotree"; }
     ];
 
     lsp.trouble.mappings = {

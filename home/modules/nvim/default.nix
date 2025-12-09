@@ -36,15 +36,18 @@
         statusline.lualine.enable = true;
         autocomplete.nvim-cmp.enable = true;
 
-        utility.snacks-nvim = {
-          enable = true;
-          setupOpts = {
-            picker = { enable = true; };
-            input = { enable = true; };
-            git = { enable = true; };
-            gh = { enable = true; };
-            gitbrowse = { enable = true; };
+        utility = {
+          snacks-nvim = {
+            enable = true;
+            setupOpts = {
+              picker = { enable = true; };
+              input = { enable = true; };
+              git = { enable = true; };
+              gh = { enable = true; };
+              gitbrowse = { enable = true; };
+            };
           };
+          undotree.enable = true;
         };
 
         filetree.neo-tree = {
