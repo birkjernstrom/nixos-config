@@ -3,5 +3,5 @@ font-family = "BerkeleyMono Nerd Font Mono"
 font-size = 16
 cursor-style = block
 
-window-padding-x = 10,10
-window-padding-y = 10,10
+window-padding-x = 0,0
+window-padding-y = 0,0
