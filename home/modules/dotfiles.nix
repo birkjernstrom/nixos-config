@@ -10,12 +10,6 @@
       recursive = true;
     };
 
-    # Prefer to configure nvim directly with lua
-    # ".config/nvim" = {
-    #   source = ../../dotfiles/nvim;
-    #   recursive = true;
-    # };
-
     # Ghostty
     ".config/ghostty" = {
       source = ../../dotfiles/ghostty;
