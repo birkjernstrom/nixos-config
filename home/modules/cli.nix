@@ -26,6 +26,7 @@
     # Node
     nodejs_20
     # corepack  # To install pnpm as needed etc
+    pnpm
 
     # Go
     go
