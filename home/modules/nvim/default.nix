@@ -35,6 +35,12 @@
           };
         };
 
+        binds = {
+          whichKey = {
+            enable = true;
+          };
+        };
+
         statusline = {
           lualine.enable = true;
         };
