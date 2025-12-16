@@ -21,7 +21,10 @@
     gh    # GitHub CLI
     lazydocker
     redis
+
+    # AI tools
     claude-code
+    opencode
 
     # Node
     nodejs_20
