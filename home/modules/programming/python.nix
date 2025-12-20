@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 with lib; let
-  feat = config.features.programming.python;
+  feat = config.features.programming.languages.python;
 in
 {
-  options.features.programming.python.enable = mkOption {
+  options.features.programming.languages.python.enable = mkOption {
     type = types.bool;
     default = false;
     description = "Enable Python programming environment.";

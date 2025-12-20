@@ -1,4 +1,4 @@
-{ config, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 with lib; let
   feat = config.features.cli.nvim;

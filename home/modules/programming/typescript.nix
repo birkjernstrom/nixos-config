@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 with lib; let
-  feat = config.features.programming.typescript;
+  feat = config.features.programming.languages.typescript;
 in
 {
-  options.features.programming.typescript.enable = mkOption {
+  options.features.programming.languages.typescript.enable = mkOption {
     type = types.bool;
     default = false;
     description = "Enable Typescript programming environment.";

@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 with lib; let
-  feat = config.features.cli.git;
+  feat = config.features.cli.tmux;
   minimal-tmux-status = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "minimal-tmux-status";
     rtpFilePath = "minimal.tmux";
@@ -26,6 +26,13 @@ in
       tmux
       tmuxp
     ];
+
+    home.file = {
+      ".config/tmuxp" = {
+        source = ../../dotfiles/tmuxp;
+        recursive = true;
+      };
+    };
 
     programs.tmux = {
       enable = true;

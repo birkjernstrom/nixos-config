@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 with lib; let
-  feat = config.features.programming.go;
+  feat = config.features.programming.languages.go;
 in
 {
-  options.features.programming.go.enable = mkOption {
+  options.features.programming.languages.go.enable = mkOption {
     type = types.bool;
     default = false;
     description = "Enable Go programming environment.";
