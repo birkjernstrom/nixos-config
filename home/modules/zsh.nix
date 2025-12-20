@@ -1,37 +1,53 @@
-{ config, pkgs, inputs, settings, ... }:
+{ config, pkgs, lib, inputs, settings, ... }:
+
+with lib; let
+  feat = config.features.cli.git;
+in
 {
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    shellAliases = {
-      # zoxide override
-      "cd" = "z";
+  options.features.cli.zsh.enable = mkOption {
+    type = types.bool;
+    default = true;
+    description = "Enable zsh configuration.";
+  };
 
-      #  Regular aliases
-      ".." = "cd ..";
-      "-" = "cd -";
-      "ll" = "ls -ahl";
+  config = mkIf feat.enable {
+    home.packages = with pkgs; [
+      zsh
+    ];
 
-      # zoxide override
-      "cat" = "bat";
+    programs.zsh = {
+      enable = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = {
+        # zoxide override
+        "cd" = "z";
 
-      # neovim
-      "n" = "nvim";
-      "v" = "nvim";
+        #  Regular aliases
+        ".." = "cd ..";
+        "-" = "cd -";
+        "ll" = "ls -ahl";
 
-      "ldo" = "lazydocker";
+        # zoxide override
+        "cat" = "bat";
 
-      # Use zsh after nix develop -- unfortunately from within bash
-      # https://github.com/NixOS/nix/issues/4609
-      "nixdev" = "nix develop --command zsh";
-    };
+        # neovim
+        "n" = "nvim";
+        "v" = "nvim";
 
-    sessionVariables = {
-      EDITOR = "nvim";
-      DISABLE_AUTO_TITLE = "true";
+        "ldo" = "lazydocker";
 
-      ANTHROPIC_API_KEY = ''$(cat ${config.sops.secrets."anthropic".path})'';
+        # Use zsh after nix develop -- unfortunately from within bash
+        # https://github.com/NixOS/nix/issues/4609
+        "nixdev" = "nix develop --command zsh";
+      };
+
+      sessionVariables = {
+        EDITOR = "nvim";
+        DISABLE_AUTO_TITLE = "true";
+
+        ANTHROPIC_API_KEY = ''$(cat ${config.sops.secrets."anthropic".path})'';
+      };
     };
   };
 }

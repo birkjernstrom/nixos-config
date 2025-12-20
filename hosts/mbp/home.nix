@@ -4,4 +4,11 @@
   imports = [
     ../../home
   ];
+
+  config.features = {
+    cli = {
+      zsh.enable = true;
+      git.enable = true;
+    };
+  };
 }

@@ -20,8 +20,6 @@
 
     # Development
     neovim
-    git
-    gh    # GitHub CLI
     lazydocker
     redis
 
@@ -42,11 +40,7 @@
     poetry
     uv
     python314
-  ] ++ (with inputs.nixpkgs-stable;
-  [
-    # Disable short-term due to nix issues with delta
-    delta # Git diff
-  ]);
+  ];
 
   programs = {
     bat.enable = true;
