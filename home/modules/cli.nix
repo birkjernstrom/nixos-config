@@ -14,7 +14,6 @@
     atuin
 
     # Development
-    neovim
     lazydocker
     redis
 
