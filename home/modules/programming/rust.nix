@@ -12,8 +12,7 @@ in
 
   config = mkIf feat.enable {
     home.packages = with pkgs; [
-      rustc
-      cargo
+      rustup
     ];
 
     home.sessionPath = [ "$HOME/.cargo/bin" ];
