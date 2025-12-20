@@ -8,6 +8,7 @@
     # Languages
     ./python.nix
     ./typescript.nix
+    ./rust.nix
     ./go.nix
   ];
 }

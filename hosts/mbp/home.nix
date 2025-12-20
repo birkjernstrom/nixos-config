@@ -18,6 +18,7 @@
         python.enable = true;
         typescript.enable = true;
         go.enable = true;
+        rust.enable = true;
       };
 
       ai.enable = true;
