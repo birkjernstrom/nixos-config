@@ -11,5 +11,10 @@
       git.enable = true;
       tmux.enable = true;
     };
+    programming = {
+      python.enable = true;
+      typescript.enable = true;
+      go.enable = true;
+    };
   };
 }

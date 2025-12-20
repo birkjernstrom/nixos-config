@@ -21,20 +21,6 @@
     # AI tools
     claude-code
     opencode
-
-    # Node
-    nodejs_20
-    # corepack  # To install pnpm as needed etc
-    pnpm
-
-    # Go
-    go
-
-    # Python
-    pyenv
-    poetry
-    uv
-    python314
   ];
 
   programs = {

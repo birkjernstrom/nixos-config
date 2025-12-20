@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, settings, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib; let
   feat = config.features.cli.git;

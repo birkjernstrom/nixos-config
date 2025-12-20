@@ -10,6 +10,7 @@
     ./tmux.nix
     ./nvim
 
+    ./programming
     ./scripts
   ];
 }
