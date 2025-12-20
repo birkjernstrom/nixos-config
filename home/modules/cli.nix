@@ -2,7 +2,6 @@
 
 {
   home.packages = with pkgs; [
-    zsh
     bat
     fzf
     tree
@@ -13,10 +12,6 @@
     ripgrep
     sesh
     atuin
-
-    # Tmux
-    tmux
-    tmuxp
 
     # Development
     neovim

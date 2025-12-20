@@ -9,6 +9,7 @@
     cli = {
       zsh.enable = true;
       git.enable = true;
+      tmux.enable = true;
     };
   };
 }
