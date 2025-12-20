@@ -5,6 +5,9 @@
     zsh
     bat
     fzf
+    tree
+    htop
+    httpie
     zoxide
     starship
     ripgrep
