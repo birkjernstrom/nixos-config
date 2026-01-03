@@ -13,7 +13,9 @@
     ./programming
     ./scripts
 
-    # Move to NixOS specific later
+    # NixOS/Wayland specific
     ./hyprland
+    ./wofi.nix
+    ./waybar.nix
   ];
 }

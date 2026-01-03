@@ -37,10 +37,11 @@ in
             updatetime = 250;
             timeoutlen = 300;
           };
+          # Theme handled by Stylix (base16 catppuccin-mocha)
           theme = {
             enable = true;
-            name = "catppuccin";
-            style = "mocha";
+            name = lib.mkDefault "catppuccin";
+            style = lib.mkDefault "mocha";
           };
 
           git = {
