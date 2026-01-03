@@ -12,5 +12,8 @@
 
     ./programming
     ./scripts
+
+    # Move to NixOS specific later
+    ./hyprland
   ];
 }

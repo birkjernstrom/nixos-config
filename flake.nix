@@ -68,5 +68,11 @@
       user = "birk";
       isDarwin = true;
     };
+
+    nixosConfigurations.framework = kit.mkSystem "framework" {
+      system = "x86_64-linux";
+      user = "birk";
+      isDarwin = false;
+    };
   };
 }
