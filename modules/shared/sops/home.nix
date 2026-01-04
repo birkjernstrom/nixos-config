@@ -1,6 +1,6 @@
 { config, pkgs, inputs, settings, ... }:
 let
-  secretspath = builtins.toString inputs.secrets;
+  secretspath = builtins.toString inputs.config-private;
 in
 {
   imports = [

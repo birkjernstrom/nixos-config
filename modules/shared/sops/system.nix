@@ -1,6 +1,6 @@
 { config, pkgs, inputs, settings, isDarwin, ... }:
 let
-  secretspath = builtins.toString inputs.secrets;
+  secretspath = builtins.toString inputs.config-private;
   sopsmodule = if isDarwin then inputs.sops-nix.darwinModules.sops else inputs.sops-nix.nixosModules.sops;
 in
 {

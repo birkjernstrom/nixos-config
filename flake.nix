@@ -29,8 +29,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    secrets = {
-      url = "git+ssh://git@github.com/birkjernstrom/secrets.git?ref=main&shallow=1";
+    config-private = {
+      url = "git+ssh://git@github.com/birkjernstrom/config-private.git?ref=main&shallow=1";
       flake = false;
     };
 

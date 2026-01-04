@@ -85,6 +85,24 @@
         "type": "github"
       }
     },
+    "config-private": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767552513,
+        "narHash": "sha256-shDz4Ycf1ETtY7actGI/MLJ0TteTXllO5UJt2nfknvk=",
+        "ref": "main",
+        "rev": "555086d32e042e0fd917c5163f759958091b2563",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/birkjernstrom/config-private.git"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/birkjernstrom/config-private.git"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -448,6 +466,7 @@
     },
     "root": {
       "inputs": {
+        "config-private": "config-private",
         "darwin": "darwin",
         "home-manager": "home-manager",
         "homebrew-bundle": "homebrew-bundle",
@@ -458,27 +477,8 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "nvf": "nvf",
-        "secrets": "secrets",
         "sops-nix": "sops-nix",
         "stylix": "stylix"
-      }
-    },
-    "secrets": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1732572382,
-        "narHash": "sha256-IrcLApEU27F3aTNekVtEny9bDZMWR7rXPvzzNTdYhN4=",
-        "ref": "main",
-        "rev": "878f1214777114e3a1944da96c779039ec853e63",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/birkjernstrom/secrets.git"
-      },
-      "original": {
-        "ref": "main",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/birkjernstrom/secrets.git"
       }
     },
     "sops-nix": {
