@@ -19,12 +19,11 @@ in
         mainBar = {
           layer = "top";
           position = "top";
-          height = 36;
-          spacing = 8;
+          height = 29;
+          spacing = 0;
 
           modules-left = [
             "hyprland/workspaces"
-            "hyprland/window"
           ];
 
           modules-center = [
@@ -37,7 +36,6 @@ in
             "pulseaudio"
             "network"
             "battery"
-            "tray"
           ];
 
           "hyprland/workspaces" = {
@@ -57,11 +55,6 @@ in
             persistent-workspaces = {
               "*" = 5;
             };
-          };
-
-          "hyprland/window" = {
-            max-length = 50;
-            separate-outputs = true;
           };
 
           clock = {
@@ -84,7 +77,7 @@ in
           };
 
           cpu = {
-            format = " {usage}%";
+            format = " {usage}%";
             tooltip = true;
             interval = 2;
           };
@@ -106,27 +99,36 @@ in
           };
 
           network = {
-            format-wifi = " {signalStrength}%";
-            format-ethernet = " connected";
-            format-disconnected = "󰤭 disconnected";
-            tooltip-format = "{ifname}: {ipaddr}/{cidr}";
+            format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
+            format = "{icon}";
+            format-wifi = "{icon}";
+            format-ethernet = "󰀂";
+            format-disconnected = "󰤮";
+            tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+            tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+            tooltip-format-disconnected = "Disconnected";
+            interval = 3;
+            spacing = 1;
             on-click = "nm-connection-editor";
           };
 
           battery = {
-            states = {
-              warning = 30;
-              critical = 15;
+            format = "{capacity}% {icon}";
+            format-discharging = "{icon}";
+            format-charging = "{icon}";
+            format-plugged = "";
+            format-icons = {
+              charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
+              default = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
             };
-            format = "{icon} {capacity}%";
-            format-charging = " {capacity}%";
-            format-plugged = " {capacity}%";
-            format-icons = ["" "" "" "" ""];
-          };
-
-          tray = {
-            icon-size = 18;
-            spacing = 10;
+            format-full = "󰂅";
+            tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
+            tooltip-format-charging = "{power:>1.0f}W↑ {capacity}%";
+            interval = 5;
+            states = {
+              warning = 20;
+              critical = 10;
+            };
           };
         };
       };
@@ -143,8 +145,6 @@ in
         }
 
         window#waybar {
-          background: alpha(@bg, 0.9);
-          border-bottom: 2px solid @bg-selection;
           color: @fg;
         }
 
@@ -201,8 +201,7 @@ in
         #memory,
         #pulseaudio,
         #network,
-        #battery,
-        #tray {
+        #battery {
           padding: 0 12px;
           margin: 4px 2px;
           border-radius: 6px;
@@ -238,6 +237,7 @@ in
 
         #battery {
           color: @green;
+          margin-right: 8px;
         }
 
         #battery.charging {
@@ -260,19 +260,6 @@ in
           0% { opacity: 1; }
           50% { opacity: 0.6; }
           100% { opacity: 1; }
-        }
-
-        #tray {
-          margin-right: 8px;
-        }
-
-        #tray > .passive {
-          -gtk-icon-effect: dim;
-        }
-
-        #tray > .needs-attention {
-          -gtk-icon-effect: highlight;
-          background: @red;
         }
       '';
     };
