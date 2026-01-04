@@ -7,6 +7,7 @@ in
   imports = [
     ./autostart.nix
     ./bindings.nix
+    ./hyprshot.nix
   ];
 
   options.userSettings.hyprland.enable = mkOption {
