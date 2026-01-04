@@ -36,15 +36,14 @@ in
         # General settings (border colors handled by Stylix)
         general = {
           gaps_in = 5;
-          gaps_out = 10;
-          border_size = 2;
+          gaps_out = 5;
+          border_size = 1;
           resize_on_border = true;
           layout = "dwindle";
         };
 
         # Decoration settings (colors handled by Stylix)
         decoration = {
-          rounding = 10;
           active_opacity = 1.0;
           inactive_opacity = 0.95;
           shadow = {
