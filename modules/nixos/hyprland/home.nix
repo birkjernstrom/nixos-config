@@ -19,6 +19,7 @@ in
     # Automatically enable companion services
     userSettings.wofi.enable = true;
     userSettings.waybar.enable = true;
+    userSettings.mako.enable = true;
 
     wayland.windowManager.hyprland = {
       enable = true;

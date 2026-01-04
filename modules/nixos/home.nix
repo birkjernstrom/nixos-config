@@ -5,5 +5,6 @@
     ./hyprland/home.nix
     ./wofi.nix
     ./waybar.nix
+    ./mako.nix
   ];
 }
