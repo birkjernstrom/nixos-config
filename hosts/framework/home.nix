@@ -28,7 +28,11 @@
       hyprland.enable = true;
     };
 
-    home.packages = with pkgs; [ ghostty google-chrome ];
+    home.packages = with pkgs; [
+      ghostty
+      google-chrome
+      fastfetch
+    ];
     programs.ghostty.enable = true;
 
     dconf.settings = {
