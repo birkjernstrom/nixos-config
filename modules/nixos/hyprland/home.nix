@@ -69,7 +69,7 @@ in
             size = 6;
             passes = 3;
             new_optimizations = true;
-            ignore_opacity = true;
+            ignore_opacity = false;
             xray = false;
           };
         };
