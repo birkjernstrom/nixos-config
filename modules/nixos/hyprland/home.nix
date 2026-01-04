@@ -30,7 +30,10 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       settings = {
-        monitor = ",preferred,auto,auto";
+        monitor = [
+          ",preferred,auto,auto"
+          "eDP-1,preferred,auto,1.25"
+        ];
         "$terminal" = "ghostty";
         "$fileManager" = "dolphin";
         "$menu" = "wofi --show drun";
