@@ -42,8 +42,8 @@ in
         "$menu" = "wofi --show drun";
 
         "env" = [
-          "XCURSOR_SIZE,24"
-          "HYPERCURSOR_SIZE,24"
+          "XCURSOR_SIZE,16"
+          "HYPERCURSOR_SIZE,16"
         ];
 
         # General settings (border colors handled by Stylix)
