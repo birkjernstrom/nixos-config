@@ -38,8 +38,9 @@
     # Font configuration
     fonts = {
       monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font Mono";
+        # Berkeley Mono fonts are installed via fonts.nix from config-private
+        package = null;
+        name = "Berkeley Mono";
       };
       sansSerif = {
         package = pkgs.inter;
