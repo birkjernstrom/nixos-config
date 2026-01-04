@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(nix eval:*)",
+      "Bash(nix flake check:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,28 +1,17 @@
 { config, pkgs, lib, inputs, settings, isDarwin, ... }:
-
+let
+  hostSettings = import ./settings.nix;
+in
 {
   imports = [
-    ../../home
+    ../../modules/darwin/home.nix
+    ../../modules/shared/home.nix
   ];
 
-  config.features = {
-    cli = {
-      core.enable = true;
-      zsh.enable = true;
-      git.enable = true;
-      tmux.enable = true;
-      nvim.enable = true;
-    };
-    programming = {
-      languages = {
-        python.enable = true;
-        typescript.enable = true;
-        go.enable = true;
-        rust.enable = true;
-      };
+  config = {
+    # Apply user settings from settings.nix
+    userSettings = hostSettings.user;
 
-      ai.enable = true;
-      tools.enable = true;
-    };
+    home.stateVersion = "24.05";
   };
 }

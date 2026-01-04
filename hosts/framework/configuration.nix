@@ -1,12 +1,16 @@
 { config, pkgs, nixpkgs-stable, settings, isDarwin, ... }:
-
+let
+  hostSettings = import ./settings.nix;
+in
 {
-  imports =
-    [
-      ./hardware.nix
-      ../../configuration/nixos
-      ../../configuration/shared
-    ];
+  imports = [
+    ./hardware.nix
+    ../../modules/nixos/system.nix
+    ../../modules/shared/system.nix
+  ];
+
+  # Apply system settings from settings.nix
+  systemSettings = hostSettings.system;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -98,13 +102,9 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  programs.hyprland.enable = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
     git
     neovim
     vim
@@ -112,12 +112,6 @@
 
     # Only in case GNOME is enabled
     dconf
-
-    # Hyprland
-    hyprland
-    kitty
-    waybar
-    wofi
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
