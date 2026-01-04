@@ -7,6 +7,7 @@ in
   imports = [
     ./autostart.nix
     ./bindings.nix
+    ./hyprlock.nix
     ./hyprshot.nix
   ];
 
