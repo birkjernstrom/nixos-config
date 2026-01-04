@@ -20,6 +20,10 @@ in
         { mode = "v"; key = "J"; action = ":m '>+1<CR>gv=gv"; }
         { mode = "v"; key = "K"; action = ":m '<-2<CR>gv=gv"; }
 
+        # Yank to system clipboard
+        { mode = ["n" "v"]; key = "<leader>y"; action = "\"+y"; desc = "Yank to system clipboard"; }
+        { mode = "n"; key = "<leader>Y"; action = "\"+Y"; desc = "Yank line to system clipboard"; }
+
         # Top Pickers
         { mode = "n"; key = "<leader><space>"; action = ":lua Snacks.picker.smart()<CR>"; desc = "Smart Find Files"; }
         { mode = "n"; key = "<leader>fg"; action = ":lua Snacks.picker.grep()<CR>"; desc = "Grep"; }

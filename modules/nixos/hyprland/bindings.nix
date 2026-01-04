@@ -15,7 +15,8 @@ in
       "$mainMod, X, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
-      "$mainMod, V, togglefloating,"
+      "$mainMod, V, exec, cliphist list | wofi --show dmenu | cliphist decode | wl-copy"
+      "$mainMod SHIFT, V, togglefloating,"
       "$mainMod, R, exec, $menu"
       "$mainMod, P, pseudo," # dwindle
       "$mainMod, J, togglesplit," # dwindle

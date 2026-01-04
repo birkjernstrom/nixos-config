@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib; let
   cfg = config.userSettings.hyprland;
@@ -20,6 +20,12 @@ in
     userSettings.wofi.enable = true;
     userSettings.waybar.enable = true;
     userSettings.mako.enable = true;
+
+    # Clipboard utilities for Wayland
+    home.packages = with pkgs; [
+      wl-clipboard  # Wayland clipboard utilities (wl-copy, wl-paste)
+      cliphist      # Clipboard history manager
+    ];
 
     wayland.windowManager.hyprland = {
       enable = true;
