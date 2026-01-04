@@ -10,22 +10,22 @@ in
 
     bind = [
       # Example binds, see https://wiki.hypr.land/Configuring/Binds/ for more
-      "$mainMod, T, exec, $terminal"
+      "$mainMod, return, exec, $terminal"
       "$mainMod, B, exec, google-chrome-stable"
       "$mainMod, X, killactive,"
       "$mainMod, M, exit,"
       "$mainMod, E, exec, $fileManager"
       "$mainMod, V, exec, cliphist list | wofi --show dmenu | cliphist decode | wl-copy"
       "$mainMod SHIFT, V, togglefloating,"
-      "$mainMod, R, exec, $menu"
+      "$mainMod, space, exec, $menu"
       "$mainMod, P, pseudo," # dwindle
-      "$mainMod, J, togglesplit," # dwindle
+      "$mainMod SHIFT, J, togglesplit," # dwindle
 
       # Move focus with mainMod + arrow keys
-      "$mainMod, left, movefocus, l"
-      "$mainMod, right, movefocus, r"
-      "$mainMod, up, movefocus, u"
-      "$mainMod, down, movefocus, d"
+      "$mainMod, h, movefocus, l"
+      "$mainMod, j, movefocus, d"
+      "$mainMod, k, movefocus, u"
+      "$mainMod, l, movefocus, r"
 
       # Switch workspaces with mainMod + [0-9]
       "$mainMod, 1, workspace, 1"
