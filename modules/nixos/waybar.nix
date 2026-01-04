@@ -1,13 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, theme, ... }:
 
 with lib; let
   cfg = config.userSettings.waybar;
+  colors = theme.base16;
 in
 {
   options.userSettings.waybar.enable = mkOption {
     type = types.bool;
     default = false;
-    description = "Enable waybar status bar with Catppuccin styling";
+    description = "Enable waybar status bar";
   };
 
   config = mkIf cfg.enable {
@@ -73,11 +74,11 @@ in
               weeks-pos = "right";
               on-scroll = 1;
               format = {
-                months = "<span color='#f5e0dc'><b>{}</b></span>";
-                days = "<span color='#cdd6f4'>{}</span>";
-                weeks = "<span color='#94e2d5'><b>W{}</b></span>";
-                weekdays = "<span color='#f9e2af'><b>{}</b></span>";
-                today = "<span color='#f38ba8'><b><u>{}</u></b></span>";
+                months = "<span color='#${colors.base06}'><b>{}</b></span>";
+                days = "<span color='#${colors.base05}'>{}</span>";
+                weeks = "<span color='#${colors.base0C}'><b>W{}</b></span>";
+                weekdays = "<span color='#${colors.base0A}'><b>{}</b></span>";
+                today = "<span color='#${colors.base08}'><b><u>{}</u></b></span>";
               };
             };
           };
@@ -130,35 +131,10 @@ in
         };
       };
 
-      # Catppuccin Mocha styling
+      # Styling with theme colors
       style = ''
-        /* Catppuccin Mocha Colors */
-        @define-color base #1e1e2e;
-        @define-color mantle #181825;
-        @define-color crust #11111b;
-        @define-color surface0 #313244;
-        @define-color surface1 #45475a;
-        @define-color surface2 #585b70;
-        @define-color overlay0 #6c7086;
-        @define-color overlay1 #7f849c;
-        @define-color overlay2 #9399b2;
-        @define-color subtext0 #a6adc8;
-        @define-color subtext1 #bac2de;
-        @define-color text #cdd6f4;
-        @define-color lavender #b4befe;
-        @define-color blue #89b4fa;
-        @define-color sapphire #74c7ec;
-        @define-color sky #89dceb;
-        @define-color teal #94e2d5;
-        @define-color green #a6e3a1;
-        @define-color yellow #f9e2af;
-        @define-color peach #fab387;
-        @define-color maroon #eba0ac;
-        @define-color red #f38ba8;
-        @define-color mauve #cba6f7;
-        @define-color pink #f5c2e7;
-        @define-color flamingo #f2cdcd;
-        @define-color rosewater #f5e0dc;
+        /* Theme colors from base16 */
+        ${theme.css}
 
         * {
           font-family: "JetBrainsMono Nerd Font Mono", monospace;
@@ -167,19 +143,19 @@ in
         }
 
         window#waybar {
-          background: alpha(@base, 0.9);
-          border-bottom: 2px solid @surface0;
-          color: @text;
+          background: alpha(@bg, 0.9);
+          border-bottom: 2px solid @bg-selection;
+          color: @fg;
         }
 
         tooltip {
-          background: @base;
-          border: 1px solid @mauve;
+          background: @bg;
+          border: 1px solid @purple;
           border-radius: 8px;
         }
 
         tooltip label {
-          color: @text;
+          color: @fg;
         }
 
         #workspaces {
@@ -191,33 +167,33 @@ in
           margin: 4px 2px;
           border-radius: 6px;
           background: transparent;
-          color: @overlay1;
+          color: @fg-dim;
           transition: all 0.2s ease;
         }
 
         #workspaces button:hover {
-          background: @surface0;
-          color: @text;
+          background: @bg-selection;
+          color: @fg;
         }
 
         #workspaces button.active {
-          background: @mauve;
-          color: @base;
+          background: @purple;
+          color: @bg;
         }
 
         #workspaces button.urgent {
           background: @red;
-          color: @base;
+          color: @bg;
         }
 
         #window {
           padding: 0 12px;
-          color: @subtext1;
+          color: @fg-dim;
         }
 
         #clock {
           padding: 0 16px;
-          color: @mauve;
+          color: @purple;
           font-weight: bold;
         }
 
@@ -230,8 +206,8 @@ in
           padding: 0 12px;
           margin: 4px 2px;
           border-radius: 6px;
-          background: @surface0;
-          color: @text;
+          background: @bg-selection;
+          color: @fg;
         }
 
         #cpu {
@@ -239,25 +215,25 @@ in
         }
 
         #memory {
-          color: @peach;
+          color: @orange;
         }
 
         #pulseaudio {
-          color: @mauve;
+          color: @purple;
         }
 
         #pulseaudio.muted {
-          background: @surface1;
-          color: @overlay0;
+          background: @bg-subtle;
+          color: @fg-dim;
         }
 
         #network {
-          color: @teal;
+          color: @cyan;
         }
 
         #network.disconnected {
-          background: @surface1;
-          color: @overlay0;
+          background: @bg-subtle;
+          color: @fg-dim;
         }
 
         #battery {
@@ -271,12 +247,12 @@ in
 
         #battery.warning:not(.charging) {
           background: @yellow;
-          color: @base;
+          color: @bg;
         }
 
         #battery.critical:not(.charging) {
           background: @red;
-          color: @base;
+          color: @bg;
           animation: pulse 1s infinite;
         }
 

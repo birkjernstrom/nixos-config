@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, theme, ... }:
 
 with lib; let
   cfg = config.userSettings.wofi;
@@ -7,7 +7,7 @@ in
   options.userSettings.wofi.enable = mkOption {
     type = types.bool;
     default = false;
-    description = "Enable wofi application launcher with Catppuccin styling";
+    description = "Enable wofi application launcher";
   };
 
   config = mkIf cfg.enable {
@@ -33,35 +33,10 @@ in
         dynamic_lines = true;
       };
 
-      # Catppuccin Mocha styling
+      # Styling with theme colors
       style = ''
-        /* Catppuccin Mocha Colors */
-        @define-color base #1e1e2e;
-        @define-color mantle #181825;
-        @define-color crust #11111b;
-        @define-color surface0 #313244;
-        @define-color surface1 #45475a;
-        @define-color surface2 #585b70;
-        @define-color overlay0 #6c7086;
-        @define-color overlay1 #7f849c;
-        @define-color overlay2 #9399b2;
-        @define-color subtext0 #a6adc8;
-        @define-color subtext1 #bac2de;
-        @define-color text #cdd6f4;
-        @define-color lavender #b4befe;
-        @define-color blue #89b4fa;
-        @define-color sapphire #74c7ec;
-        @define-color sky #89dceb;
-        @define-color teal #94e2d5;
-        @define-color green #a6e3a1;
-        @define-color yellow #f9e2af;
-        @define-color peach #fab387;
-        @define-color maroon #eba0ac;
-        @define-color red #f38ba8;
-        @define-color mauve #cba6f7;
-        @define-color pink #f5c2e7;
-        @define-color flamingo #f2cdcd;
-        @define-color rosewater #f5e0dc;
+        /* Theme colors from base16 */
+        ${theme.css}
 
         * {
           font-family: "JetBrainsMono Nerd Font Mono", monospace;
@@ -69,8 +44,8 @@ in
         }
 
         window {
-          background-color: @base;
-          border: 2px solid @mauve;
+          background-color: @bg;
+          border: 2px solid @purple;
           border-radius: 12px;
         }
 
@@ -79,12 +54,12 @@ in
           padding: 12px 16px;
           border: none;
           border-radius: 8px;
-          background-color: @surface0;
-          color: @text;
+          background-color: @bg-selection;
+          color: @fg;
         }
 
         #input:focus {
-          border: 2px solid @mauve;
+          border: 2px solid @purple;
           outline: none;
         }
 
@@ -105,7 +80,7 @@ in
         }
 
         #text {
-          color: @text;
+          color: @fg;
         }
 
         #entry {
@@ -116,20 +91,20 @@ in
         }
 
         #entry:selected {
-          background-color: @surface0;
+          background-color: @bg-selection;
           border: none;
         }
 
         #entry:selected #text {
-          color: @mauve;
+          color: @purple;
         }
 
         #entry:hover {
-          background-color: @surface1;
+          background-color: @bg-subtle;
         }
 
         #text:selected {
-          color: @mauve;
+          color: @purple;
         }
       '';
     };

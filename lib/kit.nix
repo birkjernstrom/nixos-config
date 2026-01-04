@@ -11,6 +11,11 @@
     isDarwin ? false,
   }:
   let
+    pkgs = import inputs.nixpkgs { inherit system; };
+
+    # Load the selected theme
+    theme = import ../themes { inherit pkgs; };
+
     settings = {
       inherit user;
     };
@@ -19,6 +24,7 @@
       inherit inputs;
       inherit settings;
       inherit isDarwin;
+      inherit theme;
     };
 
     configuration = ../hosts/${name}/configuration.nix;

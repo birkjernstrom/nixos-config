@@ -1,45 +1,22 @@
-{ config, pkgs, ... }:
+{ config, pkgs, theme, ... }:
 
 {
-  # Stylix theming with Catppuccin Mocha
+  # Stylix theming - configured via theme from themes/
   stylix = {
     enable = true;
     autoEnable = true;
-    polarity = "dark";
+    polarity = theme.polarity;
 
-    # Catppuccin Mocha color scheme
-    base16Scheme = {
-      base00 = "1e1e2e"; # base
-      base01 = "181825"; # mantle
-      base02 = "313244"; # surface0
-      base03 = "45475a"; # surface1
-      base04 = "585b70"; # surface2
-      base05 = "cdd6f4"; # text
-      base06 = "f5e0dc"; # rosewater
-      base07 = "b4befe"; # lavender
-      base08 = "f38ba8"; # red
-      base09 = "fab387"; # peach
-      base0A = "f9e2af"; # yellow
-      base0B = "a6e3a1"; # green
-      base0C = "94e2d5"; # teal
-      base0D = "89b4fa"; # blue
-      base0E = "cba6f7"; # mauve
-      base0F = "f2cdcd"; # flamingo
-    };
+    # Color scheme from theme
+    base16Scheme = theme.base16;
 
-    # Generate a simple wallpaper from the color scheme
-    image = pkgs.runCommand "catppuccin-wallpaper.png" {} ''
-      ${pkgs.imagemagick}/bin/magick -size 3840x2160 \
-        gradient:'#1e1e2e'-'#313244' \
-        -blur 0x8 \
-        PNG:$out
-    '';
+    # Wallpaper from theme
+    image = theme.wallpaper;
 
     # Font configuration
     fonts = {
       monospace = {
         # Berkeley Mono fonts are installed via fonts/berkleymono.nix from config-private
-        # package = null;
         name = "Berkeley Mono";
       };
       sansSerif = {
@@ -58,11 +35,7 @@
       };
     };
 
-    cursor = {
-      package = pkgs.catppuccin-cursors.mochaDark;
-      name = "catppuccin-mocha-dark-cursors";
-      size = 24;
-    };
+    cursor = theme.cursor;
 
     # Target-specific settings
     targets = {

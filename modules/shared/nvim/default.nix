@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, lib, inputs, theme, ... }:
 
 with lib; let
   cfg = config.userSettings.cli.nvim;
@@ -37,11 +37,11 @@ in
             updatetime = 250;
             timeoutlen = 300;
           };
-          # Theme handled by Stylix (base16 catppuccin-mocha)
+          # Theme from themes/
           theme = {
             enable = true;
-            name = lib.mkForce "catppuccin";
-            style = lib.mkForce "mocha";
+            name = lib.mkForce theme.nvim.name;
+            style = lib.mkForce theme.nvim.style;
           };
 
           git = {
