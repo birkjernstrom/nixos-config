@@ -20,22 +20,5 @@ in
       fastfetch
     ];
     programs.ghostty.enable = true;
-
-    dconf.settings = {
-      "org/gnome/desktop/interface" = {
-        text-scaling-factor = 1.0;
-      };
-
-      "org/gnome/desktop/input-sources" = {
-        xkb-options = [
-          "ctrl:nocaps"
-        ];
-      };
-
-      "org/gnome/desktop/peripherals/keyboard" = {
-        delay = 200;
-        repeat-interval = 10;
-      };
-    };
   };
 }
