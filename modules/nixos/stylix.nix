@@ -38,8 +38,8 @@
     # Font configuration
     fonts = {
       monospace = {
-        # Berkeley Mono fonts are installed via fonts.nix from config-private
-        package = null;
+        # Berkeley Mono fonts are installed via fonts/berkleymono.nix from config-private
+        # package = null;
         name = "Berkeley Mono";
       };
       sansSerif = {

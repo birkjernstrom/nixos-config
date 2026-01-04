@@ -1,25 +1,11 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
+
 let
-  configPrivate = inputs.config-private;
-
-  berkeleyMono = pkgs.stdenvNoCC.mkDerivation {
-    pname = "berkeley-mono";
-    version = "1.0.0";
-
-    src = "${configPrivate}/assets/fonts";
-
-    installPhase = ''
-      runHook preInstall
-      install -Dm644 *.ttf -t $out/share/fonts/truetype/
-      runHook postInstall
-    '';
-  };
+  berkeleyMonoPkg = (import ./berkleymono.nix { inherit pkgs inputs; }).berkeleyMono;
 in
 {
-  # Install the Berkeley Mono fonts
-  fonts.packages = [ berkeleyMono ];
+  fonts.packages = [ berkeleyMonoPkg ];
 
-  # Configure fontconfig to prefer Berkeley Mono for monospace
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
@@ -29,7 +15,6 @@ in
       ];
     };
 
-    # Local fontconfig rules for fine-grained control
     localConf = ''
       <?xml version="1.0"?>
       <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">

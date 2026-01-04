@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./fonts.nix
+    ./fonts
     ./stylix.nix
     ./hyprland/system.nix
   ];
