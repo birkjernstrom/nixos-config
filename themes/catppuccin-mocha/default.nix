@@ -44,13 +44,8 @@ rec {
     size = 24;
   };
 
-  # Wallpaper generation using theme colors
-  wallpaper = pkgs.runCommand "${name}-wallpaper.png" {} ''
-    ${pkgs.imagemagick}/bin/magick -size 3840x2160 \
-      gradient:'#${base16.base00}'-'#${base16.base02}' \
-      -blur 0x8 \
-      PNG:$out
-  '';
+  # Wallpaper
+  wallpaper = ../../wallpapers/mountain.png;
 
   # CSS color definitions derived from base16
   # Uses generic names that map to base16 values
