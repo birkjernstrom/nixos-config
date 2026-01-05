@@ -17,6 +17,7 @@ in
         # Example binds, see https://wiki.hypr.land/Configuring/Binds/ for more
         "$mainMod, return, exec, $terminal"
         "$mainMod, B, exec, google-chrome-stable"
+        "$mainMod, S, exec, slack"
         "$mainMod, X, killactive,"
         "$mainMod, M, exit,"
         "$mainMod, E, exec, $fileManager"
