@@ -16,12 +16,13 @@ let
   # Available themes
   themes = {
     catppuccin-mocha = import ./catppuccin-mocha { inherit pkgs; };
+    vesper = import ./vesper { inherit pkgs; };
     # Add more themes here:
     # tokyo-night = import ./tokyo-night { inherit pkgs; };
     # gruvbox = import ./gruvbox { inherit pkgs; };
   };
 
   # Select the active theme here
-  selected = "catppuccin-mocha";
+  selected = "vesper";
 
 in themes.${selected}

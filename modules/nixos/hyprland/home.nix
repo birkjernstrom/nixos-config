@@ -48,8 +48,8 @@ in
 
         # General settings (border colors handled by Stylix)
         general = {
-          gaps_in = 5;
-          gaps_out = 5;
+          gaps_in = 8;
+          gaps_out = 8;
           border_size = 1;
           resize_on_border = true;
           layout = "dwindle";
@@ -58,11 +58,11 @@ in
         # Decoration settings (colors handled by Stylix)
         decoration = {
           active_opacity = 1.0;
-          inactive_opacity = 0.95;
+          inactive_opacity = 0.90;
           shadow = {
             enabled = true;
             range = 20;
-            render_power = 3;
+            render_power = 1;
           };
           blur = {
             enabled = true;

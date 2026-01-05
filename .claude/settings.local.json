@@ -4,7 +4,10 @@
       "Bash(cat:*)",
       "Bash(nix eval:*)",
       "Bash(nix flake check:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []

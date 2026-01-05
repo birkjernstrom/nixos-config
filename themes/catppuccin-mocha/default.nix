@@ -7,14 +7,17 @@ rec {
   author = "Catppuccin";
   polarity = "dark";
 
-  # Stylix/nvim theme identifiers
+  # Neovim configuration
+  # Catppuccin is built into nvf, no custom plugin needed
   nvim = {
     name = "catppuccin";
     style = "mocha";
+    plugin = null;
+    config = null;
   };
 
   # Terminal theme name (for apps like ghostty, wezterm)
-  terminal = "Catppuccin Mocha";
+  terminal = "catppuccin-mocha";
 
   # Base16 scheme - the single source of truth for colors
   # All other color references should derive from these
@@ -67,4 +70,52 @@ rec {
     @define-color purple #${base16.base0E};
     @define-color misc #${base16.base0F};
   '';
+
+  # Tmux theme colors - semantic names for status bar styling
+  tmux = {
+    bg = "#${base16.base00}";           # Primary background
+    elevated = "#${base16.base01}";     # Elevated background (messages)
+    selected = "#${base16.base02}";     # Selection background
+    border = "#${base16.base02}";       # Pane borders
+    fg_dim = "#${base16.base03}";       # Dim text (inactive windows)
+    fg_muted = "#${base16.base05}";     # Muted text (status bar)
+    fg = "#${base16.base07}";           # Primary foreground
+    accent = "#${base16.base0E}";       # Accent color (purple for catppuccin)
+  };
+
+  # Ghostty terminal theme - generated from base16 colors
+  ghostty = {
+    # Theme file content for ~/.config/ghostty/themes/
+    theme = ''
+      # ${name} theme - generated from base16
+
+      background = #${base16.base00}
+      foreground = #${base16.base05}
+
+      cursor-color = #${base16.base0E}
+
+      selection-background = #${base16.base02}
+      selection-foreground = #${base16.base05}
+
+      # ANSI Colors (Standard)
+      palette = 0=#${base16.base00}
+      palette = 1=#${base16.base08}
+      palette = 2=#${base16.base0B}
+      palette = 3=#${base16.base0A}
+      palette = 4=#${base16.base0D}
+      palette = 5=#${base16.base0E}
+      palette = 6=#${base16.base0C}
+      palette = 7=#${base16.base05}
+
+      # Bright Colors
+      palette = 8=#${base16.base03}
+      palette = 9=#${base16.base08}
+      palette = 10=#${base16.base0B}
+      palette = 11=#${base16.base0A}
+      palette = 12=#${base16.base0D}
+      palette = 13=#${base16.base0E}
+      palette = 14=#${base16.base0C}
+      palette = 15=#${base16.base07}
+    '';
+  };
 }

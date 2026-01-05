@@ -10,7 +10,9 @@ in
 
   config = {
     # Apply user settings from settings.nix
-    userSettings = hostSettings.user;
+    userSettings = hostSettings.user // {
+      terminal.ghostty.enable = true;
+    };
 
     home.stateVersion = "24.05";
 
@@ -19,6 +21,5 @@ in
       google-chrome
       fastfetch
     ];
-    programs.ghostty.enable = true;
   };
 }
