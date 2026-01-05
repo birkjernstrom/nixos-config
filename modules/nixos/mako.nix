@@ -17,33 +17,35 @@ in
     services.mako = {
       enable = true;
 
-      # Colors from theme
-      backgroundColor = lib.mkForce "#${colors.base00}";
-      textColor = "#${colors.base05}";
-      borderColor = lib.mkForce "#${colors.base0E}";
-      progressColor = "over #${colors.base02}";
+      settings  = {
+        # Colors from theme
+        background-color = lib.mkForce "#${colors.base00}";
+        text-color = "#${colors.base05}";
+        border-color = lib.mkForce "#${colors.base0E}";
+        progress-color = "over #${colors.base02}";
 
-      # Layout
-      width = 350;
-      height = 150;
-      margin = "10";
-      padding = "15";
-      borderSize = 2;
-      borderRadius = 12;
+        # Layout
+        width = 350;
+        height = 150;
+        margin = "10";
+        padding = "15";
+        border-size = 2;
+        border-radius = 12;
 
-      # Behavior
-      defaultTimeout = 5000;
-      ignoreTimeout = false;
-      maxVisible = 5;
-      layer = "overlay";
-      anchor = "top-right";
+        # Behavior
+        default-timeout = 5000;
+        ignore-timeout = false;
+        max-visible = 5;
+        layer = "overlay";
+        anchor = "top-right";
 
-      # Font
-      font = lib.mkForce "BerkleyMono Nerd Font";
+        # Font
+        font = lib.mkForce "BerkleyMono Nerd Font";
 
-      # Icons
-      icons = true;
-      maxIconSize = 48;
+        # Icons
+        icons = true;
+        max-icon-size = 48;
+      };
 
       # Extra config for urgency levels
       extraConfig = ''
