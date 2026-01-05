@@ -19,18 +19,20 @@ in
         height = 400;
         location = "center";
         show = "drun";
-        prompt = "Search...";
+        prompt = "";
         filter_rate = 100;
         allow_markup = true;
         no_actions = true;
         halign = "fill";
+        show_all = false;
+        hide_scroll = true;
         orientation = "vertical";
+        term = "ghostty";
         content_halign = "fill";
         insensitive = true;
-        allow_images = true;
-        image_size = 32;
+        allow_images = false;
         gtk_dark = true;
-        dynamic_lines = true;
+        dynamic_lines = false;
       };
 
       # Styling with theme colors
@@ -39,14 +41,14 @@ in
         ${theme.css}
 
         * {
-          font-family: "JetBrainsMono Nerd Font Mono", monospace;
+          font-family: BerkleyMono Nerd Font", monospace;
           font-size: 14px;
         }
 
         window {
           background-color: @bg;
-          border: 2px solid @purple;
-          border-radius: 12px;
+          border: 1px solid @purple;
+          border-radius: 4px;
         }
 
         #input {
@@ -59,7 +61,7 @@ in
         }
 
         #input:focus {
-          border: 2px solid @purple;
+          border: 1px solid @purple;
           outline: none;
         }
 
@@ -95,15 +97,8 @@ in
           border: none;
         }
 
+        #text:selected,
         #entry:selected #text {
-          color: @purple;
-        }
-
-        #entry:hover {
-          background-color: @bg-subtle;
-        }
-
-        #text:selected {
           color: @purple;
         }
       '';
