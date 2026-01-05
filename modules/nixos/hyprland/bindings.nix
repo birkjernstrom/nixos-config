@@ -9,6 +9,11 @@ in
       "$mainMod" = "SUPER";
 
       bind = [
+        # Volume control (F1=mute, F2=lower, F3=raise)
+        ", F1, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", F2, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", F3, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+
         # Example binds, see https://wiki.hypr.land/Configuring/Binds/ for more
         "$mainMod, return, exec, $terminal"
         "$mainMod, B, exec, google-chrome-stable"

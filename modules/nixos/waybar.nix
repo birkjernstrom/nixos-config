@@ -12,6 +12,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = [ pkgs.impala ];
+
     programs.waybar = {
       enable = true;
 
@@ -80,21 +82,24 @@ in
             format = " {usage}%";
             tooltip = true;
             interval = 2;
+            on-click = "ghostty -e btop";
           };
 
           memory = {
-            format = " {}%";
+            format = "󰍛 {}%";
             interval = 2;
+            on-click = "ghostty -e btop";
           };
 
           pulseaudio = {
             format = "{icon} {volume}%";
-            format-muted = " muted";
+            format-muted = "󰝟 {volume}%";
             format-icons = {
-              headphone = "";
-              headset = "";
-              default = ["" "" ""];
+              headphone = "󰋋";
+              headset = "󰋎";
+              default = ["󰕿" "󰖀" "󰕾"];
             };
+            tooltip-format = "{volume}%";
             on-click = "pavucontrol";
           };
 
@@ -109,7 +114,7 @@ in
             tooltip-format-disconnected = "Disconnected";
             interval = 3;
             spacing = 1;
-            on-click = "nm-connection-editor";
+            on-click = "ghostty -e impala";
           };
 
           battery = {

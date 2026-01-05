@@ -20,6 +20,7 @@ in
       ghostty
       google-chrome
       fastfetch
+      btop
     ];
   };
 }
