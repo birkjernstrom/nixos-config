@@ -16,8 +16,6 @@ in
 
     home.packages = with pkgs; [
       google-chrome
-      fastfetch
-      btop
     ];
   };
 }

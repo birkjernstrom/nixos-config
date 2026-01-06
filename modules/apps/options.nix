@@ -11,6 +11,24 @@ with lib;
         default = false;
         description = "Enable Slack";
       };
+
+      browsers = {
+        chrome.enable = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Enable Google Chrome";
+        };
+        firefox.enable = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Enable Firefox";
+        };
+        default = mkOption {
+          type = types.enum [ "chrome" "firefox" ];
+          default = "chrome";
+          description = "Default browser for keybindings";
+        };
+      };
     };
 
     terminal.ghostty = {

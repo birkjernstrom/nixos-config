@@ -17,6 +17,8 @@ in
       fzf
       tree
       htop
+      btop
+      fastfetch
       httpie
       zoxide
       starship

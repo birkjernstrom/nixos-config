@@ -32,6 +32,11 @@
     };
     apps = {
       slack.enable = true;
+      browsers = {
+        chrome.enable = true;
+        firefox.enable = true;
+        default = "chrome";
+      };
     };
   };
 }

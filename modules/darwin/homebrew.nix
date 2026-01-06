@@ -22,9 +22,6 @@
       "spotify"
       "1password"
 
-      # Browsers
-      "google-chrome"
-
       # Terminal emulators
       "wezterm"
     ];
