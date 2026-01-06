@@ -10,14 +10,11 @@ in
 
   config = {
     # Apply user settings from settings.nix
-    userSettings = hostSettings.user // {
-      terminal.ghostty.enable = true;
-    };
+    userSettings = hostSettings.user;
 
     home.stateVersion = "24.05";
 
     home.packages = with pkgs; [
-      ghostty
       google-chrome
       fastfetch
       btop

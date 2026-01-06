@@ -26,6 +26,10 @@
       ai.enable = true;
       tools.enable = true;
     };
+    terminal.ghostty = {
+      enable = true;
+      font.size = 12;
+    };
     apps = {
       slack.enable = true;
     };

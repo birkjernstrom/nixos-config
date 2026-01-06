@@ -26,7 +26,6 @@
       "google-chrome"
 
       # Terminal emulators
-      "ghostty"
       "wezterm"
     ];
     brews = [

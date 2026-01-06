@@ -3,6 +3,7 @@
 {
   imports = [
     ./sops/system.nix
+    ./ghostty.nix
     ../apps/slack.nix
   ];
 }
