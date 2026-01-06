@@ -9,7 +9,7 @@
     environment.systemPackages = [];
 
     # TODO: Remove this over time (2025-05-21)
-    system.primaryUser = "${settings.user}";
+    system.primaryUser = "${settings.user.name}";
 
     # Create /etc/zshrc that loads the nix-darwin environment
     programs.zsh.enable = true;
@@ -23,7 +23,7 @@
     # Setup user, packages, programs
     nix = {
       package = pkgs.nix;
-      settings.trusted-users = [ "@admin" "${settings.user}" ];
+      settings.trusted-users = [ "@admin" "${settings.user.name}" ];
       settings.experimental-features = "nix-command flakes";
 
       gc = {

@@ -10,9 +10,9 @@ in
 
   # Note: systemSettings can be added here when darwin-specific settings are needed
 
-  users.users.${settings.user} = {
-    name = "${settings.user}";
-    home = "/Users/${settings.user}";
+  users.users.${settings.user.name} = {
+    name = "${settings.user.name}";
+    home = "/Users/${settings.user.name}";
     isHidden = false;
     shell = pkgs.zsh;
   };

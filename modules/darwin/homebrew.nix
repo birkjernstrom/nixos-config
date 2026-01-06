@@ -13,7 +13,6 @@
       # Communication Tools
       "discord"
       "loom"
-      "slack"
       "zoom"
       "whatsapp"
 

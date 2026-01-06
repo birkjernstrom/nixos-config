@@ -25,6 +25,9 @@
       ai.enable = true;
       tools.enable = true;
     };
+    apps = {
+      slack.enable = true;
+    };
     hyprland.enable = true;
   };
 }

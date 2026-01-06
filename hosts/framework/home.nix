@@ -21,7 +21,6 @@ in
       google-chrome
       fastfetch
       btop
-      slack
     ];
   };
 }

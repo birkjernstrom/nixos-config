@@ -16,8 +16,12 @@
     # Load the selected theme
     theme = import ../themes { inherit pkgs; };
 
+    # Load host-specific settings
+    hostSettings = import ../hosts/${name}/settings.nix;
+
     settings = {
-      inherit user;
+      user = hostSettings.user // { name = user; };
+      system = hostSettings.system or {};
     };
 
     specialArgs = {
