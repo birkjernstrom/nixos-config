@@ -29,6 +29,7 @@
       enable = true;
       font.size = 12;
     };
+    docker.enable = true;
     apps = {
       slack.enable = true;
       browsers = {

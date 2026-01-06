@@ -11,6 +11,6 @@
     ./nvim
     ./programming
     ./scripts
-    ../apps/options.nix
+    ./options.nix
   ];
 }

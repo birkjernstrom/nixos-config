@@ -1,5 +1,5 @@
-# Options for home-manager
-# These options are defined here so userSettings.* can be set in home.nix
+# Home-manager options for system-level modules
+# These options allow userSettings.* to be set in home.nix
 { lib, ... }:
 
 with lib;
@@ -29,6 +29,12 @@ with lib;
           description = "Default browser for keybindings";
         };
       };
+    };
+
+    docker.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable Docker with lazydocker and waybar integration";
     };
 
     terminal.ghostty = {
