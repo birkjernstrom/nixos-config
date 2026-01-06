@@ -124,6 +124,7 @@ in
         ];
 
         input = {
+          kb_layout = "us,se";
           repeat_delay = 200;
           repeat_rate = 100;
           sensitivity = 0;

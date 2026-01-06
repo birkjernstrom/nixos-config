@@ -49,7 +49,6 @@ in
   services.xserver.enable = true;
   services.xserver.xkb = {
     layout = "us";
-    variant = "intl";
   };
 
   services.displayManager.gdm.enable = true;

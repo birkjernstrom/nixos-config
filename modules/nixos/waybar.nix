@@ -33,12 +33,20 @@ in
           ];
 
           modules-right = [
+            "hyprland/language"
             "cpu"
             "memory"
             "pulseaudio"
             "network"
             "battery"
           ];
+
+          "hyprland/language" = {
+            format = "{}";
+            format-en = "US";
+            format-sv = "SE";
+            on-click = "hyprctl switchxkblayout all next";
+          };
 
           "hyprland/workspaces" = {
             format = "{icon}";
@@ -199,6 +207,15 @@ in
         #clock {
           padding: 0 16px;
           color: @purple;
+          font-weight: bold;
+        }
+
+        #language {
+          padding: 0 12px;
+          margin: 4px 2px;
+          border-radius: 6px;
+          background: @bg-selection;
+          color: @fg;
           font-weight: bold;
         }
 

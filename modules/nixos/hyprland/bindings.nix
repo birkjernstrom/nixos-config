@@ -22,6 +22,7 @@ in
         "$mainMod, V, exec, cliphist list | wofi --show dmenu | cliphist decode | wl-copy"
         "$mainMod SHIFT, V, togglefloating,"
         "$mainMod, space, exec, $menu"
+        "$mainMod SHIFT, space, exec, hyprctl switchxkblayout all next"
         "$mainMod, P, pseudo," # dwindle
         "$mainMod SHIFT, J, togglesplit," # dwindle
 
