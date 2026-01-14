@@ -34,8 +34,7 @@ in
 
           modules-right = [
             "hyprland/language"
-            "cpu"
-            "memory"
+            "custom/system"
             "pulseaudio"
             "bluetooth"
             "network"
@@ -87,22 +86,15 @@ in
             };
           };
 
-          cpu = {
-            format = " {usage}%";
-            tooltip = true;
-            interval = 2;
-            on-click = "ghostty -e btop";
-          };
-
-          memory = {
-            format = "󰍛 {}%";
-            interval = 2;
+          "custom/system" = {
+            format = " 󰍛";
+            tooltip = false;
             on-click = "ghostty -e btop";
           };
 
           pulseaudio = {
-            format = "{icon} {volume}%";
-            format-muted = "󰝟 {volume}%";
+            format = "{icon}";
+            format-muted = "󰝟";
             format-icons = {
               headphone = "󰋋";
               headset = "󰋎";
@@ -114,7 +106,7 @@ in
 
           bluetooth = {
             format = "󰂯";
-            format-connected = "󰂱 {num_connections}";
+            format-connected = "󰂱";
             format-disabled = "󰂲";
             format-off = "󰂲";
             tooltip-format = "{controller_alias}\n{status}";
@@ -139,10 +131,10 @@ in
           };
 
           battery = {
-            format = "{capacity}% {icon}";
+            format = "{icon}";
             format-discharging = "{icon}";
             format-charging = "{icon}";
-            format-plugged = "";
+            format-plugged = "";
             format-icons = {
               charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
               default = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
@@ -191,8 +183,6 @@ in
         #workspaces button {
           padding: 0 8px;
           margin: 4px 2px;
-          border-radius: 6px;
-          background: transparent;
           color: @fg-dim;
           transition: all 0.2s ease;
         }
@@ -219,88 +209,56 @@ in
 
         #clock {
           padding: 0 16px;
-          color: @purple;
+          color: @fg-dim;
           font-weight: bold;
         }
 
         #language {
           padding: 0 12px;
           margin: 4px 2px;
-          border-radius: 6px;
-          background: @bg-selection;
-          color: @fg;
+          background: transparent;
+          color: @fg-dim;
           font-weight: bold;
         }
 
-        #cpu,
-        #memory,
+        #custom-system,
         #pulseaudio,
+        #bluetooth,
         #network,
         #battery {
-          padding: 0 12px;
+          padding: 0 10px;
           margin: 4px 2px;
-          border-radius: 6px;
-          background: @bg-selection;
-          color: @fg;
-        }
-
-        #cpu {
-          color: @blue;
-        }
-
-        #memory {
-          color: @orange;
-        }
-
-        #pulseaudio {
-          color: @purple;
-        }
-
-        #pulseaudio.muted {
-          background: @bg-subtle;
           color: @fg-dim;
         }
 
-        #bluetooth {
-          color: @blue;
-        }
-
-        #bluetooth.connected {
-          color: @cyan;
+        #pulseaudio.muted {
+          color: @fg-dim;
+          opacity: 0.5;
         }
 
         #bluetooth.off,
         #bluetooth.disabled {
-          color: @fg-dim;
-        }
-
-        #network {
-          color: @cyan;
+          opacity: 0.5;
         }
 
         #network.disconnected {
-          background: @bg-subtle;
-          color: @fg-dim;
+          opacity: 0.5;
         }
 
         #battery {
-          color: @green;
           margin-right: 8px;
         }
 
         #battery.charging {
-          color: @green;
           animation: pulse 2s infinite;
         }
 
         #battery.warning:not(.charging) {
-          background: @yellow;
-          color: @bg;
+          color: @yellow;
         }
 
         #battery.critical:not(.charging) {
-          background: @red;
-          color: @bg;
+          color: @red;
           animation: pulse 1s infinite;
         }
 
