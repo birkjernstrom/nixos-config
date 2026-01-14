@@ -12,6 +12,7 @@
       core.enable = true;
       zsh.enable = true;
       git.enable = true;
+      jj.enable = true;
       tmux.enable = true;
       nvim.enable = true;
     };
