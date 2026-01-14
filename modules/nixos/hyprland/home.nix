@@ -133,6 +133,7 @@ in
             natural_scroll = true;
             disable_while_typing = true;
             tap-to-click = true;
+            scroll_factor = 0.7;
           };
         };
       };
