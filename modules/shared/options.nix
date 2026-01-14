@@ -12,6 +12,12 @@ with lib;
         description = "Enable Slack";
       };
 
+      obsidian.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Obsidian";
+      };
+
       browsers = {
         chrome.enable = mkOption {
           type = types.bool;

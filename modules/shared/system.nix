@@ -6,6 +6,7 @@
     ./ghostty.nix
     ./apps/slack.nix
     ./apps/browsers.nix
+    ./apps/obsidian.nix
     ./docker.nix
   ];
 }

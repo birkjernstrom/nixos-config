@@ -32,6 +32,7 @@
     docker.enable = true;
     apps = {
       slack.enable = true;
+      obsidian.enable = true;
       browsers = {
         chrome.enable = true;
         firefox.enable = true;
