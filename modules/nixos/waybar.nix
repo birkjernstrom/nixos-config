@@ -12,7 +12,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.impala ];
+    home.packages = [ pkgs.impala pkgs.bluetuith ];
 
     programs.waybar = {
       enable = true;
@@ -37,6 +37,7 @@ in
             "cpu"
             "memory"
             "pulseaudio"
+            "bluetooth"
             "network"
             "battery"
           ];
@@ -109,6 +110,18 @@ in
             };
             tooltip-format = "{volume}%";
             on-click = "pavucontrol";
+          };
+
+          bluetooth = {
+            format = "󰂯";
+            format-connected = "󰂱 {num_connections}";
+            format-disabled = "󰂲";
+            format-off = "󰂲";
+            tooltip-format = "{controller_alias}\n{status}";
+            tooltip-format-connected = "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}";
+            tooltip-format-enumerate-connected = "{device_alias}";
+            tooltip-format-enumerate-connected-battery = "{device_alias} {device_battery_percentage}%";
+            on-click = "ghostty -e bluetuith";
           };
 
           network = {
@@ -245,6 +258,19 @@ in
 
         #pulseaudio.muted {
           background: @bg-subtle;
+          color: @fg-dim;
+        }
+
+        #bluetooth {
+          color: @blue;
+        }
+
+        #bluetooth.connected {
+          color: @cyan;
+        }
+
+        #bluetooth.off,
+        #bluetooth.disabled {
           color: @fg-dim;
         }
 
