@@ -29,6 +29,7 @@ in
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
+  services.timesyncd.enable = true;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
