@@ -18,6 +18,12 @@ with lib;
         description = "Enable Obsidian";
       };
 
+      todoist.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Todoist";
+      };
+
       browsers = {
         chrome.enable = mkOption {
           type = types.bool;

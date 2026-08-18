@@ -34,6 +34,7 @@
     apps = {
       slack.enable = true;
       obsidian.enable = true;
+      todoist.enable = true;
       browsers = {
         chrome.enable = true;
         firefox.enable = true;
