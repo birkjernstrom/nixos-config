@@ -55,6 +55,18 @@ in
         "$mainMod SHIFT, 8, movetoworkspace, 8"
         "$mainMod SHIFT, 9, movetoworkspace, 9"
         "$mainMod SHIFT, 0, movetoworkspace, 10"
+
+        # Focus monitor left/right
+        "$mainMod, bracketleft, focusmonitor, l"
+        "$mainMod, bracketright, focusmonitor, r"
+
+        # Move window to monitor left/right
+        "$mainMod SHIFT, bracketleft, movewindow, mon:l"
+        "$mainMod SHIFT, bracketright, movewindow, mon:r"
+
+        # Move entire workspace to other monitor
+        "$mainMod CTRL, bracketleft, movecurrentworkspacetomonitor, l"
+        "$mainMod CTRL, bracketright, movecurrentworkspacetomonitor, r"
       ];
     };
   };

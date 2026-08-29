@@ -49,6 +49,7 @@ in
           };
 
           "hyprland/workspaces" = {
+            all-outputs = false;
             format = "{icon}";
             format-icons = {
               "1" = "1";
