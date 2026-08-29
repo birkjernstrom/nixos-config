@@ -1,9 +1,10 @@
-{ config, pkgs, nixpkgs-stable, settings, isDarwin, ... }:
+{ config, pkgs, nixpkgs-stable, settings, isDarwin, inputs, ... }:
 let
   hostSettings = import ./settings.nix;
 in
 {
   imports = [
+    inputs.nixos-hardware.nixosModules.framework-16-7040-amd
     ./hardware.nix
     ../../modules/nixos/system.nix
     ../../modules/shared/system.nix
@@ -130,6 +131,13 @@ in
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
+  };
+
+  # Power management / sleep
+  services.logind = {
+    lidSwitch = "suspend";
+    lidSwitchExternalPower = "suspend";
+    lidSwitchDocked = "ignore";
   };
 
 

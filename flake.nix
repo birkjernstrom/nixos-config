@@ -29,6 +29,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
     config-private = {
       url = "git+ssh://git@github.com/birkjernstrom/config-private.git?ref=main&shallow=1";
       flake = false;
