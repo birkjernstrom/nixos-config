@@ -91,7 +91,7 @@ in
   users.users.birk = {
     isNormalUser = true;
     description = "Birk Jernstrom";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" ];
     packages = with pkgs; [
       firefox
       _1password-gui
