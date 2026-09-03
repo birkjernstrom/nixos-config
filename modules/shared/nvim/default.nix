@@ -23,9 +23,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Disable Stylix nvf theming - we use our own theme configuration
-    stylix.targets.nvf.enable = false;
-
     home.packages = with pkgs; [
       neovim
     ];
