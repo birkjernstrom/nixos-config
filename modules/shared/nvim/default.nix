@@ -1,14 +1,7 @@
-{ config, pkgs, lib, inputs, theme, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 with lib; let
   cfg = config.userSettings.cli.nvim;
-
-  # Theme plugin (if the theme requires a custom plugin not built into nvf)
-  hasCustomPlugin = theme.nvim.plugin != null;
-  hasCustomConfig = theme.nvim.config != null;
-
-  # nvf DAG helper for luaConfigRC entries
-  nvimDag = inputs.nvf.lib.nvim.dag;
 in
 {
   imports = [
@@ -44,11 +37,7 @@ in
             updatetime = 250;
             timeoutlen = 300;
           };
-          # Theme plugin (if the theme requires one not built into nvf)
-          startPlugins = mkIf hasCustomPlugin [ theme.nvim.plugin ];
-
-          # Theme configuration (wrapped in DAG entry for nvf)
-          luaConfigRC.theme = mkIf hasCustomConfig (nvimDag.entryAnywhere theme.nvim.config);
+          # Colorscheme comes from Stylix's nvf target.
 
           git = {
             gitsigns = {

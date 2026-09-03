@@ -1,8 +1,11 @@
-{ config, lib, pkgs, theme, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib; let
   cfg = config.userSettings.waybar;
-  colors = theme.base16;
+
+  # Pango markup in the clock tooltip can't reference the GTK @colour names,
+  # so read the palette back from Stylix instead of restating it.
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   options.userSettings.waybar.enable = mkOption {
@@ -13,6 +16,10 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [ pkgs.impala pkgs.bluetuith ];
+
+    # Stylix defines the @base00-@base0F colours and the font used below.
+    # Its opinionated default stylesheet is skipped - the layout is ours.
+    stylix.targets.waybar.addCss = false;
 
     programs.waybar = {
       enable = true;
@@ -78,11 +85,11 @@ in
               weeks-pos = "right";
               on-scroll = 1;
               format = {
-                months = "<span color='#${colors.base06}'><b>{}</b></span>";
-                days = "<span color='#${colors.base05}'>{}</span>";
-                weeks = "<span color='#${colors.base0C}'><b>W{}</b></span>";
-                weekdays = "<span color='#${colors.base0A}'><b>{}</b></span>";
-                today = "<span color='#${colors.base08}'><b><u>{}</u></b></span>";
+                months = "<span color='${colors.base06}'><b>{}</b></span>";
+                days = "<span color='${colors.base05}'>{}</span>";
+                weeks = "<span color='${colors.base0C}'><b>W{}</b></span>";
+                weekdays = "<span color='${colors.base0A}'><b>{}</b></span>";
+                today = "<span color='${colors.base08}'><b><u>{}</u></b></span>";
               };
             };
           };
@@ -152,29 +159,27 @@ in
         };
       };
 
-      # Styling with theme colors
+      # Layout only - every colour below is a Stylix-defined GTK colour name.
       style = ''
-        /* Theme colors from base16 */
-        ${theme.css}
-
         * {
-          font-family: "JetBrainsMono Nerd Font Mono", monospace;
-          font-size: 13px;
           min-height: 0;
         }
 
+        /* Without this the bar falls through to the GTK theme's window
+           background instead of the Stylix palette. */
         window#waybar {
-          color: @fg;
+          background: @base00;
+          color: @base05;
         }
 
         tooltip {
-          background: @bg;
-          border: 1px solid @purple;
+          background: @base00;
+          border: 1px solid @base0E;
           border-radius: 8px;
         }
 
         tooltip label {
-          color: @fg;
+          color: @base05;
         }
 
         #workspaces {
@@ -184,33 +189,33 @@ in
         #workspaces button {
           padding: 0 8px;
           margin: 4px 2px;
-          color: @fg-dim;
+          color: @base03;
           transition: all 0.2s ease;
         }
 
         #workspaces button:hover {
-          background: @bg-selection;
-          color: @fg;
+          background: @base02;
+          color: @base05;
         }
 
         #workspaces button.active {
-          background: @purple;
-          color: @bg;
+          background: @base0E;
+          color: @base00;
         }
 
         #workspaces button.urgent {
-          background: @red;
-          color: @bg;
+          background: @base08;
+          color: @base00;
         }
 
         #window {
           padding: 0 12px;
-          color: @fg-dim;
+          color: @base03;
         }
 
         #clock {
           padding: 0 16px;
-          color: @fg-dim;
+          color: @base03;
           font-weight: bold;
         }
 
@@ -218,7 +223,7 @@ in
           padding: 0 12px;
           margin: 4px 2px;
           background: transparent;
-          color: @fg-dim;
+          color: @base03;
           font-weight: bold;
         }
 
@@ -229,11 +234,10 @@ in
         #battery {
           padding: 0 10px;
           margin: 4px 2px;
-          color: @fg-dim;
+          color: @base03;
         }
 
         #pulseaudio.muted {
-          color: @fg-dim;
           opacity: 0.5;
         }
 
@@ -255,11 +259,11 @@ in
         }
 
         #battery.warning:not(.charging) {
-          color: @yellow;
+          color: @base0A;
         }
 
         #battery.critical:not(.charging) {
-          color: @red;
+          color: @base08;
           animation: pulse 1s infinite;
         }
 

@@ -1,47 +1,27 @@
-{ config, pkgs, theme, ... }:
+# Linux-only theming, layered on top of modules/shared/stylix.nix.
+{ pkgs, ... }:
 
 {
-  # Stylix theming - configured via theme from themes/
   stylix = {
-    enable = true;
-    autoEnable = true;
-    polarity = theme.polarity;
+    # Wallpaper. Only used as the desktop background - colours come from
+    # `base16Scheme`, not from this image.
+    image = ../../wallpapers/black_no_limit.jpg;
 
-    # Color scheme from theme
-    base16Scheme = theme.base16;
-
-    # Wallpaper from theme
-    image = theme.wallpaper;
-
-    # Font configuration
-    fonts = {
-      monospace = {
-        # Berkeley Mono fonts are installed via fonts/berkleymono.nix from config-private
-        name = "Berkeley Mono";
-      };
-      sansSerif = {
-        package = pkgs.inter;
-        name = "Inter";
-      };
-      serif = {
-        package = pkgs.noto-fonts;
-        name = "Noto Serif";
-      };
-      sizes = {
-        applications = 11;
-        desktop = 11;
-        popups = 11;
-        terminal = 12;
-      };
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 24;
     };
 
-    cursor = theme.cursor;
-
-    # Target-specific settings
-    targets = {
-      gtk.enable = true;
-      # Disable stylix Qt theming - it doesn't support GNOME's Qt platform
-      qt.enable = false;
-    };
+    # Stylix's Qt theming doesn't support GNOME's Qt platform.
+    targets.qt.enable = false;
   };
+
+  # The Qt target exists separately in home-manager and is *not* inherited
+  # from the system setting above, so it has to be turned off here too.
+  # Left on, it writes a Kvantum theme into ~/.config/Kvantum, which is what
+  # was blocking home-manager activation.
+  home-manager.sharedModules = [
+    { stylix.targets.qt.enable = false; }
+  ];
 }

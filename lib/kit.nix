@@ -13,9 +13,6 @@
   let
     pkgs = import inputs.nixpkgs { inherit system; };
 
-    # Load the selected theme
-    theme = import ../themes { inherit pkgs; };
-
     # Load host-specific settings
     hostSettings = import ../hosts/${name}/settings.nix;
 
@@ -28,7 +25,6 @@
       inherit inputs;
       inherit settings;
       inherit isDarwin;
-      inherit theme;
     };
 
     configuration = ../hosts/${name}/configuration.nix;

@@ -26,10 +26,7 @@
       ai.enable = true;
       tools.enable = true;
     };
-    terminal.ghostty = {
-      enable = true;
-      font.size = 12;
-    };
+    terminal.ghostty.enable = true;
     docker.enable = true;
     apps = {
       slack.enable = true;

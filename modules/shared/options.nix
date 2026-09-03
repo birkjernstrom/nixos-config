@@ -49,24 +49,11 @@ with lib;
       description = "Enable Docker with lazydocker and waybar integration";
     };
 
-    terminal.ghostty = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable Ghostty terminal";
-      };
-      font = {
-        family = mkOption {
-          type = types.str;
-          default = "BerkeleyMono Nerd Font Mono";
-          description = "Font family for Ghostty";
-        };
-        size = mkOption {
-          type = types.int;
-          default = 12;
-          description = "Font size for Ghostty";
-        };
-      };
+    # Font and colours are configured centrally, in modules/shared/stylix.nix.
+    terminal.ghostty.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable Ghostty terminal";
     };
   };
 }

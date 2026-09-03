@@ -49,11 +49,6 @@ in
           { output = "eDP-1"; mode = "preferred"; position = "auto"; scale = 1.25; }
         ];
 
-        env = [
-          { _args = [ "XCURSOR_SIZE" "16" ]; }
-          { _args = [ "HYPERCURSOR_SIZE" "16" ]; }
-        ];
-
         config = {
           # General settings (border colors handled by Stylix)
           general = {
@@ -87,7 +82,8 @@ in
 
           # Dwindle layout
           dwindle = {
-            pseudotile = true;
+            # pseudotile removed as a config option in Hyprland 0.56; use the
+            # `pseudo` dispatcher to toggle it per-window instead.
             preserve_split = true;
             force_split = 2;
           };

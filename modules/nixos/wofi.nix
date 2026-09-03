@@ -1,7 +1,11 @@
-{ config, lib, pkgs, theme, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib; let
   cfg = config.userSettings.wofi;
+
+  # Wofi's stylesheet has no colour variables, so the few accents the layout
+  # needs are read back from Stylix rather than restated.
+  colors = config.lib.stylix.colors.withHashtag;
 in
 {
   options.userSettings.wofi.enable = mkOption {
@@ -35,34 +39,18 @@ in
         dynamic_lines = false;
       };
 
-      # Styling with theme colors
+      # Layout only - background, foreground, input and entry colours all
+      # come from Stylix's wofi target.
       style = ''
-        /* Theme colors from base16 */
-        ${theme.css}
-
-        * {
-          font-family: BerkleyMono Nerd Font", monospace;
-          font-size: 14px;
-        }
-
         window {
-          background-color: @bg;
-          border: 1px solid @purple;
+          border: 1px solid ${colors.base0E};
           border-radius: 4px;
         }
 
         #input {
           margin: 12px;
           padding: 12px 16px;
-          border: none;
           border-radius: 8px;
-          background-color: @bg-selection;
-          color: @fg;
-        }
-
-        #input:focus {
-          border: 1px solid @purple;
-          outline: none;
         }
 
         #inner-box {
@@ -81,25 +69,10 @@ in
           padding: 0;
         }
 
-        #text {
-          color: @fg;
-        }
-
         #entry {
           padding: 10px 16px;
           margin: 4px 0;
           border-radius: 8px;
-          background-color: transparent;
-        }
-
-        #entry:selected {
-          background-color: @bg-selection;
-          border: none;
-        }
-
-        #text:selected,
-        #entry:selected #text {
-          color: @purple;
         }
       '';
     };

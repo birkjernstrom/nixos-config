@@ -1,8 +1,7 @@
-{ config, lib, pkgs, theme, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib; let
   cfg = config.userSettings.mako;
-  colors = theme.base16;
 in
 {
   options.userSettings.mako.enable = mkOption {
@@ -14,16 +13,12 @@ in
   config = mkIf cfg.enable {
     home.packages = [ pkgs.libnotify ];
 
+    # Colours, font and the per-urgency borders come from Stylix. Only layout
+    # and behaviour are configured here.
     services.mako = {
       enable = true;
 
-      settings  = {
-        # Colors from theme
-        background-color = lib.mkForce "#${colors.base00}";
-        text-color = "#${colors.base05}";
-        border-color = lib.mkForce "#${colors.base0E}";
-        progress-color = "over #${colors.base02}";
-
+      settings = {
         # Layout
         width = 350;
         height = 150;
@@ -39,26 +34,13 @@ in
         layer = "overlay";
         anchor = "top-right";
 
-        # Font
-        font = lib.mkForce "BerkleyMono Nerd Font";
+        # Critical notifications stay until dismissed
+        "urgency=critical".default-timeout = 0;
 
         # Icons
         icons = true;
         max-icon-size = 48;
       };
-
-      # Extra config for urgency levels
-      extraConfig = ''
-        [urgency=low]
-        border-color=#${colors.base0B}
-
-        [urgency=normal]
-        border-color=#${colors.base0E}
-
-        [urgency=critical]
-        border-color=#${colors.base08}
-        default-timeout=0
-      '';
     };
   };
 }

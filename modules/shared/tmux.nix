@@ -1,8 +1,7 @@
-{ config, pkgs, lib, theme, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib; let
   cfg = config.userSettings.cli.tmux;
-  colors = theme.tmux;
 in
 {
   options.userSettings.cli.tmux.enable = mkOption {
@@ -66,35 +65,12 @@ in
         # Statusbar on top
         set -g status-position top
 
-        # Theme colors - vesper style
-        # Use 'default' bg to respect terminal transparency
-        set -g status-style "bg=default fg=${colors.fg_muted}"
-
-        # Make pane backgrounds transparent
+        # Status bar colours come from Stylix's tmux target.
+        # Keep pane backgrounds transparent so the terminal shows through.
         set -g window-style "bg=default"
         set -g window-active-style "bg=default"
-        set -g status-left "#[fg=${colors.accent},bold] #S #[fg=${colors.fg_dim}]│ "
-        set -g status-right "#[fg=${colors.fg_muted}]%-I:%M %p "
         set -g status-left-length 50
         set -g status-right-length 50
-
-        # Window status
-        setw -g window-status-format "#[fg=${colors.fg_dim}] #I #W "
-        setw -g window-status-current-format "#[fg=${colors.fg},bold] #I #W "
-
-        # Pane borders
-        set -g pane-border-style "fg=${colors.border}"
-        set -g pane-active-border-style "fg=${colors.accent}"
-
-        # Message styling
-        set -g message-style "bg=${colors.elevated} fg=${colors.fg}"
-        set -g message-command-style "bg=${colors.elevated} fg=${colors.fg}"
-
-        # Copy mode styling
-        set -g mode-style "bg=${colors.selected} fg=${colors.fg}"
-
-        # Clock
-        set -g clock-mode-colour "${colors.accent}"
 
         # Sesh
         bind-key "T" run-shell "sesh connect \"$(

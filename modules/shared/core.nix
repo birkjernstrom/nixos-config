@@ -1,8 +1,7 @@
-{ config, pkgs, lib, theme, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib; let
   cfg = config.userSettings.cli.core;
-  colors = theme.starship;
 in
 {
   options.userSettings.cli.core.enable = mkOption {
@@ -50,37 +49,41 @@ in
       starship = {
         enable = true;
         enableZshIntegration = true;
+        # Colour names below resolve through the base16 palette that Stylix
+        # installs into Starship, so the prompt follows the active theme.
         settings = {
           format = "$directory$git_branch$git_status$character";
           right_format = "$cmd_duration";
 
           character = {
-            success_symbol = "[❯](${colors.accent})";
-            error_symbol = "[❯](${colors.red})";
-            vimcmd_symbol = "[❮](${colors.accent})";
+            success_symbol = "[❯](blue)";
+            error_symbol = "[❯](red)";
+            vimcmd_symbol = "[❮](blue)";
           };
 
           directory = {
-            style = "${colors.fg}";
+            style = "white";
             truncation_length = 3;
             truncate_to_repo = true;
           };
 
           git_branch = {
             format = "[$symbol$branch]($style) ";
-            style = "${colors.fg_dim}";
+            style = "bright-black";
             symbol = "";
           };
 
           git_status = {
             format = "[$all_status$ahead_behind]($style)";
-            style = "${colors.accent}";
+            style = "blue";
             conflicted = "=";
             ahead = "⇡";
             behind = "⇣";
             diverged = "⇕";
             untracked = "?";
-            stashed = "$";
+            # Escaped: these values are format strings, so a bare `$` is read
+            # as the start of a variable reference and fails to parse.
+            stashed = "\\$";
             modified = "!";
             staged = "+";
             renamed = "»";
@@ -89,7 +92,7 @@ in
 
           cmd_duration = {
             format = "[$duration]($style)";
-            style = "${colors.fg_dim}";
+            style = "bright-black";
             min_time = 2000;
           };
         };

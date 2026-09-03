@@ -6,27 +6,17 @@ in
 {
   fonts.packages = [ berkeleyMonoPkg ];
 
+  # The preferred monospace family itself is set by Stylix's fontconfig
+  # target, from `stylix.fonts.monospace`. Only the Nerd Font fallback for
+  # symbol glyphs is configured here.
   fonts.fontconfig = {
     enable = true;
-    defaultFonts = {
-      monospace = [
-        "Berkeley Mono"
-        "BerkeleyMono Nerd Font"
-      ];
-    };
+    defaultFonts.monospace = [ "BerkeleyMono Nerd Font" ];
 
     localConf = ''
       <?xml version="1.0"?>
       <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
       <fontconfig>
-        <!-- Prefer Berkeley Mono for generic monospace -->
-        <alias>
-          <family>monospace</family>
-          <prefer>
-            <family>Berkeley Mono</family>
-          </prefer>
-        </alias>
-
         <!-- Prefer BerkeleyMono Nerd Font when nerd font symbols are needed -->
         <alias>
           <family>monospace</family>
