@@ -9,6 +9,9 @@ let
   defaultBrowser = cfg.default or "chrome";
   username = settings.user.name;
 
+  hypr = import ../../nixos/hyprland/lib.nix { inherit lib; };
+  inherit (hypr) bind exec;
+
   # Browser commands for hyprland binding
   browserCmd = {
     chrome = "google-chrome-stable";
@@ -34,7 +37,7 @@ in
       # Add hyprland keybinding for default browser (Super+B)
       (lib.mkIf (chromeEnabled || firefoxEnabled) {
         wayland.windowManager.hyprland.settings.bind = [
-          "SUPER, B, exec, ${browserCmd.${defaultBrowser}}"
+          (bind "SUPER + B" (exec browserCmd.${defaultBrowser}))
         ];
       })
     ];

@@ -2,6 +2,8 @@
 
 with lib; let
   cfg = config.userSettings.hyprland;
+  hypr = import ./lib.nix { inherit lib; };
+  inherit (hypr) bind mod exec;
 in
 {
   config = mkIf cfg.enable {
@@ -53,7 +55,7 @@ in
     wayland.windowManager.hyprland.settings = {
       bind = [
         # Lock screen with hyprlock
-        "$mainMod SHIFT, Q, exec, hyprlock"
+        (bind (mod "SHIFT + Q") (exec "hyprlock"))
       ];
     };
   };

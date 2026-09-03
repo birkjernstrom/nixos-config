@@ -5,6 +5,8 @@
 let
   slackEnabled = settings.user.apps.slack.enable or false;
   username = settings.user.name;
+  hypr = import ../../nixos/hyprland/lib.nix { inherit lib; };
+  inherit (hypr) bind exec;
 in
 {
   config = if isDarwin then {
@@ -17,7 +19,7 @@ in
 
       # Add hyprland keybinding (Super+S to launch Slack)
       wayland.windowManager.hyprland.settings.bind = [
-        "SUPER, S, exec, slack"
+        (bind "SUPER + S" (exec "slack"))
       ];
     };
   };

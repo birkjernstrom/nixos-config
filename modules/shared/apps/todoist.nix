@@ -5,6 +5,8 @@
 let
   todoistEnabled = settings.user.apps.todoist.enable or false;
   username = settings.user.name;
+  hypr = import ../../nixos/hyprland/lib.nix { inherit lib; };
+  inherit (hypr) bind exec;
 in
 {
   config = if isDarwin then {
@@ -17,7 +19,7 @@ in
 
       # Add hyprland keybinding (Super+T to launch Todoist)
       wayland.windowManager.hyprland.settings.bind = [
-        "SUPER, T, exec, todoist-electron"
+        (bind "SUPER + T" (exec "todoist-electron"))
       ];
     };
   };

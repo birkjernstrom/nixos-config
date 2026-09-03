@@ -101,7 +101,6 @@ in
               sourcePlugins = [
                 "copilot-cmp"
                 "cmp-nvim-lsp"
-                "mini-snippets"
                 "cmp-buffer"
                 "cmp-path"
               ];
@@ -164,6 +163,10 @@ in
               codeAction = "<leader>ca";
             };
             trouble.enable = true;
+
+            presets = {
+              tailwindcss-language-server.enable = true;
+            };
           };
 
           languages = {
@@ -173,14 +176,15 @@ in
 
             nix.enable = true;
             lua.enable = true;
-            ts.enable = true;
+            typescript.enable = true;
+            tsx.enable = true;
             clang.enable = true;
             python.enable = true;
             rust.enable = true;
             go.enable = true;
             markdown.enable = true;
-            tailwind.enable = true;
             html.enable = true;
+            css.enable = true;
           };
 
           treesitter = {

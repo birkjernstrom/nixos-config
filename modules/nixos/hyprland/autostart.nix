@@ -2,16 +2,28 @@
 
 with lib; let
   cfg = config.userSettings.hyprland;
+  hypr = import ./lib.nix { inherit lib; };
 in
 {
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings = {
-      exec-once = [
-        # Start cliphist listener to store clipboard history
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
+      # Run once, when the compositor starts (the hyprlang `exec-once`).
+      on = [
+        {
+          _args = [
+            "hyprland.start"
+            (hypr.lua ''
+              function()
+                -- Start cliphist listener to store clipboard history
+                hl.exec_cmd("wl-paste --type text --watch cliphist store")
+                hl.exec_cmd("wl-paste --type image --watch cliphist store")
+              end'')
+          ];
+        }
       ];
-      exec = [
+
+      # Run on every config load (the hyprlang `exec`).
+      exec_cmd = [
         "pgrep waybar || waybar &"
       ];
     };
