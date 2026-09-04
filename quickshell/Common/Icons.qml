@@ -20,6 +20,8 @@ Singleton {
 
     readonly property string search: "󰍉"
     readonly property string app: "󰣆"
+    readonly property string clipboard: "󰆒"
+    readonly property string image: "󰋩"
     readonly property string chevronRight: "󰅂"
 
     // percent: 0-100. Picks from a ramp whose last entry means "full".

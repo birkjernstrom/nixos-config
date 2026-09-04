@@ -9,7 +9,7 @@ Item {
 
     property string query: ""
     property int selectedIndex: 0
-    readonly property var results: Search.query(root.query)
+    readonly property var results: Search.query(root.query, Nav.scope)
     readonly property var selectedItem: root.results[root.selectedIndex] ?? null
 
     signal activated
@@ -30,7 +30,10 @@ Item {
         const item = root.selectedItem;
         if (!item)
             return;
-        Frecency.bump(item.id);
+        // Providers whose ids are not stable across time opt out (see
+        // ClipboardProvider - cliphist recycles its ids).
+        if (item.frecency !== false)
+            Frecency.bump(item.id);
         item.activate();
         // Modules replace the pane and must keep the window open; apps are done.
         if (item.kind !== "module")
@@ -59,8 +62,15 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onEntered: root.selectedIndex = parent.index
-                onClicked: root.activateSelected()
+
+                // Real pointer movement only. onEntered would also fire when the
+                // window simply appears under a stationary cursor, moving the
+                // selection off the top result before the user has touched anything.
+                onPositionChanged: root.selectedIndex = parent.index
+                onClicked: {
+                    root.selectedIndex = parent.index;
+                    root.activateSelected();
+                }
             }
         }
     }

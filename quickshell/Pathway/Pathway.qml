@@ -29,13 +29,26 @@ Scope {
         root.open = !root.open;
     }
 
+    // Opens straight into one provider's list, e.g. SUPER+V for the clipboard.
+    // Order matters: the scope is set before showing, and closing is what clears
+    // it, so opening scoped does not immediately reset itself.
+    function showScoped(provider, title) {
+        Nav.pushScope(provider, title);
+        search.text = "";
+        list.selectedIndex = 0;
+        root.open = true;
+        search.forceActiveFocus();
+    }
+
     onOpenChanged: {
         // Every open starts from a clean slate rather than resuming the last query.
         if (root.open) {
             search.text = "";
-            Nav.popModule();
             list.selectedIndex = 0;
             search.forceActiveFocus();
+        } else {
+            Nav.popModule();
+            Nav.popScope();
         }
     }
 
@@ -53,8 +66,10 @@ Scope {
             right: true
         }
 
-        // Must not push tiled windows around while open.
-        exclusiveZone: 0
+        // Ignore, not a zero zone: setting exclusiveZone explicitly forces
+        // exclusionMode back to Normal, which would inset the scrim below the
+        // bar instead of covering the whole output.
+        exclusionMode: ExclusionMode.Ignore
 
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.namespace: "pathway"
@@ -106,12 +121,17 @@ Scope {
 
                     Layout.fillWidth: true
                     focus: root.open
+                    placeholder: Nav.scope ? `Search ${Nav.scopeTitle.toLowerCase()}...` : "Search apps and commands..."
+
 
                     // Arrow keys and Enter belong to the list even while the
                     // text field holds focus.
+                    // Escape unwinds one level at a time before closing.
                     Keys.onEscapePressed: {
                         if (root.moduleView)
                             Nav.popModule();
+                        else if (Nav.scope)
+                            Nav.popScope();
                         else
                             root.hide();
                     }

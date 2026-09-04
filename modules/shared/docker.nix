@@ -1,5 +1,5 @@
 # Docker module (system-level)
-# Installs Docker, lazydocker, and adds waybar status on NixOS
+# Installs Docker and lazydocker.
 { config, lib, pkgs, settings, isDarwin, ... }:
 
 let
@@ -27,27 +27,6 @@ in
       home-manager.users.${username} = {
         # Install lazydocker
         home.packages = [ pkgs.lazydocker ];
-
-        # Add waybar custom module for docker
-        programs.waybar.settings.mainBar = {
-          "modules-right" = lib.mkBefore [ "custom/docker" ];
-
-          "custom/docker" = {
-            format = "󰡨";
-            interval = 5;
-            on-click = "ghostty -e lazydocker";
-            tooltip-format = "Running containers: {}";
-          };
-        };
-
-        # Add waybar styling for docker module
-        programs.waybar.style = lib.mkAfter ''
-          #custom-docker {
-            padding: 0 10px;
-            margin: 4px 2px;
-            color: @fg-dim;
-          }
-        '';
       };
     }
   );

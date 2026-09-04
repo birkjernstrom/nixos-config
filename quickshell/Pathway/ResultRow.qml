@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import qs.Common
@@ -30,9 +31,10 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         implicitSize: 24
         // `true` asks for a fallback rather than an error when the theme has no
-        // matching icon.
+        // matching icon - but that fallback can still resolve to nothing, so
+        // render only on a confirmed load and let the glyph below cover the rest.
         source: root.item.icon ? Quickshell.iconPath(root.item.icon, true) : ""
-        visible: source !== ""
+        visible: source !== "" && icon.status === Image.Ready
     }
 
     StyledText {
@@ -40,31 +42,49 @@ Rectangle {
 
         anchors.centerIn: icon
         icon: true
-        text: Icons.app
+        text: {
+            if (root.item.kind === "clip")
+                return Icons.clipboard;
+            if (root.item.kind === "clip-binary")
+                return Icons.image;
+            return Icons.app;
+        }
         color: Theme.fgDim
         visible: !icon.visible
     }
 
-    StyledText {
-        id: name
-
+    // Bounded on both sides so a long name (a clipboard preview is the whole
+    // entry) elides rather than running under the chevron.
+    RowLayout {
         anchors.left: icon.right
         anchors.leftMargin: 12
-        anchors.verticalCenter: parent.verticalCenter
-        text: root.item.name ?? ""
-        color: root.selected ? Theme.fg : Theme.fg
-        font.pointSize: Theme.fontSize + 1
-    }
-
-    StyledText {
-        anchors.left: name.right
-        anchors.leftMargin: 10
         anchors.right: chevron.left
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        text: root.item.subtitle ?? ""
-        color: Theme.fgDim
-        elide: Text.ElideRight
+        spacing: 10
+
+        StyledText {
+            // Caps at its natural width so the subtitle gets the slack, but is
+            // still allowed to shrink and elide when the name alone overflows.
+            Layout.fillWidth: true
+            Layout.maximumWidth: implicitWidth
+            Layout.minimumWidth: 0
+
+            text: root.item.name ?? ""
+            color: Theme.fg
+            font.pointSize: Theme.fontSize + 1
+            elide: Text.ElideRight
+        }
+
+        StyledText {
+            Layout.fillWidth: true
+            Layout.minimumWidth: 0
+
+            text: root.item.subtitle ?? ""
+            color: Theme.fgDim
+            elide: Text.ElideRight
+            visible: text !== ""
+        }
     }
 
     StyledText {

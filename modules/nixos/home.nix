@@ -3,8 +3,7 @@
 {
   imports = [
     ./hyprland/home.nix
-    ./wofi.nix
-    ./waybar.nix
+    ./quickshell
     ./mako.nix
   ];
 }

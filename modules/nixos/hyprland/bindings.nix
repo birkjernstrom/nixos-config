@@ -39,7 +39,7 @@ in
       (bind (mod "W") (lua "hl.dsp.window.close()"))
       (bind (mod "SHIFT + CTRL + Q") (lua "hl.dsp.exit()"))
       (bind (mod "E") (execLua "fileManager"))
-      (bind (mod "V") (exec "cliphist list | wofi --show dmenu | cliphist decode | wl-copy"))
+      (bind (mod "V") (exec "qs ipc call pathway clipboard"))
       (bind (mod "SHIFT + V") (lua ''hl.dsp.window.float({ action = "toggle" })''))
       (bind (mod "space") (execLua "menu"))
       (bind (mod "SHIFT + space") (exec "hyprctl switchxkblayout all next"))

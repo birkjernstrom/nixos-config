@@ -6,6 +6,7 @@ Item {
     id: root
 
     property alias text: input.text
+    property string placeholder: "Search apps and commands..."
 
     implicitHeight: 56
 
@@ -44,7 +45,7 @@ Item {
 
         StyledText {
             anchors.verticalCenter: parent.verticalCenter
-            text: "Search apps and commands..."
+            text: root.placeholder
             color: Theme.fgDim
             font.pointSize: Theme.fontSize + 4
             visible: input.text === ""

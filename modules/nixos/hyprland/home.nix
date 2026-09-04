@@ -20,8 +20,9 @@ in
 
   config = mkIf cfg.enable {
     # Automatically enable companion services
-    userSettings.wofi.enable = true;
-    userSettings.waybar.enable = true;
+    # Quickshell owns the bar, the SUPER+space launcher and the SUPER+V
+    # clipboard history that wofi and waybar used to provide between them.
+    userSettings.quickshell.enable = true;
     userSettings.mako.enable = true;
 
     # Clipboard utilities for Wayland
@@ -42,7 +43,8 @@ in
         mainMod = { _var = "SUPER"; };
         terminal = { _var = "ghostty"; };
         fileManager = { _var = "nautilus"; };
-        menu = { _var = "wofi --show drun"; };
+        # Toggles the resident Pathway window rather than spawning a launcher.
+        menu = { _var = "qs ipc call pathway toggle"; };
 
         monitor = [
           { output = ""; mode = "preferred"; position = "auto"; scale = "auto"; }

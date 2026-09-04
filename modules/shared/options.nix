@@ -46,7 +46,7 @@ with lib;
     docker.enable = mkOption {
       type = types.bool;
       default = false;
-      description = "Enable Docker with lazydocker and waybar integration";
+      description = "Enable Docker with lazydocker";
     };
 
     # Font and colours are configured centrally, in modules/shared/stylix.nix.

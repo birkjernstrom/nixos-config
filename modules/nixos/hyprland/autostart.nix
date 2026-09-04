@@ -19,8 +19,8 @@ in
             "hyprland.start"
             (hypr.lua ''
               function()
-                -- Status bar
-                hl.exec_cmd("waybar")
+                -- Bar + Pathway command menu (one resident quickshell process)
+                hl.exec_cmd("qs")
 
                 -- Start cliphist listener to store clipboard history
                 hl.exec_cmd("wl-paste --type text --watch cliphist store")

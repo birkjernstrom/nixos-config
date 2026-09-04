@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import qs.Bar.modules
 import qs.Common
-import qs.Widgets
 
 // Geometry and slots only - every module below is self-contained and this file
 // is the single place where the bar's contents are declared.
@@ -45,10 +45,7 @@ Scope {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0
 
-                // PLACEHOLDER - replaced by Workspaces.qml
-                StyledText {
-                    text: "workspaces"
-                }
+                Workspaces {}
             }
 
             // Anchored to the true window centre; a spacer-based RowLayout would
@@ -59,10 +56,7 @@ Scope {
                 anchors.centerIn: parent
                 spacing: 0
 
-                // PLACEHOLDER - replaced by Clock.qml
-                StyledText {
-                    text: "clock"
-                }
+                Clock {}
             }
 
             RowLayout {
@@ -73,14 +67,10 @@ Scope {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0
 
-                // PLACEHOLDER - replaced by Wifi.qml and Battery.qml
-                StyledText {
-                    text: "wifi"
-                }
+                // Order matches the waybar it replaces: network, then battery.
+                Wifi {}
 
-                StyledText {
-                    text: "battery"
-                }
+                Battery {}
             }
         }
     }

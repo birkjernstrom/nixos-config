@@ -11,7 +11,7 @@
 - [ ] Configure Cinema Display
 - [ ] Rice dark theme (Kanagawa Dragon)
 
-#### Waybar
+#### Quickshell
 
 - [ ] Show bluetooth & pairing of devices
 - [ ] Show sound

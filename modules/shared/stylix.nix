@@ -42,7 +42,7 @@
       };
       sizes = {
         applications = 11;
-        # Waybar renders at this size; 10pt keeps the bar at its old height.
+        # The Quickshell bar renders at this size.
         desktop = 10;
         popups = 11;
         terminal = 12;
