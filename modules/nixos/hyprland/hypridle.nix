@@ -18,8 +18,8 @@ in
           # Dim screen after 2.5 minutes
           {
             timeout = 150;
-            on-timeout = "brightnessctl -s set 10";
-            on-resume = "brightnessctl -r";
+            on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl -s set 10";
+            on-resume = "${pkgs.brightnessctl}/bin/brightnessctl -r";
           }
           # Lock screen after 5 minutes
           {

@@ -96,7 +96,14 @@ in
           };
 
           input = {
-            kb_layout = "us,se";
+            # se(us) is a plain US layout with å/ö/ä added as direct keysyms
+            # on AltGr+[ ; ' -- the same physical keys they occupy on a
+            # Swedish keyboard, Shift for the capitals. Deliberately not a
+            # dead-key scheme: Ghostty does not compose those, so anything
+            # built on dead_diaeresis works in GTK apps but not the terminal.
+            # Second group is the full Swedish layout (SUPER+SHIFT+space).
+            kb_layout = "se,se";
+            kb_variant = "us,";
             repeat_delay = 200;
             repeat_rate = 100;
             sensitivity = 0;

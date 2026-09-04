@@ -50,8 +50,13 @@ in
   # Enable the X11 window system + GNOME Desktop Environment.
   services.xserver.enable = true;
   services.xserver.xkb = {
-    layout = "us";
+    # A US layout with å/ö/ä on AltGr+[ ; ' -- see modules/nixos/hyprland/home.nix.
+    layout = "se";
+    variant = "us";
   };
+
+  # Reuse the same layout on the virtual consoles.
+  console.useXkbConfig = true;
 
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;

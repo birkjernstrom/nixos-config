@@ -3,7 +3,14 @@
 with lib; let
   cfg = config.userSettings.hyprland;
   hypr = import ./lib.nix { inherit lib; };
-  inherit (hypr) bind mod lua exec execLua;
+  inherit (hypr) bind bindWith mod lua exec execLua;
+
+  # Hardware keys: repeat while held and stay live on the lock screen.
+  hwBind = keys: cmd: bindWith { locked = true; repeating = true; } keys (exec cmd);
+
+  # -e4 gives a perceptually even ramp, -n2 keeps the panel from going black.
+  brightnessDown = "brightnessctl -e4 -n2 set 5%-";
+  brightnessUp = "brightnessctl -e4 -n2 set 5%+";
 
   # Workspaces 1-10, with 10 bound to the "0" key.
   workspaceBinds = concatMap (i:
@@ -19,6 +26,13 @@ in
       (bind "F1" (exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
       (bind "F2" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
       (bind "F3" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
+
+      # Screen brightness (F7=lower, F8=raise). The Fn-layer keysyms are
+      # bound as well, so the keys work in either fn-lock state.
+      (hwBind "F7" brightnessDown)
+      (hwBind "F8" brightnessUp)
+      (hwBind "XF86MonBrightnessDown" brightnessDown)
+      (hwBind "XF86MonBrightnessUp" brightnessUp)
 
       # Example binds, see https://wiki.hypr.land/Configuring/Binds/ for more
       (bind (mod "return") (execLua "terminal"))

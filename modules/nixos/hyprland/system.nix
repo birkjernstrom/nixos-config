@@ -18,6 +18,11 @@ in
       kitty
       waybar
       wofi
+      brightnessctl
     ];
+
+    # Ships udev rules that hand the `video` group write access to
+    # /sys/class/backlight/*/brightness, so brightnessctl works unprivileged.
+    services.udev.packages = [ pkgs.brightnessctl ];
   };
 }

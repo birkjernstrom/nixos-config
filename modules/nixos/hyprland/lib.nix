@@ -21,6 +21,11 @@ in
   # hl.bind(keys, dispatcher)
   bind = keys: dispatcher: { _args = [ keys dispatcher ]; };
 
+  # hl.bind(keys, dispatcher, { ... }) with extra bind flags, e.g.
+  # `locked` (also fires while the session is locked) and `repeating`
+  # (keeps firing while the key is held).
+  bindWith = flags: keys: dispatcher: { _args = [ keys dispatcher flags ]; };
+
   # hl.dsp.exec_cmd("<command>")
   exec = cmd: mkLuaInline "hl.dsp.exec_cmd(${toLua cmd})";
 
