@@ -1,0 +1,156 @@
+import QtQuick
+import QtQuick.Layouts
+import Quickshell
+import Quickshell.Wayland
+import Quickshell.Hyprland
+import qs.Common
+import qs.Pathway.providers
+
+// The command menu. Owns window lifecycle, focus and keyboard routing; the
+// search/rank logic lives in Search.qml and the rows in ResultList.qml.
+Scope {
+    id: root
+
+    property bool open: false
+
+    // Owned by the Nav singleton so providers can push a view without holding
+    // a reference to this window.
+    readonly property Component moduleView: Nav.moduleView
+
+    function show() {
+        root.open = true;
+    }
+
+    function hide() {
+        root.open = false;
+    }
+
+    function toggle() {
+        root.open = !root.open;
+    }
+
+    onOpenChanged: {
+        // Every open starts from a clean slate rather than resuming the last query.
+        if (root.open) {
+            search.text = "";
+            Nav.popModule();
+            list.selectedIndex = 0;
+            search.forceActiveFocus();
+        }
+    }
+
+    PanelWindow {
+        id: win
+
+        visible: root.open
+        color: "transparent"
+
+        // Full-screen scrim so clicking anywhere outside the card dismisses.
+        anchors {
+            top: true
+            bottom: true
+            left: true
+            right: true
+        }
+
+        // Must not push tiled windows around while open.
+        exclusiveZone: 0
+
+        WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.namespace: "pathway"
+        // OnDemand rather than Exclusive: Hyprland keeps its own keybinds, so
+        // SUPER+space still reaches the compositor while Pathway has focus.
+        WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
+
+        // Acquires focus and gives click-outside dismissal. The scrim MouseArea
+        // below is the fallback if the grab is refused.
+        HyprlandFocusGrab {
+            active: root.open
+            windows: [win]
+            onCleared: root.hide()
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: Theme.scrim
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: root.hide()
+            }
+        }
+
+        Rectangle {
+            id: card
+
+            anchors.centerIn: parent
+            width: Theme.pathwayWidth
+            height: Theme.pathwayHeight
+            color: Theme.bgAlt
+            radius: Theme.radiusLarge
+            border.color: Theme.accent
+            border.width: 1
+
+            // Swallow clicks on the card so they don't reach the dismiss scrim.
+            MouseArea {
+                anchors.fill: parent
+            }
+
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 1
+                spacing: 0
+
+                SearchField {
+                    id: search
+
+                    Layout.fillWidth: true
+                    focus: root.open
+
+                    // Arrow keys and Enter belong to the list even while the
+                    // text field holds focus.
+                    Keys.onEscapePressed: {
+                        if (root.moduleView)
+                            Nav.popModule();
+                        else
+                            root.hide();
+                    }
+                    Keys.onUpPressed: list.moveSelection(-1)
+                    Keys.onDownPressed: list.moveSelection(1)
+                    Keys.onReturnPressed: list.activateSelected()
+                    Keys.onEnterPressed: list.activateSelected()
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: Theme.border
+                }
+
+                ModuleHost {
+                    id: host
+
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    source: root.moduleView
+
+                    ResultList {
+                        id: list
+
+                        anchors.fill: parent
+                        query: search.text
+                        onActivated: root.hide()
+                    }
+                }
+            }
+        }
+    }
+
+    Connections {
+        function onCloseRequested() {
+            root.hide();
+        }
+
+        target: Nav
+    }
+}
