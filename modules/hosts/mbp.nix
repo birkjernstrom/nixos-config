@@ -1,40 +1,43 @@
 # MacBook Pro (nix-darwin, aarch64-darwin).
 #
-# See modules/hosts/framework.nix - same temporary shape, plus the homebrew
-# wiring that only this host needs.
+# The macOS system settings themselves live in modules/darwin.nix, since they
+# apply to any darwin host rather than this one specifically.
 { config, inputs, ... }:
 
-let
-  hostSettings = import ../../hosts/mbp/settings.nix;
-
-  settings = {
-    user = hostSettings.user // { name = "birk"; };
-    system = hostSettings.system or { };
-  };
-
-  specialArgs = {
-    inherit inputs settings;
-    isDarwin = true;
-  };
-in
 {
+  flake.modules.darwin.mbp = { pkgs, ... }: {
+    users.users.birk = {
+      name = "birk";
+      home = "/Users/birk";
+      isHidden = false;
+      shell = pkgs.zsh;
+    };
+  };
+
   flake.darwinConfigurations.mbp = inputs.darwin.lib.darwinSystem {
     system = "aarch64-darwin";
-    inherit specialArgs;
+    specialArgs = { inherit inputs; };
 
-    modules = [
-      config.flake.modules.darwin.base
-      ../../hosts/mbp/configuration.nix
-      inputs.stylix.darwinModules.stylix
+    modules = with config.flake.modules.darwin; [
+      base
+      gui-apps
+      mbp
+
       inputs.home-manager.darwinModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.birk.imports = [
-          config.flake.modules.homeManager.base
-          ../../hosts/mbp/home.nix
-        ];
-        home-manager.extraSpecialArgs = specialArgs;
+        home-manager.extraSpecialArgs = { inherit inputs; };
+
+        home-manager.users.birk = {
+          imports = with config.flake.modules.homeManager; [
+            base
+            dev
+            gui-apps
+          ];
+
+          home.stateVersion = "24.05";
+        };
       }
 
       inputs.nix-homebrew.darwinModules.nix-homebrew

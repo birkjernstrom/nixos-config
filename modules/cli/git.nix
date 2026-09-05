@@ -5,9 +5,9 @@
 # branch. It reads the platform off pkgs rather than taking it as an argument.
 #
 # delta used to be written as `with inputs.nixpkgs-stable; [ delta ]`. That
-# never did anything: the flake input has no `delta` attribute, so the name
+# never did anything: that flake input has no `delta` attribute, so the name
 # fell through to the enclosing `with pkgs` and resolved from unstable anyway.
-# Spelled honestly here; behaviour is unchanged.
+# Spelled honestly here, and the unused nixpkgs-stable input is gone.
 {
   flake.modules.homeManager.base = { pkgs, ... }: {
     home.packages = with pkgs; [
