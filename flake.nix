@@ -5,6 +5,16 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "nixpkgs/nixos-25.11";
 
+    ############################################################################
+    # DENDRITIC
+    #
+    # flake-parts provides the top-level module system; import-tree turns every
+    # file under ./modules into one of its modules. See modules/meta.nix.
+    ############################################################################
+
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:denful/import-tree";
+
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -65,21 +75,8 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, nixpkgs-stable, home-manager, nvf, darwin, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }:
-    let
-      kit = import ./lib/kit.nix { inherit inputs; };
-    in {
-
-    darwinConfigurations.mbp = kit.mkSystem "mbp" {
-      system = "aarch64-darwin";
-      user = "birk";
-      isDarwin = true;
-    };
-
-    nixosConfigurations.framework = kit.mkSystem "framework" {
-      system = "x86_64-linux";
-      user = "birk";
-      isDarwin = false;
-    };
-  };
+  # The only entry point. Every other .nix file under ./modules is a
+  # flake-parts module, imported automatically.
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

@@ -4,8 +4,8 @@ let
 in
 {
   imports = [
-    ../../modules/darwin/home.nix
-    ../../modules/shared/home.nix
+    ../../legacy/darwin/home.nix
+    ../../legacy/shared/home.nix
   ];
 
   config = {

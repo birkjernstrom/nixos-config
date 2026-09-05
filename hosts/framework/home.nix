@@ -4,8 +4,8 @@ let
 in
 {
   imports = [
-    ../../modules/nixos/home.nix
-    ../../modules/shared/home.nix
+    ../../legacy/nixos/home.nix
+    ../../legacy/shared/home.nix
   ];
 
   config = {

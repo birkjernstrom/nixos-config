@@ -6,8 +6,8 @@ in
   imports = [
     inputs.nixos-hardware.nixosModules.framework-16-7040-amd
     ./hardware.nix
-    ../../modules/nixos/system.nix
-    ../../modules/shared/system.nix
+    ../../legacy/nixos/system.nix
+    ../../legacy/shared/system.nix
   ];
 
   # Apply system settings from settings.nix
