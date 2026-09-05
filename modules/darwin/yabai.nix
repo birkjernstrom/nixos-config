@@ -66,7 +66,6 @@
       yabai -m rule --add app="^Discord" space=4
 
       yabai -m rule --add app="^Cron" space=5
-      yabai -m rule --add app="^Todoist" space=5
 
       yabai -m rule --add app="^Spotify" space=6
     '';
