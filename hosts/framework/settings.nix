@@ -37,13 +37,21 @@
         default = "chrome";
       };
       # Sites that get their own window and desktop entry - see
-      # modules/nixos/webapps.nix. Plain SUPER + L is taken by focus-right,
-      # so Linear takes the SHIFT variant.
+      # modules/nixos/webapps.nix. Launched on SUPER + SHIFT + <letter>; the
+      # plain SUPER + letter combos are window management (L focuses right,
+      # W closes).
       webapps.sites = {
         linear = {
           url = "https://linear.app";
           icon = ../../icons/webapps/linear.png;
           key = "SHIFT + L";
+        };
+        whatsapp = {
+          # The derived name would be "Whatsapp".
+          name = "WhatsApp";
+          url = "https://web.whatsapp.com";
+          icon = ../../icons/webapps/whatsapp.png;
+          key = "SHIFT + W";
         };
       };
     };
