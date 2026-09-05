@@ -3,7 +3,6 @@
 {
   imports = [
     ./fonts
-    ./nix.nix
     ./stylix.nix
     ./hyprland/system.nix
   ];

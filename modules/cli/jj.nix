@@ -1,16 +1,6 @@
-{ config, pkgs, lib, isDarwin, ... }:
-
-with lib; let
-  cfg = config.userSettings.cli.jj;
-in
+# jujutsu, sharing git's 1Password SSH signing setup.
 {
-  options.userSettings.cli.jj.enable = mkOption {
-    type = types.bool;
-    default = false;
-    description = "Enable jujutsu (jj) version control.";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.base = { pkgs, ... }: {
     home.packages = with pkgs; [
       jujutsu
     ];
@@ -27,7 +17,7 @@ in
           backend = "ssh";
           key = "~/.ssh/github.pub";
           backends.ssh.program =
-            if isDarwin
+            if pkgs.stdenv.hostPlatform.isDarwin
             then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
             else "${pkgs._1password-gui}/share/1password/op-ssh-sign";
         };
@@ -39,7 +29,7 @@ in
       };
     };
 
-    programs.zsh = mkIf config.userSettings.cli.zsh.enable {
+    programs.zsh = {
       shellAliases = {
         "j" = "jj";
         "jl" = "jj log";

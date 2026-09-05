@@ -1,21 +1,13 @@
-{ config, pkgs, lib, inputs, ... }:
+# Neovim, configured through nvf. Colourscheme comes from Stylix's nvf target.
+#
+# Keymaps live alongside the rest of the config in modules/cli/nvim-keymaps.nix
+# - nvf merges the two `programs.nvf.settings.vim` definitions.
+{ inputs, ... }:
 
-with lib; let
-  cfg = config.userSettings.cli.nvim;
-in
 {
-  imports = [
-    inputs.nvf.homeManagerModules.default
-    ./keymaps.nix
-  ];
+  flake.modules.homeManager.base = { pkgs, ... }: {
+    imports = [ inputs.nvf.homeManagerModules.default ];
 
-  options.userSettings.cli.nvim.enable = mkOption {
-    type = types.bool;
-    default = false;
-    description = "Enable Nvim";
-  };
-
-  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       neovim
     ];

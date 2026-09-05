@@ -1,23 +1,20 @@
-{ config, pkgs, lib, inputs, isDarwin, ... }:
-
-with lib; let
-  cfg = config.userSettings.cli.git;
-in
+# git, with delta as pager and 1Password as the SSH signing backend.
+#
+# The 1Password signer lives at a fixed path inside the macOS app bundle but
+# comes from the _1password-gui package on Linux - hence the one platform
+# branch. It reads the platform off pkgs rather than taking it as an argument.
+#
+# delta used to be written as `with inputs.nixpkgs-stable; [ delta ]`. That
+# never did anything: the flake input has no `delta` attribute, so the name
+# fell through to the enclosing `with pkgs` and resolved from unstable anyway.
+# Spelled honestly here; behaviour is unchanged.
 {
-  options.userSettings.cli.git.enable = mkOption {
-    type = types.bool;
-    default = true;
-    description = "Enable git configuration.";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.base = { pkgs, ... }: {
     home.packages = with pkgs; [
       git
       gh          # GitHub CLI
-    ] ++ (with inputs.nixpkgs-stable;
-    [
       delta       # Git diff viewer
-    ]);
+    ];
 
     programs.git = {
       enable = true;
@@ -34,7 +31,7 @@ in
           format = "ssh";
         };
         "gpg \"ssh\"" =
-          if isDarwin then {
+          if pkgs.stdenv.hostPlatform.isDarwin then {
             # _1password-gui is broken on darwin. So cannot make it shared & need
             # to install 1password as a cask on macOS + provide an absolute path.
             program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
@@ -95,7 +92,7 @@ in
          "xuserdata"
       ];
     };
-    programs.zsh = mkIf config.userSettings.cli.zsh.enable {
+    programs.zsh = {
       shellAliases = {
         "g" = "git";
         "gp" = "git push";

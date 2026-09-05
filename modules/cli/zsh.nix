@@ -1,16 +1,9 @@
-{ config, pkgs, lib, ... }:
-
-with lib; let
-  cfg = config.userSettings.cli.zsh;
-in
+# zsh: the login shell on every host.
+#
+# ANTHROPIC_API_KEY is read at shell start from the sops secret declared in
+# modules/secrets.nix, so the key never lands in the Nix store.
 {
-  options.userSettings.cli.zsh.enable = mkOption {
-    type = types.bool;
-    default = true;
-    description = "Enable zsh configuration.";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.base = { config, pkgs, ... }: {
     home.packages = with pkgs; [
       zsh
     ];

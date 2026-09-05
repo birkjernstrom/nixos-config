@@ -1,16 +1,9 @@
-{ config, pkgs, lib, ... }:
-
-with lib; let
-  cfg = config.userSettings.cli.tmux;
-in
+# tmux, with sesh for session switching.
+#
+# Status bar colours come from Stylix's tmux target; only layout and bindings
+# are set here.
 {
-  options.userSettings.cli.tmux.enable = mkOption {
-    type = types.bool;
-    default = true;
-    description = "Enable tmux configuration.";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.base = { pkgs, ... }: {
     home.packages = with pkgs; [
       tmux
       tmuxp

@@ -2,7 +2,7 @@
 #
 # See modules/hosts/framework.nix - same temporary shape, plus the homebrew
 # wiring that only this host needs.
-{ inputs, ... }:
+{ config, inputs, ... }:
 
 let
   hostSettings = import ../../hosts/mbp/settings.nix;
@@ -23,13 +23,17 @@ in
     inherit specialArgs;
 
     modules = [
+      config.flake.modules.darwin.base
       ../../hosts/mbp/configuration.nix
       inputs.stylix.darwinModules.stylix
       inputs.home-manager.darwinModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.birk = ../../hosts/mbp/home.nix;
+        home-manager.users.birk.imports = [
+          config.flake.modules.homeManager.base
+          ../../hosts/mbp/home.nix
+        ];
         home-manager.extraSpecialArgs = specialArgs;
       }
 

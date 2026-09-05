@@ -1,16 +1,9 @@
-{ config, pkgs, lib, ... }:
-
-with lib; let
-  cfg = config.userSettings.cli.core;
-in
+# Core interactive shell tooling: the programs that make a terminal usable.
+#
+# Colour names in the starship prompt resolve through the base16 palette Stylix
+# installs, so the prompt follows the active theme.
 {
-  options.userSettings.cli.core.enable = mkOption {
-    type = types.bool;
-    default = true;
-    description = "Enable core CLI tools (bat, fzf, ripgrep, zoxide, starship, etc.)";
-  };
-
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.base = { pkgs, ... }: {
     home.packages = with pkgs; [
       bat
       fzf

@@ -1,10 +1,7 @@
-{ config, lib, ... }:
-
-with lib; let
-  cfg = config.userSettings.cli.nvim;
-in
+# Neovim keymaps. Split out of modules/cli/nvim.nix purely for size; both
+# write to the same `programs.nvf.settings.vim`, which nvf merges.
 {
-  config = mkIf cfg.enable {
+  flake.modules.homeManager.base = {
     programs.nvf.settings.vim = {
       keymaps = [
         # Keep cursor in same place when using J

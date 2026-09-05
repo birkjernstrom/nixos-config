@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./sops/system.nix
     ./stylix.nix
     ./ghostty.nix
     ./apps/slack.nix

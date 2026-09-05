@@ -3,7 +3,7 @@
 # Still assembled from the legacy/ module tree via the old `settings` /
 # `isDarwin` specialArgs. Those go away once the leaf modules are converted to
 # `flake.modules.*`; this step only moves host assembly out of lib/kit.nix.
-{ inputs, ... }:
+{ config, inputs, ... }:
 
 let
   hostSettings = import ../../hosts/framework/settings.nix;
@@ -24,13 +24,17 @@ in
     inherit specialArgs;
 
     modules = [
+      config.flake.modules.nixos.base
       ../../hosts/framework/configuration.nix
       inputs.stylix.nixosModules.stylix
       inputs.home-manager.nixosModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
-        home-manager.users.birk = ../../hosts/framework/home.nix;
+        home-manager.users.birk.imports = [
+          config.flake.modules.homeManager.base
+          ../../hosts/framework/home.nix
+        ];
         home-manager.extraSpecialArgs = specialArgs;
       }
     ];
