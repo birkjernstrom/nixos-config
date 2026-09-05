@@ -19,6 +19,7 @@ in
       btop
       fastfetch
       httpie
+      jq
       zoxide
       starship
       ripgrep
