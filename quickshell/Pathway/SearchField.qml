@@ -2,7 +2,10 @@ import QtQuick
 import qs.Common
 import qs.Widgets
 
-Item {
+// A FocusScope, not a plain Item: focus set on this element has to reach the
+// TextInput inside it. A plain Item would swallow it - keys would go nowhere and
+// only clicking the input directly would let you type.
+FocusScope {
     id: root
 
     property alias text: input.text
@@ -10,7 +13,9 @@ Item {
 
     implicitHeight: 56
 
-    function forceActiveFocus() {
+    // Named takeFocus rather than overriding the built-in forceActiveFocus,
+    // which QML itself calls internally.
+    function takeFocus() {
         input.forceActiveFocus();
     }
 

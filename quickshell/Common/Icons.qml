@@ -23,6 +23,7 @@ Singleton {
     readonly property string clipboard: "󰆒"
     readonly property string image: "󰋩"
     readonly property string chevronRight: "󰅂"
+    readonly property string theme: "󰏘"
 
     // percent: 0-100. Picks from a ramp whose last entry means "full".
     function battery(percent, charging) {

@@ -9,7 +9,7 @@ Singleton {
     id: root
 
     // Providers are registered here; adding one is a single line.
-    readonly property var providers: [AppsProvider]
+    readonly property var providers: [AppsProvider, CommandsProvider]
 
     readonly property int emptyQueryLimit: 8
 

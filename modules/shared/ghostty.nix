@@ -29,6 +29,14 @@ in
 
             window-padding-x = "4,4";
             window-padding-y = "4,4";
+          }
+          # Stylix writes its palette to a read-only theme in the Nix store, so
+          # it cannot follow a runtime theme switch. On Linux, Quickshell owns
+          # ~/.config/ghostty/themes/pathway instead and reloads open terminals
+          # with SIGUSR2. Stylix keeps the font. Darwin has no Quickshell, so it
+          # stays on the Stylix theme.
+          // lib.optionalAttrs (!isDarwin) {
+            theme = lib.mkForce "pathway";
           };
         };
       };

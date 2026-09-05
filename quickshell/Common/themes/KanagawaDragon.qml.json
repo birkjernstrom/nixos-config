@@ -14,17 +14,5 @@
   "base0C": "#8ea4a2",
   "base0D": "#8ba4b0",
   "base0E": "#a292a3",
-  "base0F": "#b98d7b",
-  "base10": "#181616",
-  "base11": "#181616",
-  "base12": "#c4746e",
-  "base13": "#c4b28a",
-  "base14": "#8a9a7b",
-  "base15": "#8ea4a2",
-  "base16": "#8ba4b0",
-  "base17": "#a292a3",
-  "fontIcon": "BerkeleyMono Nerd Font Mono",
-  "fontMono": "Berkeley Mono",
-  "fontSize": 10,
-  "fontUi": "Inter"
+  "base0F": "#b98d7b"
 }

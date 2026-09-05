@@ -36,5 +36,11 @@ ShellRoot {
             ClipboardProvider.refresh();
             pathway.showScoped(ClipboardProvider, "Clipboard");
         }
+
+        // Jumps straight to the theme list, skipping the "Theme" command row.
+        // Unbound by default - the command is reachable by searching for it.
+        function theme(): void {
+            pathway.showScoped(ThemeProvider, "Theme");
+        }
     }
 }

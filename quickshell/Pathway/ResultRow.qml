@@ -47,6 +47,8 @@ Rectangle {
                 return Icons.clipboard;
             if (root.item.kind === "clip-binary")
                 return Icons.image;
+            if (root.item.kind === "theme" || root.item.id === "command:theme")
+                return Icons.theme;
             return Icons.app;
         }
         color: Theme.fgDim
@@ -58,15 +60,18 @@ Rectangle {
     RowLayout {
         anchors.left: icon.right
         anchors.leftMargin: 12
-        anchors.right: chevron.left
+        anchors.right: swatch.visible ? swatch.left : chevron.left
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
         spacing: 10
 
         StyledText {
-            // Caps at its natural width so the subtitle gets the slack, but is
-            // still allowed to shrink and elide when the name alone overflows.
-            Layout.fillWidth: true
+            // Takes its natural width and no more, so the subtitle gets all the
+            // slack. fillWidth here would make the two share the row and elide
+            // the name even when there is room for it. minimumWidth 0 still lets
+            // it shrink when the name alone overflows, as clipboard entries do.
+            Layout.fillWidth: false
+            Layout.preferredWidth: implicitWidth
             Layout.maximumWidth: implicitWidth
             Layout.minimumWidth: 0
 
@@ -84,6 +89,33 @@ Rectangle {
             color: Theme.fgDim
             elide: Text.ElideRight
             visible: text !== ""
+        }
+    }
+
+    // Colour preview for theme rows. Nothing else sets `swatch`, so this costs
+    // other rows one invisible Row.
+    Row {
+        id: swatch
+
+        anchors.right: chevron.left
+        anchors.rightMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
+        spacing: 4
+        visible: root.item.swatch !== undefined
+
+        Repeater {
+            model: root.item.swatch ?? []
+
+            Rectangle {
+                required property color modelData
+
+                width: 14
+                height: 14
+                radius: 3
+                color: modelData
+                border.color: Theme.border
+                border.width: 1
+            }
         }
     }
 

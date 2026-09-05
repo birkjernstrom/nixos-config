@@ -16,6 +16,8 @@ in
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  # Keep the boot menu (and /boot, which is only 1G) in step with nix.gc.
+  boot.loader.systemd-boot.configurationLimit = 10;
 
   boot.initrd.luks.devices."luks-1e8f835b-d3f1-43dc-957b-36453f51a1f1".device = "/dev/disk/by-uuid/1e8f835b-d3f1-43dc-957b-36453f51a1f1";
 

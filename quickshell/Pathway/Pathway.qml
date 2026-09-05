@@ -37,7 +37,7 @@ Scope {
         search.text = "";
         list.selectedIndex = 0;
         root.open = true;
-        search.forceActiveFocus();
+        search.takeFocus();
     }
 
     onOpenChanged: {
@@ -45,7 +45,7 @@ Scope {
         if (root.open) {
             search.text = "";
             list.selectedIndex = 0;
-            search.forceActiveFocus();
+            search.takeFocus();
         } else {
             Nav.popModule();
             Nav.popScope();
@@ -57,6 +57,13 @@ Scope {
 
         visible: root.open
         color: "transparent"
+
+        // The focus calls on open run before the layer surface is mapped, so
+        // they cannot land. Re-assert once the window actually exists.
+        onVisibleChanged: {
+            if (visible)
+                Qt.callLater(search.takeFocus);
+        }
 
         // Full-screen scrim so clicking anywhere outside the card dismisses.
         anchors {
@@ -169,6 +176,15 @@ Scope {
     Connections {
         function onCloseRequested() {
             root.hide();
+        }
+
+        // Entering or leaving a scope starts a fresh query. Without this the
+        // text that found the command stays in the field and filters the list it
+        // just opened - searching "theme" would open the theme scope and then
+        // immediately filter every theme out of it.
+        function onScopeChanged() {
+            search.text = "";
+            list.selectedIndex = 0;
         }
 
         target: Nav
