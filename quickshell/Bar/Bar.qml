@@ -8,8 +8,8 @@ import qs.Common
 // Geometry and slots only - every module below is self-contained and this file
 // is the single place where the bar's contents are declared.
 //
-// Deliberately minimal: workspaces, clock, battery, wifi. Anything else belongs
-// in Pathway, not here.
+// Deliberately minimal: workspaces on the left, status and the clock on the
+// right. Anything else belongs in Pathway, not here.
 Scope {
     id: root
 
@@ -48,17 +48,6 @@ Scope {
                 Workspaces {}
             }
 
-            // Anchored to the true window centre; a spacer-based RowLayout would
-            // drift as the side slots change width.
-            RowLayout {
-                id: centerSlot
-
-                anchors.centerIn: parent
-                spacing: 0
-
-                Clock {}
-            }
-
             RowLayout {
                 id: rightSlot
 
@@ -67,10 +56,17 @@ Scope {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0
 
-                // Order matches the waybar it replaces: network, then battery.
+                // Order matches the waybar it replaces: audio, bluetooth,
+                // network, battery - with the clock last, hard against the edge.
+                Volume {}
+
+                Bluetooth {}
+
                 Wifi {}
 
                 Battery {}
+
+                Clock {}
             }
         }
     }

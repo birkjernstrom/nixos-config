@@ -1,10 +1,12 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import qs.Common
 import qs.Widgets
 
-// Centre slot: just the time, with the full date on hover - waybar's format-alt
-// without the click to get at it.
+// Far right: date then time, so the time sits at the very edge of the screen.
+// The full date stays on hover - waybar's format-alt without the click to get
+// at it.
 BarItem {
     id: root
 
@@ -18,9 +20,24 @@ BarItem {
         precision: SystemClock.Minutes
     }
 
-    StyledText {
-        text: Qt.formatDateTime(clock.date, "HH:mm")
-        color: Theme.fgDim
-        font.bold: true
+    RowLayout {
+        spacing: 6
+
+        StyledText {
+            Layout.alignment: Qt.AlignVCenter
+
+            // "5 Sep" - no leading zero, month abbreviated.
+            text: Qt.formatDateTime(clock.date, "d MMM")
+            color: Theme.fgDim
+        }
+
+        StyledText {
+            Layout.alignment: Qt.AlignVCenter
+
+            text: Qt.formatDateTime(clock.date, "HH:mm")
+            color: Theme.fgDim
+            // The only bold text on the bar: the time is what the eye goes to.
+            font.bold: true
+        }
     }
 }
