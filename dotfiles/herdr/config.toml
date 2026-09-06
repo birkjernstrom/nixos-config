@@ -1,6 +1,10 @@
 # herdr configuration — managed by home-manager (modules/shared/programming/ai.nix)
 # Full reference: `herdr --default-config`
 
+[theme]
+# Defer to the host terminal's own palette instead of herdr's built-in default (catppuccin).
+name = "terminal"
+
 [keys]
 # Match the tmux prefix (see modules/shared/tmux.nix).
 prefix = "ctrl+s"
