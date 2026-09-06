@@ -4,3 +4,10 @@
 [keys]
 # Match the tmux prefix (see modules/shared/tmux.nix).
 prefix = "ctrl+s"
+
+[ui]
+# Share divider borders between split panes instead of separating them with a gap.
+pane_gaps = false
+
+# Drop the frame around the outside edge of the pane area (tmux-style splitters only).
+pane_outer_borders = false
