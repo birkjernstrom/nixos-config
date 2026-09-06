@@ -46,6 +46,11 @@
           icon = ../../icons/webapps/linear.png;
           key = "SHIFT + L";
         };
+        gmail = {
+          url = "https://mail.google.com";
+          icon = ../../icons/webapps/gmail.png;
+          key = "SHIFT + G";
+        };
         whatsapp = {
           # The derived name would be "Whatsapp".
           name = "WhatsApp";
