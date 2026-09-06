@@ -13,6 +13,7 @@
       zsh.enable = true;
       git.enable = true;
       jj.enable = true;
+      try.enable = true;
       tmux.enable = true;
       nvim.enable = true;
     };

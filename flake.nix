@@ -31,6 +31,12 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    # Ships its own home-manager module; wired up in modules/shared/try.nix.
+    try = {
+      url = "github:tobi/try";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     config-private = {
       url = "git+ssh://git@github.com/birkjernstrom/config-private.git?ref=main&shallow=1";
       flake = false;

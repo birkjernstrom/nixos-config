@@ -8,6 +8,7 @@
     ./zsh.nix
     ./git.nix
     ./jj.nix
+    ./try.nix
     ./tmux.nix
     ./nvim
     ./programming
