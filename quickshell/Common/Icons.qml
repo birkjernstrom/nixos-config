@@ -2,15 +2,34 @@ pragma Singleton
 
 import Quickshell
 
-// Nerd Font glyph ramps, ported verbatim from the format-icons arrays in
-// modules/nixos/waybar.nix so the new bar reads identically to the old one.
-// These only render in Theme.fontIcon (the patched Nerd Font family).
+// The glyph vocabulary of the shell. Nothing outside this file names a
+// codepoint, and nothing inside it knows how big a glyph will be drawn - that
+// is Widgets/Icon.qml's job, from the measurements in IconMetrics.
+//
+// Two rules govern what may be added here:
+//
+//   1. A ramp's frames must be the same drawing at different fills. MDI's
+//      battery-charging-* set is a different drawing at two thirds the scale of
+//      battery-*, so plugging in the charger used to visibly resize the icon;
+//      charging now rides alongside as its own bolt instead of forking the ramp.
+//   2. Every new glyph needs a re-run of tools/gen-icon-metrics.sh. Icon.qml
+//      falls back to treating an unmeasured glyph as filling its cell, which is
+//      the mismatched behaviour this all exists to avoid.
 Singleton {
     id: root
 
-    readonly property var batteryRamp: ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    readonly property var batteryChargingRamp: ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
-    readonly property string batteryFull: "󰂅"
+    // Font Awesome's horizontal battery rather than MDI's upright one. At bar
+    // height an upright battery is a 17px column of ink that towers over every
+    // other module; the horizontal one reads as a battery at a glance and sits
+    // in the same visual band as the text beside it. All five frames share one
+    // ink box, so the icon holds perfectly still as the level drops.
+    readonly property var batteryRamp: ["", "", "", "", ""]
+    // Shown beside the battery while it charges - see rule 1 above. Drawn small
+    // by Battery.qml: it annotates the battery, it is not a peer of it.
+    readonly property string batteryCharging: ""
+    // UPower reports Unknown for a moment after every shell restart. MDI's
+    // upright battery breaks the horizontal set, which is the point - it is not
+    // a level, and it should not be mistaken for one.
     readonly property string batteryUnknown: "󰂑"
 
     readonly property var wifiRamp: ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
@@ -34,10 +53,9 @@ Singleton {
     readonly property string chevronRight: "󰅂"
     readonly property string theme: "󰏘"
 
-    // percent: 0-100. Picks from a ramp whose last entry means "full".
-    function battery(percent, charging) {
-        const ramp = charging ? root.batteryChargingRamp : root.batteryRamp;
-        return ramp[root._rampIndex(percent, ramp.length)];
+    // percent: 0-100. The last frame means full.
+    function battery(percent) {
+        return root.batteryRamp[root._rampIndex(percent, root.batteryRamp.length)];
     }
 
     // percent: 0-100. Unlike the ramps above the last entry is not a special

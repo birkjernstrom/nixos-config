@@ -5,8 +5,23 @@ import qs.Widgets
 
 // Right slot: adapter state as a single glyph, with the connected devices in
 // the tooltip - the same three-state icon waybar showed (off, on, connected).
+//
+// Clicking opens bluetui, which is to bluez what impala (on the wifi module) is
+// to iwd: same author, same shape of TUI, so the two panes the bar can open
+// behave the same way.
 BarItem {
     id: root
+
+    interactive: true
+
+    onClicked: bluetui.toggle()
+
+    TuiWindow {
+        id: bluetui
+
+        program: "bluetui"
+        appId: "sh.pathway.tui.bluetui"
+    }
 
     readonly property BluetoothAdapter adapter: Bluetooth.defaultAdapter
     readonly property bool enabled: root.adapter?.enabled ?? false
@@ -46,14 +61,12 @@ BarItem {
         return `${root.adapter.name}\n${names.join("\n")}`;
     }
 
-    StyledText {
-        icon: true
-        text: {
+    Icon {
+        glyph: {
             if (!root.enabled)
                 return Icons.bluetoothOff;
             return root.connectedDevices.length > 0 ? Icons.bluetoothConnected : Icons.bluetooth;
         }
-        color: Theme.fgDim
         // waybar: #bluetooth.off, #bluetooth.disabled { opacity: 0.5 }
         opacity: root.enabled ? 1.0 : 0.5
     }

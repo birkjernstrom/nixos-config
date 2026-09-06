@@ -19,6 +19,15 @@ in
 
       # qmlls / qmlformat / qmllint for editing the QML.
       pkgs.qt6.qtdeclarative
+
+      # The panes the bar's wifi and bluetooth icons open. Both are pythops
+      # TUIs, so the two behave and look the same, and both drive the daemon
+      # directly: impala talks to iwd, which is the wifi backend NetworkManager
+      # is configured to use (hosts/framework/configuration.nix), and bluetui
+      # talks to bluez. Hyprland floats them - see the window_rule matching
+      # sh.pathway.tui.* in modules/nixos/hyprland/home.nix.
+      pkgs.impala
+      pkgs.bluetui
     ];
 
     # Until the shell reaches v1, ~/.config/quickshell is a hand-made symlink to

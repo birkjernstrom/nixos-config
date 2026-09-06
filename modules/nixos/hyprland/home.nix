@@ -149,6 +149,18 @@ in
 
         window_rule = [
           {
+            # The TUI panes the Quickshell bar opens - impala on the wifi icon,
+            # bluetui on the bluetooth one. They are transient panes rather than
+            # windows to tile against, and Quickshell owns their lifetime: a
+            # second click on the icon closes the one it opened. Ghostty is told
+            # its own size in rows and columns, so nothing here has to name a
+            # pixel size that would be wrong on the next monitor.
+            name = "float-bar-tui";
+            match.class = "^sh\\.pathway\\.tui\\.";
+            float = true;
+            center = true;
+          }
+          {
             # Ignore maximize requests from all apps
             name = "suppress-maximize-events";
             match.class = ".*";

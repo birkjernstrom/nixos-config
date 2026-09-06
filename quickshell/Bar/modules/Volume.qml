@@ -1,12 +1,16 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell.Services.Pipewire
 import qs.Common
 import qs.Widgets
 
-// Right slot: the default sink's level. Unlike battery and wifi the glyph ramp
-// is only three steps wide, so the number stays on the bar - scrolling to set a
-// level needs feedback finer than "somewhere above two thirds".
+// Right slot: the default sink's level, as a glyph and nothing else.
+//
+// The number used to live on the bar so that scrolling had feedback finer than
+// "somewhere above two thirds", but it was on screen permanently to serve the
+// few seconds a week anyone spends adjusting it - and the exact percentage of
+// the system volume is not a thing worth a permanent slot. The tooltip carries
+// it instead, and since setting the level means hovering the module anyway, it
+// is on screen at the one moment it is wanted.
 //
 // waybar reached pavucontrol on click; here the wheel and a mute toggle cover
 // what that dialog was actually opened for.
@@ -61,33 +65,17 @@ BarItem {
         root.audio.volume = Math.max(0, Math.min(1, next));
     }
 
-    RowLayout {
-        spacing: 4
-
-        StyledText {
-            Layout.alignment: Qt.AlignVCenter
-
-            icon: true
-            text: {
-                if (root.muted)
-                    return Icons.volumeMuted;
-                if (root.iconName.includes("headset"))
-                    return Icons.headset;
-                if (root.iconName.includes("headphone"))
-                    return Icons.headphone;
-                return Icons.volume(root.percent);
-            }
-            color: Theme.fgDim
-            // waybar: #pulseaudio.muted { opacity: 0.5 }
-            opacity: root.muted ? 0.5 : 1.0
+    Icon {
+        glyph: {
+            if (root.muted)
+                return Icons.volumeMuted;
+            if (root.iconName.includes("headset"))
+                return Icons.headset;
+            if (root.iconName.includes("headphone"))
+                return Icons.headphone;
+            return Icons.volume(root.percent);
         }
-
-        StyledText {
-            Layout.alignment: Qt.AlignVCenter
-
-            text: `${root.percent}%`
-            color: Theme.fgDim
-            opacity: root.muted ? 0.5 : 1.0
-        }
+        // waybar: #pulseaudio.muted { opacity: 0.5 }
+        opacity: root.muted ? 0.5 : 1.0
     }
 }

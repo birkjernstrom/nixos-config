@@ -44,25 +44,34 @@ BarItem {
     }
 
     RowLayout {
-        spacing: 4
+        spacing: 2
 
-        StyledText {
+        // Charging is its own mark rather than a second ramp, so the battery
+        // itself never changes drawing - only what is beside it. Drawn at two
+        // thirds because it annotates the battery: at full size a bolt is a
+        // taller, heavier shape than the battery it is meant to qualify.
+        Icon {
             Layout.alignment: Qt.AlignVCenter
 
-            icon: true
-            text: {
-                if (!root.known)
-                    return Icons.batteryUnknown;
-                if (root.charging && root.percent >= 99.5)
-                    return Icons.batteryFull;
-                return Icons.battery(root.percent, root.charging);
-            }
+            visible: root.charging
+            glyph: Icons.batteryCharging
+            size: Math.round(Theme.iconSize * 0.66)
+            color: root.tint
+        }
+
+        Icon {
+            Layout.alignment: Qt.AlignVCenter
+
+            glyph: root.known ? Icons.battery(root.percent) : Icons.batteryUnknown
             color: root.tint
         }
 
         StyledText {
             Layout.alignment: Qt.AlignVCenter
+            Layout.leftMargin: 2
 
+            // Shown on the level, not on the warning: a charging battery below
+            // 20% is not tinted, but the number is still what you want to see.
             visible: root.known && root.percent < 20
             text: `${Math.round(root.percent)}%`
             color: root.tint

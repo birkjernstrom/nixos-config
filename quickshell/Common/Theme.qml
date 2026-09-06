@@ -41,6 +41,11 @@ Singleton {
     readonly property int fontSize: Typography.fontSize
     readonly property int fontSizeIcon: Typography.fontSize + 3
 
+    // The box every bar glyph is scaled into - see Widgets/Icon.qml. A size, not
+    // a font size: what a glyph's font size has to be to fill this depends on
+    // the glyph, and only Icon.qml knows that.
+    readonly property int iconSize: 15
+
     // Pathway card
     readonly property int pathwayWidth: 640
     readonly property int pathwayHeight: 400

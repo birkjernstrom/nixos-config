@@ -10,7 +10,9 @@
       "WebFetch(domain:github.com)",
       "Bash(git -C /home/birk/.nixos-config show 51c446e)",
       "Bash(xxd:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "WebFetch(domain:notashelf.github.io)",
+      "WebFetch(domain:nvf.notashelf.dev)"
     ],
     "deny": [],
     "ask": []
