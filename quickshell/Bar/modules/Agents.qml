@@ -10,7 +10,7 @@ import qs.Widgets
 // deliberately a tally rather than a chip per agent - a chip row grows with the
 // fleet and turns the centre of the screen into a list to read, where a count
 // answers the only question being asked in passing: is anything waiting for me?
-// Which agent, in which workspace, on what, is the tooltip's job.
+// Which agent, and in which workspace, is the tooltip's job.
 //
 // A counter for a state nobody is in is not shown, so the common case (one
 // agent, working) is three characters wide, and the module disappears entirely
@@ -67,10 +67,11 @@ BarItem {
             return "";
         // Every agent, including the idle ones the counters leave out - the
         // tooltip is where "what is actually running" gets answered.
-        return Herdr.agents.map(agent => {
-            const head = `${agent.workspace} — ${agent.agent} · ${agent.status}`;
-            return agent.title === "" ? head : `${head}\n  ${agent.title}`;
-        }).join("\n");
+        //
+        // One line each, and deliberately not the task title: Herdr.agents
+        // carries it, but a second indented line per agent doubles the height
+        // of a popup that exists to be read in passing.
+        return Herdr.agents.map(agent => `${agent.workspace} — ${agent.agent} · ${agent.status}`).join("\n");
     }
 
     RowLayout {
