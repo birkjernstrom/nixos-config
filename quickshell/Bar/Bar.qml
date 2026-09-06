@@ -8,8 +8,8 @@ import qs.Common
 // Geometry and slots only - every module below is self-contained and this file
 // is the single place where the bar's contents are declared.
 //
-// Deliberately minimal: workspaces on the left, status and the clock on the
-// right. Anything else belongs in Pathway, not here.
+// Deliberately minimal: workspaces on the left, the agent fleet in the middle,
+// status and the clock on the right. Anything else belongs in Pathway, not here.
 Scope {
     id: root
 
@@ -46,6 +46,19 @@ Scope {
                 spacing: 0
 
                 Workspaces {}
+            }
+
+            // Centre: the agent fleet. Anchored to the window rather than
+            // packed between the other two slots, so it stays on the screen's
+            // midline as workspaces appear and the clock changes width.
+            RowLayout {
+                id: centreSlot
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 0
+
+                Agents {}
             }
 
             RowLayout {

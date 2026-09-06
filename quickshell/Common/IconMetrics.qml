@@ -44,6 +44,9 @@ Singleton {
         "󰂯": { w: 600, h: 944, cx: 300, cy: 356 },  // U+F00AF bluetooth
         "󰂱": { w: 600, h: 666, cx: 300, cy: 356 },  // U+F00B1 bluetooth-connect
         "󰂲": { w: 600, h: 748, cx: 300, cy: 356 },  // U+F00B2 bluetooth-off
+        "󰪡": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0AA1 circle-slice-4
+        "󰀨": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0028 alert-circle
+        "󰗠": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F05E0 check-circle.1
         "󰍉": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0349 magnify
         "󰣆": { w: 600, h: 544, cx: 300, cy: 356 },  // U+F08C6 application
         "󰆒": { w: 600, h: 732, cx: 300, cy: 356 },  // U+F0192 content-paste

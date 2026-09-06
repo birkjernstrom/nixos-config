@@ -15,3 +15,10 @@ pane_gaps = false
 
 # Drop the frame around the outside edge of the pane area (tmux-style splitters only).
 pane_outer_borders = false
+
+# Title herdr writes to the terminal it runs in, and therefore the title hyprland
+# sees. The "herdr · " prefix is load-bearing: the Quickshell bar's agent module
+# (quickshell/Bar/modules/Agents.qml) raises this window by matching on it, since
+# the window is an ordinary ghostty with nothing else to tell it apart from any
+# other terminal. Change the prefix in both places or not at all.
+window_title = "herdr · {workspace} — {hostname}"

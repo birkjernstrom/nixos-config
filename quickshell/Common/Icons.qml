@@ -46,6 +46,14 @@ Singleton {
     readonly property string bluetoothConnected: "󰂱"
     readonly property string bluetoothOff: "󰂲"
 
+    // herdr agent states. One silhouette, three interiors: the circle is the
+    // constant, so a glance at the bar's centre reads the interiors as a status
+    // rather than re-reading three unrelated shapes. All three measure 600x600,
+    // so the counters sit on exactly the same line.
+    readonly property string agentWorking: "󰪡"
+    readonly property string agentBlocked: "󰀨"
+    readonly property string agentDone: "󰗠"
+
     readonly property string search: "󰍉"
     readonly property string app: "󰣆"
     readonly property string clipboard: "󰆒"
