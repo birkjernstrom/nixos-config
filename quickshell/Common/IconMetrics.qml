@@ -9,7 +9,7 @@ import Quickshell
 // origin (x rightwards, y up from the baseline). Widgets/Icon.qml scales each
 // glyph so max(w, h) fills its box and puts (cx, cy) at the box's centre.
 //
-// Measured from: /nix/store/vq963a091mjbcybcfsxajrrq6h0rrs85-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
+// Measured from: /nix/store/z060rwxkdh3g2k66wsxj9z62cn8xa08c-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
 Singleton {
     // Used for a glyph nobody measured - a square filling the cell, which is
     // what setting a font size and hoping would have given anyway.
@@ -44,6 +44,9 @@ Singleton {
         "󰂯": { w: 600, h: 944, cx: 300, cy: 356 },  // U+F00AF bluetooth
         "󰂱": { w: 600, h: 666, cx: 300, cy: 356 },  // U+F00B1 bluetooth-connect
         "󰂲": { w: 600, h: 748, cx: 300, cy: 356 },  // U+F00B2 bluetooth-off
+        "󰦝": { w: 600, h: 734, cx: 300, cy: 356 },  // U+F099D shield-lock.1
+        "󰰜": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0C1C alpha-q-circle
+        "󰨛": { w: 600, h: 360, cx: 300, cy: 356 },  // U+F0A1B vhs
         "󰪡": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0AA1 circle-slice-4
         "󰀨": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0028 alert-circle
         "󰗠": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F05E0 check-circle.1

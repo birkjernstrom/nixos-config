@@ -77,6 +77,8 @@ Scope {
 
                 Wifi {}
 
+                Tailscale {}
+
                 Battery {}
 
                 Clock {}

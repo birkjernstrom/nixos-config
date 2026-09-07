@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, settings, ... }:
 
 with lib; let
   cfg = config.systemSettings.tailscale;
@@ -22,6 +22,12 @@ in
       # path filtering set to loose. Note this does NOT enable IP forwarding --
       # that is "server", for advertising routes, which this machine does not.
       useRoutingFeatures = "client";
+
+      # Without an operator, `tailscale up`/`down` are root-only, and the bar
+      # module could not toggle the tailnet without a password prompt. This
+      # hands the daemon's local API to the desktop user, which is what the
+      # macOS and Windows clients do implicitly.
+      extraSetFlags = [ "--operator=${settings.user.name}" ];
     };
 
     networking.firewall.trustedInterfaces = [ "tailscale0" ];

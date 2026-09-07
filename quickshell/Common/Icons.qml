@@ -46,6 +46,13 @@ Singleton {
     readonly property string bluetoothConnected: "󰂱"
     readonly property string bluetoothOff: "󰂲"
 
+    // Tailscale, as one shield at three fills: off, on, and on-through-an-exit
+    // node. Same reasoning as the agent set above - the silhouette is the
+    // constant, so the interior is what gets read at a glance.
+    readonly property string tailscale: "󰦝"
+    readonly property string tailscaleExitNode: "󰰜"
+    readonly property string tailscaleOff: "󰨛"
+
     // herdr agent states. One silhouette, three interiors: the circle is the
     // constant, so a glance at the bar's centre reads the interiors as a status
     // rather than re-reading three unrelated shapes. All three measure 600x600,
