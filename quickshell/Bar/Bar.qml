@@ -77,7 +77,7 @@ Scope {
 
                 Wifi {}
 
-                Tailscale {}
+                Tailnet {}
 
                 Battery {}
 

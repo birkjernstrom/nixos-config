@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 
-// Live view of the tailnet, for the bar's Tailscale module.
+// Live view of the tailnet, for the bar's Tailnet module.
 //
 // There is no daemon socket to talk to the way Herdr does: tailscaled's local
 // API is HTTP over a unix socket that only root and the configured operator may
