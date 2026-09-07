@@ -5,8 +5,9 @@ import Quickshell.Hyprland
 import qs.Common
 import qs.Widgets
 
-// Left slot: one pill per workspace, ported from waybar's hyprland/workspaces
-// with persistent-workspaces { "*" = 5; }.
+// Left slot: one pill per workspace, ported from waybar's hyprland/workspaces.
+// Both bars list every workspace; the pills styled below say which screen each
+// one actually lives on.
 RowLayout {
     id: root
 
@@ -19,13 +20,18 @@ RowLayout {
     // property notifications keep current.
     readonly property string screenName: QsWindow.window?.screen?.name ?? ""
 
-    // 1-5 are waybar's persistent workspaces; anything above that appears only
-    // while it exists. Ids from every monitor are listed here so that each pill
-    // can decide its own visibility - see below.
+    // Matches hyprland/lib.nix workspaceCount. hyprland/workspaces.nix makes
+    // all eight persistent, so every pill has a real workspace behind it and
+    // can be attributed to a monitor even while empty. Ids above the range only
+    // show up on the bar that owns them.
+    readonly property int workspaceCount: 8
+
     readonly property var workspaceIds: {
-        const ids = [1, 2, 3, 4, 5];
+        const ids = [];
+        for (let i = 1; i <= root.workspaceCount; i++)
+            ids.push(i);
         for (const ws of Hyprland.workspaces.values) {
-            if (ws && ws.id > 5)
+            if (ws && ws.id > root.workspaceCount)
                 ids.push(ws.id);
         }
         return ids.sort((a, b) => a - b);
@@ -54,15 +60,34 @@ RowLayout {
             // Reading monitor.name here (instead of pre-filtering the id list)
             // is what subscribes each pill to its own workspace's monitor, so a
             // workspace moved between outputs hops bars without a refresh.
-            visible: pill.modelData <= 5 || pill.workspace?.monitor?.name === root.screenName
+            //
+            // Undecided (Hyprland has not created the workspace yet) counts as
+            // local: the alternative is every pill flashing faded on startup.
+            // Undocked, every workspace is on the one monitor and nothing fades.
+            readonly property bool elsewhere: pill.workspace?.monitor
+                ? pill.workspace.monitor.name !== root.screenName
+                : false
+
+            visible: pill.modelData <= root.workspaceCount || !pill.elsewhere
 
             // waybar: #workspaces button { padding: 0 8px }
             hPadding: 8
             interactive: true
 
+            // Solid pill = this workspace is on this screen. Outlined = it is
+            // the active one on the other screen, so SUPER+N will move focus
+            // there rather than switching what is in front of you. Faded plain
+            // number = idle, over there.
+            opacity: pill.elsewhere ? 0.45 : 1.0
+
+            border.width: pill.elsewhere && pill.workspace?.active ? 1 : 0
+            border.color: pill.workspace?.urgent ? Theme.critical : Theme.accent
+
             // `active` rather than `focused`: waybar highlights the workspace
             // shown on each output, not just the one holding keyboard focus.
             color: {
+                if (pill.elsewhere)
+                    return pill.hovered ? Theme.bgHover : "transparent";
                 if (pill.workspace?.urgent)
                     return Theme.critical;
                 if (pill.workspace?.active)
@@ -72,10 +97,17 @@ RowLayout {
                 return "transparent";
             }
 
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Theme.animFast
+                }
+            }
+
             StyledText {
-                // waybar's format-icons mapped 10 to "0".
-                text: pill.modelData === 10 ? "0" : String(pill.modelData)
+                text: String(pill.modelData)
                 color: {
+                    if (pill.elsewhere)
+                        return pill.workspace?.urgent ? Theme.critical : pill.workspace?.active ? Theme.accent : Theme.fgDim;
                     if (pill.workspace?.urgent || pill.workspace?.active)
                         return Theme.onAccent;
                     return pill.hovered ? Theme.fg : Theme.fgDim;

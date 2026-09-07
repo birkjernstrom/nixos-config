@@ -12,6 +12,13 @@ let
   toLua = lib.generators.toLua { };
 in
 {
+  # How many workspaces exist, and which one is reserved for the laptop panel
+  # when an external monitor is attached. Shared by ./bindings.nix (the SUPER+N
+  # binds) and ./workspaces.nix (the persistent rules and the reflow handler);
+  # the Quickshell bar hardcodes the same 8 in Bar/modules/Workspaces.qml.
+  workspaceCount = 8;
+  auxWorkspace = 8;
+
   # Raw Lua expression, passed through verbatim.
   lua = mkLuaInline;
 

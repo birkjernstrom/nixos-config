@@ -3,7 +3,7 @@
 with lib; let
   cfg = config.userSettings.hyprland;
   hypr = import ./lib.nix { inherit lib; };
-  inherit (hypr) bind bindWith mod lua exec execLua;
+  inherit (hypr) bind bindWith mod lua exec execLua workspaceCount;
 
   # Hardware keys: repeat while held and stay live on the lock screen.
   hwBind = keys: cmd: bindWith { locked = true; repeating = true; } keys (exec cmd);
@@ -12,12 +12,13 @@ with lib; let
   brightnessDown = "brightnessctl -e4 -n2 set 5%-";
   brightnessUp = "brightnessctl -e4 -n2 set 5%+";
 
-  # Workspaces 1-10, with 10 bound to the "0" key.
+  # Workspaces 1-8. Which monitor each one lives on is fixed by
+  # ./workspaces.nix, so these binds always land on the same physical screen.
   workspaceBinds = concatMap (i:
-    let key = if i == 10 then "0" else toString i; in [
-      (bind (mod key) (lua "hl.dsp.focus({ workspace = ${toString i} })"))
-      (bind (mod "SHIFT + ${key}") (lua "hl.dsp.window.move({ workspace = ${toString i} })"))
-    ]) (range 1 10);
+    let key = toString i; in [
+      (bind (mod key) (lua "hl.dsp.focus({ workspace = ${key} })"))
+      (bind (mod "SHIFT + ${key}") (lua "hl.dsp.window.move({ workspace = ${key} })"))
+    ]) (range 1 workspaceCount);
 in
 {
   config = mkIf cfg.enable {
@@ -64,8 +65,8 @@ in
       (bind (mod "CTRL + bracketleft") (lua ''hl.dsp.workspace.move({ monitor = "l" })''))
       (bind (mod "CTRL + bracketright") (lua ''hl.dsp.workspace.move({ monitor = "r" })''))
     ]
-    # Switch workspaces with mainMod + [0-9], move the active window there
-    # with mainMod + SHIFT + [0-9]
+    # Switch workspaces with mainMod + [1-8], move the active window there
+    # with mainMod + SHIFT + [1-8]
     ++ workspaceBinds;
   };
 }

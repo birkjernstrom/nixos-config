@@ -10,6 +10,7 @@ in
     ./hypridle.nix
     ./hyprlock.nix
     ./hyprshot.nix
+    ./workspaces.nix
   ];
 
   options.userSettings.hyprland.enable = mkOption {
