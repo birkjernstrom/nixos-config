@@ -9,6 +9,16 @@ name = "terminal"
 # Match the tmux prefix (see modules/shared/tmux.nix).
 prefix = "ctrl+s"
 
+# Resize with the same vim keys that focus panes: prefix+hjkl moves the focus
+# (herdr's default focus_pane_*), prefix+SHIFT+hjkl grows the pane in that
+# direction. These resize immediately rather than entering resize mode, so
+# prefix+r stays available for the modal version when nudging one step at a
+# time is not enough.
+resize_pane_left = "prefix+shift+h"
+resize_pane_down = "prefix+shift+j"
+resize_pane_up = "prefix+shift+k"
+resize_pane_right = "prefix+shift+l"
+
 [ui]
 # Share divider borders between split panes instead of separating them with a gap.
 pane_gaps = false
