@@ -5,6 +5,7 @@
   system = {
     hyprland.enable = true;
     primo.enable = true;
+    tailscale.enable = true;
   };
 
   # Maps to config.userSettings.*

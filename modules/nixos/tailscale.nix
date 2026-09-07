@@ -1,0 +1,29 @@
+{ config, lib, ... }:
+
+with lib; let
+  cfg = config.systemSettings.tailscale;
+in
+{
+  options.systemSettings.tailscale.enable = mkOption {
+    type = types.bool;
+    default = false;
+    description = "Enable Tailscale (system-level)";
+  };
+
+  # Primo cannot deploy this for us: Fleet-Maintained Apps are macOS/Windows
+  # only, and its Linux path (.deb/.rpm/.sh/.tar.gz) has nothing that works
+  # against a read-only /nix/store. So we install declaratively and let Primo
+  # observe the result via osquery instead of managing it.
+  config = mkIf cfg.enable {
+    services.tailscale = {
+      enable = true;
+
+      # Reaching work subnets is the point of joining, and that needs reverse
+      # path filtering set to loose. Note this does NOT enable IP forwarding --
+      # that is "server", for advertising routes, which this machine does not.
+      useRoutingFeatures = "client";
+    };
+
+    networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  };
+}

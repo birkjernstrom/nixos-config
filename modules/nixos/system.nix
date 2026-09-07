@@ -7,5 +7,6 @@
     ./stylix.nix
     ./hyprland/system.nix
     ./primo.nix
+    ./tailscale.nix
   ];
 }
