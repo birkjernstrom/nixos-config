@@ -68,7 +68,12 @@ RowLayout {
                 ? pill.workspace.monitor.name !== root.screenName
                 : false
 
-            visible: pill.modelData <= root.workspaceCount || !pill.elsewhere
+            // Hyprland hands a newly attached output a scratch workspace of
+            // its own before it announces the monitor, and keeps it around as
+            // that screen's last workspace even once reflow has moved the real
+            // ones in. Empty and out of range means nobody needs to see it.
+            visible: pill.modelData <= root.workspaceCount
+                || (!pill.elsewhere && (pill.workspace?.windows ?? 0) > 0)
 
             // waybar: #workspaces button { padding: 0 8px }
             hPadding: 8
