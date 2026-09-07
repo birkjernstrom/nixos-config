@@ -4,6 +4,7 @@
   # Maps to config.systemSettings.*
   system = {
     hyprland.enable = true;
+    primo.enable = true;
   };
 
   # Maps to config.userSettings.*

@@ -6,5 +6,6 @@
     ./nix.nix
     ./stylix.nix
     ./hyprland/system.nix
+    ./primo.nix
   ];
 }
