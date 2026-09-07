@@ -8,6 +8,13 @@ with lib; let
   # Hardware keys: repeat while held and stay live on the lock screen.
   hwBind = keys: cmd: bindWith { locked = true; repeating = true; } keys (exec cmd);
 
+  # Same, minus the repeat: a toggle held down would just flap on and off.
+  toggleBind = keys: cmd: bindWith { locked = true; } keys (exec cmd);
+
+  volumeMute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+  volumeDown = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+  volumeUp = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+
   # -e4 gives a perceptually even ramp, -n2 keeps the panel from going black.
   brightnessDown = "brightnessctl -e4 -n2 set 5%-";
   brightnessUp = "brightnessctl -e4 -n2 set 5%+";
@@ -23,10 +30,17 @@ in
 {
   config = mkIf cfg.enable {
     wayland.windowManager.hyprland.settings.bind = [
-      # Volume control (F1=mute, F2=lower, F3=raise)
-      (bind "F1" (exec "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"))
-      (bind "F2" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"))
-      (bind "F3" (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"))
+      # Volume (F1=mute, F2=lower, F3=raise). Both keysyms are bound for the
+      # same reason the brightness keys below bind both: one physical key sends
+      # F1-F3 in one fn-lock state and the XF86Audio* media keysyms in the
+      # other, and only the F-key half used to be here - so the keys went dead
+      # whenever fn-lock was the other way round.
+      (toggleBind "F1" volumeMute)
+      (toggleBind "XF86AudioMute" volumeMute)
+      (hwBind "F2" volumeDown)
+      (hwBind "XF86AudioLowerVolume" volumeDown)
+      (hwBind "F3" volumeUp)
+      (hwBind "XF86AudioRaiseVolume" volumeUp)
 
       # Screen brightness (F7=lower, F8=raise). The Fn-layer keysyms are
       # bound as well, so the keys work in either fn-lock state.
