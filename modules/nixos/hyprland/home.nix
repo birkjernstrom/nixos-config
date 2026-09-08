@@ -47,9 +47,23 @@ in
         # Toggles the resident Pathway window rather than spawning a launcher.
         menu = { _var = "qs ipc call pathway toggle"; };
 
+        # Later rules win, so the catch-all goes first and the named panels
+        # override it.
         monitor = [
           { output = ""; mode = "preferred"; position = "auto"; scale = "auto"; }
           { output = "eDP-1"; mode = "preferred"; position = "auto"; scale = 1.25; }
+
+          # Matched on description rather than DP-N: the same display has come
+          # up as DP-7 and as DP-4 across sessions, so the connector name is not
+          # a stable handle. The serial is left off so a replacement unit still
+          # matches.
+          #
+          # 1.6667 is really 5/3, which is what Hyprland snaps it to - 5120x2880
+          # over 5/3 is exactly 3072x1728, and Hyprland only accepts scales that
+          # land on whole logical pixels. Everything from 1.6667 to 1.8 collapses
+          # to this same value and 1.85 upwards jumps to 2.0, so on this panel
+          # the only rungs are 1.6, 5/3 and 2.0 - there is nothing in between.
+          { output = "desc:Apple Computer Inc StudioDisplay"; mode = "preferred"; position = "auto"; scale = 1.6667; }
         ];
 
         config = {
