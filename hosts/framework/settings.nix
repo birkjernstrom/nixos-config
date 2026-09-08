@@ -34,7 +34,14 @@
       slack.enable = true;
       obsidian.enable = true;
       browsers = {
-        chrome.enable = true;
+        chrome = {
+          enable = true;
+          # Force-installed via Chrome's managed policy. The ID is the last
+          # path segment of the extension's Chrome Web Store URL.
+          extensions = [
+            "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+          ];
+        };
         firefox.enable = true;
         default = "chrome";
       };

@@ -19,10 +19,23 @@ with lib;
       };
 
       browsers = {
-        chrome.enable = mkOption {
-          type = types.bool;
-          default = false;
-          description = "Enable Google Chrome";
+        chrome = {
+          enable = mkOption {
+            type = types.bool;
+            default = false;
+            description = "Enable Google Chrome";
+          };
+          extensions = mkOption {
+            type = types.listOf types.str;
+            default = [ ];
+            description = ''
+              Chrome Web Store extension IDs to force-install through Chrome's
+              managed policy. The ID is the last path segment of the
+              extension's store URL. NixOS only - see
+              modules/shared/apps/browsers.nix.
+            '';
+            example = [ "dbepggeogbaibhgnhhndojpepiihcmeb" ];
+          };
         };
         firefox.enable = mkOption {
           type = types.bool;
