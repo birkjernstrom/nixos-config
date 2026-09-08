@@ -11,8 +11,9 @@ in
       hyprlock
     ];
 
-    # Colours come from Stylix. Only the wallpaper is opted out of, so the
-    # lock screen keeps its blurred screenshot background.
+    # Colours come from Stylix. The wallpaper is opted out of so the lock
+    # screen is a flat base00 fill rather than an image - nothing of the
+    # session behind it shows through.
     stylix.targets.hyprlock.image.enable = false;
 
     programs.hyprlock = {
@@ -23,10 +24,10 @@ in
           grace = 0;
         };
 
+        # No `path`: hyprlock then paints the solid `color` Stylix sets
+        # from base00. Blur only applies to an image, so it is gone too.
         background = {
-          path = "screenshot";
-          blur_passes = 3;
-          blur_size = 8;
+          path = "";
         };
 
         # Minimal input field - geometry only
