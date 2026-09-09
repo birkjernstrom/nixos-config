@@ -7,12 +7,13 @@ in
   options.userSettings.programming.ai.enable = mkOption {
     type = types.bool;
     default = false;
-    description = "Enable AI tools (claude-code, opencode, herdr, pi).";
+    description = "Enable AI tools (claude-code, codex, opencode, herdr, pi).";
   };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       claude-code
+      codex             # OpenAI Codex CLI
       opencode
       herdr             # Agent multiplexer for the terminal (herdr.dev)
       pi-coding-agent   # `pi` coding agent CLI (pi.dev)
