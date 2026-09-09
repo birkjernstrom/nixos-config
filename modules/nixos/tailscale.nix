@@ -27,7 +27,21 @@ in
       # module could not toggle the tailnet without a password prompt. This
       # hands the daemon's local API to the desktop user, which is what the
       # macOS and Windows clients do implicitly.
-      extraSetFlags = [ "--operator=${settings.user.name}" ];
+      #
+      # Posture checking opts the node into reporting its identity (serial
+      # numbers, MAC addresses) to the tailnet. Tailscale requires it for any
+      # device-posture integration, and without it the Primo/Fleet integration
+      # has nothing to correlate this node against - which is why the tailnet's
+      # `fleet:present` assertion read "not set" rather than false.
+      extraSetFlags = [
+        "--operator=${settings.user.name}"
+        "--posture-checking=true"
+      ];
+
+      # Seals tailscaled's state file to the TPM (/dev/tpm0) instead of leaving
+      # it plaintext on disk, which is what the tailnet's
+      # `node:tsStateEncrypted == true` assertion is checking.
+      extraDaemonFlags = [ "--encrypt-state" ];
     };
 
     networking.firewall.trustedInterfaces = [ "tailscale0" ];
