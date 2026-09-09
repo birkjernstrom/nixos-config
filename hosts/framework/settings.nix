@@ -50,6 +50,18 @@
       # plain SUPER + letter combos are window management (L focuses right,
       # W closes).
       webapps.sites = {
+        claude = {
+          url = "https://claude.ai";
+          icon = ../../icons/webapps/claude.png;
+          key = "SHIFT + C";
+        };
+        chatgpt = {
+          # The derived name would be "Chatgpt".
+          name = "ChatGPT";
+          url = "https://chatgpt.com";
+          icon = ../../icons/webapps/chatgpt.png;
+          key = "SHIFT + A";
+        };
         linear = {
           url = "https://linear.app";
           icon = ../../icons/webapps/linear.png;

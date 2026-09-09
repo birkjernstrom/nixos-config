@@ -16,6 +16,10 @@
       "zoom"
       "whatsapp"
 
+      # AI
+      "claude"    # Anthropic Claude desktop app
+      "chatgpt"   # OpenAI ChatGPT desktop app (hosts Codex)
+
       # Others
       "raycast"
       "obsidian"
