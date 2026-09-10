@@ -6,6 +6,7 @@
     hyprland.enable = true;
     primo.enable = true;
     tailscale.enable = true;
+    clamav.enable = true;
   };
 
   # Maps to config.userSettings.*
