@@ -61,6 +61,25 @@ in
       (bind (mod "P") (lua "hl.dsp.window.pseudo()")) # dwindle
       (bind (mod "SHIFT + J") (lua ''hl.dsp.layout("togglesplit")'')) # dwindle
 
+      # Scrolling layout (hl.dsp.layout is `layoutmsg`). Focus is unchanged -
+      # plain movefocus below still works, and with scrolling:follow_focus the
+      # tape scrolls to whatever it lands on - so these are only the things
+      # that have no dwindle equivalent: reordering columns, moving a window
+      # between its own column and its neighbour, and column width.
+      #
+      # comma/period mirror niri's consume/expel: with more than one window in
+      # the column they push the focused one out to that side, otherwise they
+      # pull it into the column on that side.
+      (bind (mod "SHIFT + h") (lua ''hl.dsp.layout("swapcol l")''))
+      (bind (mod "SHIFT + l") (lua ''hl.dsp.layout("swapcol r")''))
+      (bind (mod "comma") (lua ''hl.dsp.layout("consume_or_expel prev")''))
+      (bind (mod "period") (lua ''hl.dsp.layout("consume_or_expel next")''))
+      # Cycle the column through scrolling:explicit_column_widths, either way.
+      (bind (mod "R") (lua ''hl.dsp.layout("colresize +conf")''))
+      (bind (mod "SHIFT + R") (lua ''hl.dsp.layout("colresize -conf")''))
+      # Pull the focused column back to the middle of the screen.
+      (bind (mod "C") (lua ''hl.dsp.layout("center")''))
+
       # Move focus with mainMod + vim keys
       (bind (mod "h") (lua ''hl.dsp.focus({ direction = "left" })''))
       (bind (mod "j") (lua ''hl.dsp.focus({ direction = "down" })''))

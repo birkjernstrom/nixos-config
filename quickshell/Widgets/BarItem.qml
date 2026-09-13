@@ -12,6 +12,8 @@ Rectangle {
 
     default property alias content: inner.data
 
+    property alias overlay: over.data
+
     property int hPadding: Theme.paddingH
     property bool interactive: false
     property string tooltip: ""
@@ -45,6 +47,16 @@ Rectangle {
         anchors.centerIn: parent
         implicitWidth: childrenRect.width
         implicitHeight: childrenRect.height
+    }
+
+    // A second slot spanning the whole item, including the horizontal padding
+    // `inner` is centred within. Markers that belong against an edge go here
+    // rather than in the content, where they would widen the item and push
+    // what is in it off centre every time they appeared.
+    Item {
+        id: over
+
+        anchors.fill: parent
     }
 
     MouseArea {

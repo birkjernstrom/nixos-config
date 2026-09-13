@@ -66,7 +66,9 @@
         linear = {
           url = "https://linear.app";
           icon = ../../icons/webapps/linear.png;
-          key = "SHIFT + L";
+          # Not "SHIFT + L": that is the scrolling layout's move-column-right
+          # (modules/nixos/hyprland/bindings.nix).
+          key = "SHIFT + I";
         };
         gmail = {
           url = "https://mail.google.com";
