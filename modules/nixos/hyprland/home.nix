@@ -110,6 +110,11 @@ in
             disable_hyprland_logo = true;
             disable_splash_rendering = true;
             force_default_wallpaper = 0;
+
+            # Follow xdg-activation requests instead of only flagging the
+            # workspace urgent: clicking a link from workspace 8 jumps to the
+            # browser on workspace 2 rather than lighting it up in the bar.
+            focus_on_activate = true;
           };
 
           input = {
