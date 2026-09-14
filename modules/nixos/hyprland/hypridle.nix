@@ -4,7 +4,9 @@ with lib; let
   cfg = config.userSettings.hyprland;
 in
 {
-  config = mkIf cfg.enable {
+  # Noctalia ships its own idle daemon, and two of them would both answer
+  # `loginctl lock-session`. ../noctalia/home.nix is the switch.
+  config = mkIf (cfg.enable && !config.userSettings.noctalia.enable) {
     services.hypridle = {
       enable = true;
       settings = {

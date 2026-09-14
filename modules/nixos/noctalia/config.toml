@@ -1,0 +1,57 @@
+# Starting Noctalia config, seeded on first activation only.
+#
+# Noctalia's own settings window writes this file, so home-manager must not
+# own it - a /nix/store symlink here would leave every toggle in the GUI
+# unable to save. modules/nixos/noctalia/home.nix copies this into place only
+# when the file does not exist yet, and never touches it again.
+#
+# Everything not mentioned here stays at Noctalia's defaults; see
+# https://github.com/noctalia-dev/noctalia/blob/main/example.toml for the
+# full annotated set.
+
+[wallpaper]
+enabled = true
+fill_mode = "crop"
+
+[wallpaper.default]
+path = "@wallpaper@"
+
+# ── Idle ──────────────────────────────────────────────────────────────────────
+#
+# The chain hypridle used to run, behaviour for behaviour: dim the panel, lock,
+# blank the screen, then suspend. `lock_and_suspend` at the end is redundant
+# after the 300s lock but harmless, and it keeps the behaviour correct if the
+# lock stage is ever turned off.
+
+[idle]
+behavior_order = ["dim", "lock", "screen-off", "suspend"]
+
+[idle.behavior.dim]
+timeout = 150
+action = "command"
+# Absolute paths, not bare names: the systemd unit runs Noctalia with
+# `enableDefaultPath = false` and PATH forced empty, so a shell command it
+# spawns inherits nothing to resolve against. /run/current-system/sw/bin is
+# the stable spelling - brightnessctl is in systemPackages (hyprland/system.nix)
+# and this path follows every rebuild, where a /nix/store one would be pinned
+# to today's build and eventually collected.
+#
+# -e4 gives a perceptually even ramp, -n2 keeps the panel from going black.
+command = "/run/current-system/sw/bin/brightnessctl -e4 -n2 -s set 10"
+resume_command = "/run/current-system/sw/bin/brightnessctl -r"
+enabled = true
+
+[idle.behavior.lock]
+timeout = 300
+action = "lock"
+enabled = true
+
+[idle.behavior.screen-off]
+timeout = 330
+action = "screen_off"
+enabled = true
+
+[idle.behavior.suspend]
+timeout = 1800
+action = "lock_and_suspend"
+enabled = true

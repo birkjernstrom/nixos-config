@@ -20,6 +20,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Pinned to a tag rather than a branch: Noctalia is the whole desktop
+    # shell, and v5 is a young rewrite - an unattended `nix flake update`
+    # pulling in a shell that no longer starts is not a good trade. Bump this
+    # deliberately. nixpkgs also carries a `noctalia` package and a matching
+    # programs.noctalia module, but its pin lags a release or two behind; the
+    # flake's own module disables the nixpkgs one so the two never collide.
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/v5.1.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ############################################################################
     # SOPS
     ############################################################################
