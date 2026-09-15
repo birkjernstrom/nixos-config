@@ -18,9 +18,16 @@ with lib; let
 
   # The seed carries the wallpaper Stylix used to hand to hyprpaper, so the
   # desktop does not come up blank on the first start.
-  seed = pkgs.replaceVars ./config.toml {
+  configSeed = pkgs.replaceVars ./config.toml {
     wallpaper = wallpaperPath;
   };
+
+  # Noctalia splits its configuration in two. config.toml, under
+  # XDG_CONFIG_HOME, is the hand-authored half; everything its settings window
+  # writes back - theme, bar geometry, launcher behaviour - lands in
+  # settings.toml here, under XDG_STATE_HOME. Both need seeding for a new host
+  # to come up looking like this one.
+  stateDir = config.xdg.stateHome + "/noctalia";
 in
 {
   options.userSettings.noctalia.enable = mkOption {
@@ -80,18 +87,48 @@ in
       ];
     };
 
-    # Noctalia's settings window writes ~/.config/noctalia/config.toml, so
-    # home-manager cannot own it: a store symlink would be read-only and every
-    # toggle in the GUI would fail to save. Seeding it once gets the idle chain
-    # and the wallpaper across without taking the file hostage - after this,
-    # the config belongs to Noctalia and to you.
-    home.activation.noctaliaSeedConfig = hm.dag.entryAfter [ "writeBoundary" ] ''
-      noctaliaConfig="${config.xdg.configHome}/noctalia/config.toml"
-      if [ ! -e "$noctaliaConfig" ]; then
-        run mkdir -p "$(dirname "$noctaliaConfig")"
-        run cp ${seed} "$noctaliaConfig"
-        run chmod u+w "$noctaliaConfig"
-      fi
-    '';
+    # Noctalia writes both of these files itself - config.toml whenever its
+    # settings window saves, settings.toml on every toggle in the GUI - so
+    # home-manager cannot own either: a store symlink would be read-only and
+    # the save would fail. Seeding them once gets the idle chain, the
+    # wallpaper, the keybinds and the theme onto a new host without taking the
+    # files hostage; after that they belong to Noctalia and to you.
+    #
+    # Which means this is also the answer to "how do I get my current setup
+    # onto another machine": copy the live files back over the seeds in this
+    # directory, drop whatever is specific to one host's monitors, and commit.
+    home.activation.noctaliaSeedConfig = hm.dag.entryAfter [ "writeBoundary" ] (
+      let
+        # Copy-if-absent, never copy-over: a host that has been used already
+        # has the newer file, and re-seeding would silently revert it.
+        seedFile = target: source: ''
+          if [ ! -e "${target}" ]; then
+            run mkdir -p "$(dirname "${target}")"
+            run cp ${source} "${target}"
+            run chmod u+w "${target}"
+          fi
+        '';
+      in
+      ''
+        ${seedFile "${config.xdg.configHome}/noctalia/config.toml" configSeed}
+        ${seedFile "${stateDir}/settings.toml" ./settings.toml}
+        # The palette settings.toml names. Noctalia downloads community
+        # palettes into this directory on demand and URL-encodes the name to
+        # get the file name, hence the %20 for the space; the repo copy is
+        # spelled plainly because only the destination has to match. Seeding it
+        # means a fresh host is themed at first login rather than after the
+        # first successful fetch - Noctalia re-downloads it anyway once the
+        # catalogue's checksum moves on.
+        ${seedFile "${stateDir}/community-palettes/Kanagawa%20Dragon.json" ./palettes/kanagawa-dragon.json}
+
+        # Noctalia runs its first-start setup wizard while this marker is
+        # missing, and the wizard writes its own answers over settings.toml.
+        # Planting it is what lets the seeded settings survive the first login.
+        if [ ! -e "${stateDir}/.setup-complete" ]; then
+          run mkdir -p "${stateDir}"
+          run touch "${stateDir}/.setup-complete"
+        fi
+      ''
+    );
   };
 }

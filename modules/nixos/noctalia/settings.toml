@@ -1,0 +1,71 @@
+# Starting Noctalia settings, seeded on first activation only.
+#
+# The companion to config.toml, and the half Noctalia's GUI owns: config.toml
+# is hand-authored, while everything toggled in the settings window - theme,
+# bar geometry, launcher behaviour - is written back here, under
+# XDG_STATE_HOME rather than XDG_CONFIG_HOME. So the same rule applies twice
+# over: home-manager must not own this file, and modules/nixos/noctalia/home.nix
+# only copies it into place when it does not exist yet.
+#
+# Only the deltas are recorded. Noctalia rewrites this file in full the first
+# time anything is saved, so the seed does not have to be complete - anything
+# left out stays at the shipped default.
+
+# Not cosmetic: Noctalia runs schema migrations against this number, and a
+# file without one is treated as pre-migration and rewritten. Keep it in step
+# with the Noctalia the flake input builds (5.1.0).
+config_version = 14
+
+[bar.default]
+padding = 18
+margin_ends = 0
+radius = 0
+radius_top_left = 0
+radius_top_right = 0
+radius_bottom_left = 0
+radius_bottom_right = 0
+concave_edge_corners = false
+
+[shell.launcher]
+compact = true
+
+[shell.panel]
+# The launcher opens docked to the bar rather than floating centre-screen.
+launcher_placement = "attached"
+
+# ── Theme ─────────────────────────────────────────────────────────────────────
+#
+# Noctalia themes itself, independently of Stylix: with the hyprpaper target
+# off (home.nix) Stylix no longer reaches the desktop, so the palette named
+# here is what the shell actually wears.
+#
+# `source = "community"` means the palette is fetched from Noctalia's community
+# catalogue into $XDG_STATE_HOME/noctalia/community-palettes at runtime. The
+# copy in ./palettes is seeded alongside this file so a fresh host comes up
+# themed without waiting on the network; Noctalia re-downloads it if the
+# catalogue's checksum moves on.
+
+[theme]
+source = "community"
+community_palette = "Kanagawa Dragon"
+builtin = "Kanagawa"
+mode = "dark"
+wallpaper_scheme = "m3-content"
+
+# Noctalia writes its palette into these applications' own config files. Note
+# that ghostty's and starship's are home-manager symlinks into /nix/store and
+# therefore read-only - those two templates cannot apply, and the colours come
+# from Stylix instead. btop's config is a plain file and does get rewritten.
+[theme.templates]
+builtin_ids = [ "btop", "gtk4", "ghostty", "hyprland", "starship" ]
+
+# ── Lockscreen widgets ────────────────────────────────────────────────────────
+#
+# Off, so the lock screen uses its built-in layout. The live file also carries
+# a login box per output, positioned in absolute pixels and keyed by connector
+# name (DP-7, eDP-1) - that is framework's monitor layout and nothing else's,
+# so it is deliberately not seeded. Noctalia lays out a default login box for
+# whatever outputs a host actually has.
+
+[lockscreen_widgets]
+enabled = false
