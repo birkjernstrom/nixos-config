@@ -21,6 +21,17 @@ in
     description = "Enable Hyprland (NixOS)";
   };
 
+  options.userSettings.hyprland.internalMonitorScale = mkOption {
+    type = types.float;
+    default = 1.25;
+    description = ''
+      Scale factor for the internal panel (eDP-1). Hyprland only accepts
+      scales that land on whole logical pixels for a given resolution, so
+      this is host-specific rather than a free-form slider - check what the
+      panel's native resolution actually snaps to before changing it.
+    '';
+  };
+
   config = mkIf cfg.enable {
     # Automatically enable companion services
     # Quickshell owns the bar, the SUPER+space launcher and the SUPER+V
@@ -57,7 +68,7 @@ in
         # override it.
         monitor = [
           { output = ""; mode = "preferred"; position = "auto"; scale = "auto"; }
-          { output = "eDP-1"; mode = "preferred"; position = "auto"; scale = 1.25; }
+          { output = "eDP-1"; mode = "preferred"; position = "auto"; scale = cfg.internalMonitorScale; }
 
           # Matched on description rather than DP-N: the same display has come
           # up as DP-7 and as DP-4 across sessions, so the connector name is not

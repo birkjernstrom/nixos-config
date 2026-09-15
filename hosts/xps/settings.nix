@@ -88,6 +88,7 @@
       };
     };
     hyprland.enable = true;
+    hyprland.internalMonitorScale = 1.2;
     noctalia.enable = true;
   };
 }
