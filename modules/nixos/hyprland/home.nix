@@ -10,6 +10,7 @@ in
     ./hypridle.nix
     ./hyprlock.nix
     ./hyprshot.nix
+    ./internal-refresh.nix
     ./scrolloverview.nix
     ./workspaces.nix
   ];
