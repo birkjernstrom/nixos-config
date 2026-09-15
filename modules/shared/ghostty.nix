@@ -31,11 +31,15 @@ in
             window-padding-y = "4,4";
           }
           # Stylix writes its palette to a read-only theme in the Nix store, so
-          # it cannot follow a runtime theme switch. On Linux, Quickshell owns
-          # ~/.config/ghostty/themes/pathway instead and reloads open terminals
-          # with SIGUSR2. Stylix keeps the font. Darwin has no Quickshell, so it
-          # stays on the Stylix theme.
-          // lib.optionalAttrs (!isDarwin) {
+          # it cannot follow a runtime theme switch. When Quickshell is the
+          # desktop shell it owns ~/.config/ghostty/themes/pathway instead and
+          # reloads open terminals with SIGUSR2 (see ThemeExport.qml). Stylix
+          # keeps the font either way. Darwin has no Quickshell, and neither
+          # does a Noctalia desktop (it force-disables Quickshell) - both fall
+          # through to Stylix's static theme, which stays in sync with
+          # Noctalia's own palette since both are configured for Kanagawa
+          # Dragon.
+          // lib.optionalAttrs (!isDarwin && (config.userSettings.quickshell.enable or false)) {
             theme = lib.mkForce "pathway";
           };
         };
