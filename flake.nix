@@ -87,6 +87,12 @@
       isDarwin = true;
     };
 
+    nixosConfigurations.xps = kit.mkSystem "xps" {
+      system = "x86_64-linux";
+      user = "birk";
+      isDarwin = false;
+    };
+
     nixosConfigurations.framework = kit.mkSystem "framework" {
       system = "x86_64-linux";
       user = "birk";
