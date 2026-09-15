@@ -55,3 +55,26 @@ enabled = true
 timeout = 1800
 action = "lock_and_suspend"
 enabled = true
+
+# ── Keybinds ──────────────────────────────────────────────────────────────────
+#
+# Shell-wide navigation, not launcher-specific: the launcher, clipboard,
+# wallpaper and session panels all dispatch through the same KeybindAction set.
+#
+# Each list REPLACES the built-in default rather than extending it, so the arrow
+# keys are named again here or they would be lost.
+#
+# Ctrl rather than bare hjkl because the launcher's search field has focus while
+# you navigate, and a bare "j" has to stay a "j". The panel's key handler runs
+# before the field's own editing shortcuts, so ctrl+k shadows readline's
+# delete-to-end-of-line inside Noctalia's inputs; ctrl+u (clear) and ctrl+w
+# (delete word back) are untouched.
+#
+# left/right only move the selection in the launcher's grid view; list view is
+# up/down only.
+
+[keybinds]
+up    = ["up", "ctrl+k"]
+down  = ["down", "ctrl+j"]
+left  = ["left", "ctrl+h"]
+right = ["right", "ctrl+l"]
