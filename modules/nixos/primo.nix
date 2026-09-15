@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib; let
   cfg = config.systemSettings.primo;
@@ -21,6 +21,13 @@ in
     # the enrollment SSO browser). sudo lives in /run/wrappers/bin, which is not
     # on the unit's default PATH, so without this those launches fail.
     systemd.services.orbit.path = [ "/run/wrappers" ];
+
+    # Orbit opens the enrollment SSO page (and other end-user links) by
+    # shelling out to the hardcoded absolute path `/usr/bin/xdg-open`, which
+    # doesn't exist on NixOS. Without it, enrollment silently loops forever.
+    systemd.tmpfiles.rules = [
+      "L+ /usr/bin/xdg-open - - - - ${pkgs.xdg-utils}/bin/xdg-open"
+    ];
 
     services.orbit = {
       enable = true;
