@@ -8,6 +8,7 @@
     primo.enable = true;
     tailscale.enable = true;
     clamav.enable = true;
+    clamav.onAccess.enable = true;
   };
 
   # Maps to config.userSettings.*

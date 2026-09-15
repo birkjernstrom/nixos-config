@@ -27,28 +27,40 @@ in
       type = types.bool;
       default = false;
       description = ''
-        Real-time on-access scanning (clamonacc), which intercepts every file
-        open through fanotify.
+        Real-time on-access scanning (clamonacc), which intercepts file opens
+        through fanotify.
 
-        Off by default because the cost lands squarely on this machine's normal
-        workload: a nix build or an npm install opens hundreds of thousands of
-        small files, and each one becomes a synchronous round trip to clamd.
-        Turn it on only if the compliance control specifically says "real-time"
-        and the scheduled scan below is not accepted as an alternative.
+        The cost lands squarely on this machine's normal workload: a nix build
+        or an npm install opens hundreds of thousands of small files, and each
+        one becomes a synchronous round trip to clamd. Enable it only when a
+        compliance control actually requires the clamonacc unit to be running --
+        Fleet policy 17 ("Linux protection check") does.
+      '';
+    };
+
+    onAccess.includePaths = mkOption {
+      type = types.listOf types.str;
+      default = [ "/home" ];
+      description = ''
+        Paths clamonacc watches. This is not merely a tuning knob: clamonacc
+        refuses to start when clamd.conf carries no OnAccessIncludePath at all,
+        and a clamonacc that exits immediately fails the very policy that on-access
+        scanning was switched on to satisfy.
+
+        Kept to /home deliberately. Watching /nix/store would be both pointless
+        (contents are hash-verified and read-only) and ruinous, since every
+        binary the system executes lives there.
       '';
     };
   };
 
   config = mkIf cfg.enable {
     services.clamav = {
-      # clamd is the piece any posture check can actually observe. freshclam and
-      # clamdscan are oneshot units that exit as soon as their work is done, so
-      # at a randomly sampled moment clamd is the only ClamAV process alive.
       daemon.enable = true;
 
-      # freshclam, on an hourly timer, is what keeps the signature database from
-      # going stale -- the single thing an antivirus control is usually written
-      # against ("signatures no older than N days").
+      # Keeps the signature database from going stale. Note that enabling this
+      # is what generates /etc/clamav/freshclam.conf; the unit it also generates
+      # is replaced below.
       updater.enable = true;
 
       scanner = {
@@ -59,14 +71,49 @@ in
       clamonacc.enable = cfg.onAccess.enable;
     };
 
-    # Neither upstream timer sets Persistent. On a server that is irrelevant;
-    # on a laptop it means the job is silently skipped rather than deferred --
-    # the 04:00 scan never runs, because at 04:00 the lid is shut, and every
-    # hourly signature update that falls inside a suspend is simply lost.
+    # The tailnet's `fleetPolicy:antimalware` assertion is fed by Fleet policy
+    # 17, "Linux protection check". That policy does not look at processes or at
+    # signature age -- it asserts on systemd unit state:
     #
-    # Persistent makes systemd run the missed job on the next boot or resume, so
-    # the evidence trail has an entry for every day the machine was used instead
-    # of every day it happened to be awake at 4am.
+    #   COUNT(DISTINCT id) FROM systemd_units WHERE id IN (
+    #     'clamav-daemon.service', 'clamav-clamonacc.service',
+    #     'clamav-freshclam.timer'
+    #   ) AND load_state = 'loaded' AND active_state = 'active'   -- must be 3
+    #   AND NOT EXISTS (... id = 'clamav-freshclam.service' AND
+    #                       active_state = 'failed')
+    #
+    # So all three units have to exist and be active, and upstream's shapes are
+    # exactly what it expects: the timer stays a timer, and freshclam stays the
+    # Type=oneshot unit behind it. Converting freshclam into a resident daemon
+    # (which is what Fleet's *stock* antivirus policy would want, since that one
+    # greps the process table) removes clamav-freshclam.timer and fails this
+    # policy instead. Leave the upstream units alone.
+
+    # Both long-running units named above have to be active at the moment
+    # osquery samples, and upstream sets no Restart= on either. A crash would
+    # otherwise sit there until somebody noticed -- which is precisely the state
+    # the policy exists to detect, so it should self-heal rather than latch.
+    systemd.services.clamav-daemon.serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "30s";
+    };
+
+    systemd.services.clamav-clamonacc.serviceConfig = mkIf cfg.onAccess.enable {
+      Restart = "on-failure";
+      RestartSec = "30s";
+    };
+
+    # freshclam's timer is a required unit for the policy, so it must not be
+    # disabled -- and Persistent matters for the usual laptop reason: a missed
+    # OnCalendar run is dropped rather than deferred, so every hourly update
+    # landing inside a closed lid was simply lost.
+    systemd.timers.clamav-freshclam.timerConfig.Persistent = true;
+
+    # The scanner timer stays a timer -- a nightly scan genuinely is a oneshot.
+    # It does need Persistent, though: without it the 04:00 run is skipped
+    # outright when the lid is shut at 04:00, rather than deferred, so the
+    # evidence trail gets an entry for every day the machine happened to be
+    # awake at 4am instead of every day it was used.
     #
     # The delay keeps the catch-up run from starting the instant the lid opens,
     # which is exactly when the machine is least able to spare the cores.
@@ -75,14 +122,26 @@ in
       RandomizedDelaySec = "15m";
     };
 
-    systemd.timers.clamav-freshclam.timerConfig.Persistent = true;
+    services.clamav.daemon.settings = mkIf cfg.onAccess.enable {
+      OnAccessIncludePath = cfg.onAccess.includePaths;
+
+      # Notify-only. With prevention on, clamd holds every fanotify permission
+      # event until it has finished scanning, so a clamd that is slow, wedged or
+      # simply throttled stops being an antivirus and starts being a filesystem
+      # outage. The policy only asks that clamonacc be running.
+      OnAccessPrevention = false;
+    };
 
     # Everything ClamAV runs is already collected into this slice upstream.
     # Capping it here rather than on the individual units means the nightly scan
-    # cannot monopolise the machine when it catches up mid-morning, while still
-    # leaving clamd responsive for on-access scanning if that is switched on.
+    # cannot monopolise the machine when it catches up mid-morning.
+    #
+    # CPUQuota is a share of a *single* core, so the 50% that comfortably fits a
+    # background scan would put every file open in /home behind half a core once
+    # on-access scanning is live. The scan is throttled by CPUWeight either way;
+    # the quota is what would turn latency into a stall.
     systemd.slices.system-clamav.sliceConfig = {
-      CPUQuota = "50%";
+      CPUQuota = if cfg.onAccess.enable then "400%" else "50%";
       CPUWeight = 20;
       IOWeight = 20;
     };
