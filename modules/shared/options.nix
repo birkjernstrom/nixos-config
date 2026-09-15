@@ -18,6 +18,12 @@ with lib;
         description = "Enable Obsidian";
       };
 
+      popsicle.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Popsicle (USB image flasher). NixOS only.";
+      };
+
       browsers = {
         chrome = {
           enable = mkOption {

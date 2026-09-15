@@ -8,6 +8,7 @@
     ./apps/slack.nix
     ./apps/browsers.nix
     ./apps/obsidian.nix
+    ./apps/popsicle.nix
     ./docker.nix
   ];
 }

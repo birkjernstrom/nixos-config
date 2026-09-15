@@ -36,6 +36,7 @@
     apps = {
       slack.enable = true;
       obsidian.enable = true;
+      popsicle.enable = true;
       browsers = {
         chrome = {
           enable = true;
