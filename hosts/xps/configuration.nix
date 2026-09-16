@@ -15,6 +15,15 @@ in
   # Apply system settings from settings.nix
   systemSettings = hostSettings.system;
 
+  # Core Ultra X7 358H (Panther Lake, Xe3 graphics). The kernel already binds
+  # this GPU to `xe` at runtime rather than `i915` (confirmed via `lsmod`:
+  # `xe` has active users, `i915` has none), but common-cpu-intel's
+  # nixos-hardware module defaults `hardware.intelgpu.driver` to "i915",
+  # which controls which module gets preloaded in the initrd for early KMS.
+  # Left unset, the wrong driver loads at that stage and gets displaced once
+  # userspace takes over.
+  hardware.intelgpu.driver = "xe";
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
