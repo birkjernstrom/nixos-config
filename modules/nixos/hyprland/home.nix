@@ -12,6 +12,7 @@ in
     ./hyprshot.nix
     ./internal-refresh.nix
     ./scrolloverview.nix
+    ./touchpad.nix
     ./workspaces.nix
   ];
 
