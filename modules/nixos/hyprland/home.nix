@@ -163,7 +163,11 @@ in
             touchpad = {
               natural_scroll = true;
               disable_while_typing = true;
-              tap_to_click = true;
+              # A tap and a physical click both count as a click to
+              # whatever's under the cursor - so a light graze while typing
+              # or resting a palm can quietly relocate a text cursor. Off
+              # means only pressing the pad down registers.
+              tap_to_click = false;
               scroll_factor = 0.4;
             };
           };
