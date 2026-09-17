@@ -91,18 +91,7 @@ in
             gaps_out = 5;
             border_size = 1;
             resize_on_border = true;
-
-            # Niri-style scrolling tape: windows form columns on an endless
-            # horizontal strip instead of subdividing the screen. Built into
-            # Hyprland since the hyprscrolling plugin was merged into core, so
-            # nothing has to be loaded for this - only the overview on top of
-            # it is a plugin (./scrolloverview.nix).
-            #
-            # The defaults are already the niri ones and are left alone:
-            # half-width columns, 0.333/0.5/0.667/1.0 as the widths SUPER+R
-            # cycles, focus scrolls the tape, focus and swapcol wrap. Run
-            # `hyprctl getoption scrolling:<name>` for the full set.
-            layout = "scrolling";
+            layout = "dwindle";
           };
 
           # Decoration settings (colors handled by Stylix)
@@ -126,8 +115,6 @@ in
 
           animations.enabled = true;
 
-          # Dwindle layout. Inert while `general:layout` is "scrolling"; kept
-          # so switching back is a one-word edit.
           dwindle = {
             # pseudotile removed as a config option in Hyprland 0.56; use the
             # `pseudo` dispatcher to toggle it per-window instead.
