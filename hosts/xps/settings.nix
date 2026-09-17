@@ -44,6 +44,7 @@
           # path segment of the extension's Chrome Web Store URL.
           extensions = [
             "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+            "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
           ];
         };
         firefox.enable = true;
