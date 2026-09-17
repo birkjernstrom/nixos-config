@@ -109,6 +109,22 @@ in
     # landing inside a closed lid was simply lost.
     systemd.timers.clamav-freshclam.timerConfig.Persistent = true;
 
+    # On a laptop the boot-time run can fire before DNS is actually usable --
+    # `database.clamav.net` fails to resolve for a few seconds after resume or
+    # a fresh boot -- and a failed oneshot otherwise just sits in
+    # active_state=failed until the next hourly tick, which is precisely the
+    # window the policy in the comment above samples against. Waiting for
+    # network-online.target avoids most of the race; Restart catches whatever
+    # gets through anyway, same as the daemon and clamonacc above.
+    systemd.services.clamav-freshclam = {
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+      serviceConfig = {
+        Restart = "on-failure";
+        RestartSec = "30s";
+      };
+    };
+
     # The scanner timer stays a timer -- a nightly scan genuinely is a oneshot.
     # It does need Persistent, though: without it the 04:00 run is skipped
     # outright when the lid is shut at 04:00, rather than deferred, so the
