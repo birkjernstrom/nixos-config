@@ -33,6 +33,16 @@ in
     '';
   };
 
+  options.userSettings.hyprland.noHardwareCursors = mkOption {
+    type = types.bool;
+    default = false;
+    description = ''
+      Force software cursor compositing (Hyprland's `cursor:no_hardware_cursors`).
+      A workaround for cursor stutter on driver stacks where the hardware
+      cursor plane is the laggy path rather than the fast one.
+    '';
+  };
+
   config = mkIf cfg.enable {
     # Automatically enable companion services
     # Quickshell owns the bar, the SUPER+space launcher and the SUPER+V
@@ -158,6 +168,13 @@ in
               scroll_factor = 0.4;
             };
           };
+        }
+        # A colleague's fix for the same cursor stutter on newer Intel
+        # graphics: the hardware cursor plane on this driver stack is the
+        # laggy path, so forcing Hyprland to composite the cursor in
+        # software instead is what actually smooths it out.
+        // optionalAttrs cfg.noHardwareCursors {
+          cursor.no_hardware_cursors = true;
         };
 
         # Animation curves, rendered before the animations that reference them
