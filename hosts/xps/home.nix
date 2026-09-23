@@ -16,6 +16,8 @@ in
 
     home.packages = with pkgs; [
       google-chrome
+      localsend
+      stirling-pdf-desktop
     ];
   };
 }
