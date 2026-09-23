@@ -5,7 +5,7 @@
   stylix = {
     # Wallpaper. Only used as the desktop background - colours come from
     # `base16Scheme`, not from this image.
-    image = ../../wallpapers/polar_01.jpg;
+    image = ../../wallpapers/dark_sand.jpg;
 
     cursor = {
       package = pkgs.bibata-cursors;
