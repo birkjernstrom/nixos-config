@@ -200,9 +200,9 @@ in
           { leaf = "layersOut";     enabled = true; speed = 1.5;  bezier = "linear";       style = "fade"; }
           { leaf = "fadeLayersIn";  enabled = true; speed = 1.79; bezier = "almostLinear"; }
           { leaf = "fadeLayersOut"; enabled = true; speed = 1.39; bezier = "almostLinear"; }
-          { leaf = "workspaces";    enabled = true; speed = 1.94; bezier = "almostLinear"; style = "fade"; }
-          { leaf = "workspacesIn";  enabled = true; speed = 1.21; bezier = "almostLinear"; style = "fade"; }
-          { leaf = "workspacesOut"; enabled = true; speed = 1.94; bezier = "almostLinear"; style = "fade"; }
+          { leaf = "workspaces";    enabled = false; }
+          { leaf = "workspacesIn";  enabled = false; }
+          { leaf = "workspacesOut"; enabled = false; }
         ];
 
         window_rule = [
