@@ -90,6 +90,7 @@
     };
     hyprland.enable = true;
     hyprland.internalMonitorScale = 1.6;
+    hyprland.noHardwareCursors = true;
     noctalia.enable = true;
   };
 }
