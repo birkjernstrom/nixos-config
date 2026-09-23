@@ -24,6 +24,14 @@ in
   # userspace takes over.
   hardware.intelgpu.driver = "xe";
 
+  # The stable kernel line has no SoundWire machine driver for this board's
+  # ACPI configuration yet (dmesg: "No SoundWire machine driver found",
+  # falls back to a generic HDA driver that only exposes the HDMI outputs -
+  # no PCM for the internal speakers/headphones at all). Panther Lake is
+  # new enough that this support is still landing upstream; latest tracks
+  # mainline closely enough to carry it sooner than the default kernel would.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
