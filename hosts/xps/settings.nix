@@ -4,7 +4,7 @@
   # Maps to config.systemSettings.*
   system = {
     hyprland.enable = true;
-    noctalia.enable = true;
+    noctalia.enable = false;
     primo.enable = true;
     tailscale.enable = true;
     clamav.enable = true;
@@ -91,6 +91,6 @@
     hyprland.enable = true;
     hyprland.internalMonitorScale = 1.6;
     hyprland.noHardwareCursors = true;
-    noctalia.enable = true;
+    noctalia.enable = false;
   };
 }

@@ -29,7 +29,13 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
-  networking.wireless.iwd.enable = true;
+
+  # Quickshell's bar reads these directly (Bar/modules/Bluetooth.qml,
+  # Battery.qml) - Noctalia used to backfill all three via
+  # `programs.noctalia.recommendedServices`, which stood down with it.
+  hardware.bluetooth.enable = true;
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
