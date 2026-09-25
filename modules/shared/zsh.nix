@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, isDarwin, ... }:
 
 with lib; let
   cfg = config.userSettings.cli.zsh;
@@ -40,6 +40,8 @@ in
         # Use zsh after nix develop -- unfortunately from within bash
         # https://github.com/NixOS/nix/issues/4609
         "nixdev" = "nix develop --command zsh";
+      } // lib.optionalAttrs (!isDarwin) {
+        "pwr" = "powerprofilesctl";
       };
 
       sessionVariables = {
