@@ -107,7 +107,7 @@ in
           # Decoration settings (colors handled by Stylix)
           decoration = {
             active_opacity = 1.0;
-            inactive_opacity = 0.90;
+            inactive_opacity = 1.0;
             # shadow = {
             #   enabled = true;
             #   range = 20;
