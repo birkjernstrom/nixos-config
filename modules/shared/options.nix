@@ -24,6 +24,12 @@ with lib;
         description = "Enable Popsicle (USB image flasher). NixOS only.";
       };
 
+      foliate.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Foliate (EPUB reader). NixOS only.";
+      };
+
       browsers = {
         chrome = {
           enable = mkOption {

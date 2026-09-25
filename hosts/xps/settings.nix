@@ -37,6 +37,7 @@
       slack.enable = true;
       obsidian.enable = true;
       popsicle.enable = true;
+      foliate.enable = true;
       browsers = {
         chrome = {
           enable = true;

@@ -9,6 +9,7 @@
     ./apps/browsers.nix
     ./apps/obsidian.nix
     ./apps/popsicle.nix
+    ./apps/foliate.nix
     ./docker.nix
   ];
 }
