@@ -171,8 +171,8 @@ RowLayout {
             visible: pill.modelData <= root.workspaceCount
                 || (!pill.elsewhere && (pill.workspace?.windows ?? 0) > 0)
 
-            // waybar: #workspaces button { padding: 0 8px }
-            hPadding: 8
+            // waybar had 8px; tightened along with Theme.paddingH
+            hPadding: 5
             interactive: true
 
             // Solid pill = this workspace is on this screen. Outlined = it is
@@ -182,21 +182,28 @@ RowLayout {
             opacity: pill.elsewhere ? 0.45 : 1.0
 
             border.width: pill.elsewhere && pill.workspace?.active ? 1 : 0
-            border.color: pill.workspace?.urgent ? Theme.critical : Theme.accent
+            border.color: pill.workspace?.urgent ? Theme.critical : Theme.workspaceActive
 
             // `active` rather than `focused`: waybar highlights the workspace
             // shown on each output, not just the one holding keyboard focus.
+            // The local active workspace carries no fill of its own - see the
+            // label color below for how it's marked instead.
             color: {
                 if (pill.elsewhere)
                     return pill.hovered ? Theme.bgHover : "transparent";
                 if (pill.workspace?.urgent)
                     return Theme.critical;
-                if (pill.workspace?.active)
-                    return Theme.accent;
                 if (pill.hovered)
                     return Theme.bgHover;
                 return "transparent";
             }
+
+            // Slightly squarer than the rest of the bar's pills.
+            radius: Theme.radius - 2
+
+            // No `windows` property on HyprlandWorkspace - toplevels.values is
+            // the reactive list the rest of this file already counts on.
+            readonly property bool hasWindows: (pill.workspace?.toplevels?.values?.length ?? 0) > 0
 
             Behavior on opacity {
                 NumberAnimation {
@@ -208,12 +215,23 @@ RowLayout {
                 id: label
 
                 text: String(pill.modelData)
+                // Occupied-but-idle keeps the normal idle tone; a genuinely
+                // empty workspace fades further, same idea as Noctalia's bar,
+                // but as a text dim rather than a pill fill.
                 color: {
                     if (pill.elsewhere)
-                        return pill.workspace?.urgent ? Theme.critical : pill.workspace?.active ? Theme.accent : Theme.fgDim;
-                    if (pill.workspace?.urgent || pill.workspace?.active)
+                        return pill.workspace?.urgent ? Theme.critical : pill.workspace?.active ? Theme.workspaceActive : Theme.fgDim;
+                    if (pill.workspace?.urgent)
                         return Theme.onAccent;
-                    return pill.hovered ? Theme.fg : Theme.fgDim;
+                    // No fill to contrast against, so the active workspace is
+                    // marked with a flat white label rather than a themed one.
+                    if (pill.workspace?.active)
+                        return Theme.workspaceActiveFg;
+                    if (pill.hovered)
+                        return Theme.fg;
+                    if (pill.hasWindows)
+                        return Theme.fgDim;
+                    return Qt.rgba(Theme.fgDim.r, Theme.fgDim.g, Theme.fgDim.b, 0.5);
                 }
 
                 Behavior on color {

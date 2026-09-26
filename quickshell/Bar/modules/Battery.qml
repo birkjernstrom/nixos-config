@@ -1,13 +1,33 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Io
 import Quickshell.Services.UPower
 import qs.Common
 import qs.Widgets
 
 // Right slot: the icon carries the level on its own, and the percentage only
 // appears once it is low enough to be worth acting on.
+//
+// Clicking opens a terminal on powerprofilesctl - not a TuiWindow pane like
+// wifi/bluetooth's, since `list` alone would print once and flash shut; this
+// drops into an interactive shell afterwards so the output stays readable and
+// `pwr set ...` (see modules/shared/zsh.nix) is one command away.
 BarItem {
     id: root
+
+    interactive: true
+
+    onClicked: powerTerm.toggle()
+
+    Process {
+        id: powerTerm
+
+        command: ["ghostty", "--class=sh.pathway.tui.powerprofiles", "--title=powerprofilesctl", "--confirm-close-surface=false", "-e", "zsh", "-ic", "powerprofilesctl list; exec zsh"]
+
+        function toggle(): void {
+            running = !running;
+        }
+    }
 
     readonly property UPowerDevice device: UPower.displayDevice
 
@@ -35,12 +55,22 @@ BarItem {
 
     visible: root.present
 
+    // "power-saver" -> "Power saver", to match the profile names
+    // `powerprofilesctl` itself prints.
+    readonly property string profileLabel: {
+        if (!PowerProfiles.available)
+            return "";
+        const words = PowerProfiles.profile.split("-");
+        return words.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+    }
+
     tooltip: {
         if (!root.known)
             return "";
         const rate = `${Math.round(Math.abs(root.device.changeRate))}W${root.charging ? "↑" : "↓"} ${Math.round(root.percent)}%`;
         const left = root.formatDuration(root.charging ? root.device.timeToFull : root.device.timeToEmpty);
-        return left === "" ? rate : `${rate} · ${left}`;
+        const base = left === "" ? rate : `${rate} · ${left}`;
+        return root.profileLabel === "" ? base : `${base} · ${root.profileLabel}`;
     }
 
     RowLayout {

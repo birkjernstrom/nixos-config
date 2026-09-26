@@ -8,8 +8,8 @@ import qs.Common
 // Geometry and slots only - every module below is self-contained and this file
 // is the single place where the bar's contents are declared.
 //
-// Deliberately minimal: workspaces on the left, the agent fleet in the middle,
-// status and the clock on the right. Anything else belongs in Pathway, not here.
+// Deliberately minimal: workspaces on the left, the clock in the middle,
+// status on the right. Anything else belongs in Pathway, not here.
 Scope {
     id: root
 
@@ -48,9 +48,9 @@ Scope {
                 Workspaces {}
             }
 
-            // Centre: the agent fleet. Anchored to the window rather than
-            // packed between the other two slots, so it stays on the screen's
-            // midline as workspaces appear and the clock changes width.
+            // Centre: the clock. Anchored to the window rather than packed
+            // between the other two slots, so it stays on the screen's
+            // midline regardless of how wide either side's content is.
             RowLayout {
                 id: centreSlot
 
@@ -58,7 +58,7 @@ Scope {
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: 0
 
-                Agents {}
+                Clock {}
             }
 
             RowLayout {
@@ -70,7 +70,7 @@ Scope {
                 spacing: 0
 
                 // Order matches the waybar it replaces: audio, bluetooth,
-                // network, battery - with the clock last, hard against the edge.
+                // network, battery, hard against the edge.
                 Volume {}
 
                 Bluetooth {}
@@ -80,8 +80,6 @@ Scope {
                 Tailnet {}
 
                 Battery {}
-
-                Clock {}
             }
         }
     }

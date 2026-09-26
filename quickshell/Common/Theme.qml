@@ -21,18 +21,29 @@ Singleton {
     readonly property color fgDim: Themes.base03      // waybar's idle module colour
     readonly property color fgSubtle: Themes.base04
 
-    readonly property color accent: Themes.base0E     // active workspace pill
+    readonly property color accent: Themes.base0E     // selection, tooltip border
     readonly property color onAccent: Themes.base00
     readonly property color warning: Themes.base0A    // battery < 20%
     readonly property color critical: Themes.base08    // battery < 10%, urgent workspace
+
+    // The outline/label tint for a workspace shown active on the *other*
+    // screen (Workspaces.qml's `elsewhere` case) - base0B is the darkest of
+    // the base16 accent slots that isn't already spoken for (base08 is
+    // critical).
+    readonly property color workspaceActive: Themes.base0B
+
+    // Flat white rather than a palette slot, by request - the label color for
+    // the active workspace pill on its own screen, which otherwise carries no
+    // background of its own.
+    readonly property color workspaceActiveFg: "white"
 
     // Geometry. barHeight matches the waybar it replaces so nothing reflows.
     readonly property int barHeight: 29
     readonly property int radius: 8
     readonly property int radiusLarge: 12
-    readonly property int paddingH: 10        // waybar: padding 0 10px
+    readonly property int paddingH: 6         // waybar had 10px; tightened per-item padding
     readonly property int marginV: 4          // waybar: margin 4px 2px
-    readonly property int marginH: 2
+    readonly property int marginH: 1          // waybar had 2px; tightened gap between items
     readonly property int edgeMargin: 8       // waybar: #workspaces margin-left / #battery margin-right
 
     readonly property string fontFamily: Typography.fontUi
