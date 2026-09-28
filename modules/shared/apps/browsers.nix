@@ -18,6 +18,11 @@ let
     chrome = "google-chrome-stable";
     firefox = "firefox";
   };
+
+  browserDesktop = {
+    chrome = "google-chrome.desktop";
+    firefox = "firefox.desktop";
+  };
 in
 {
   config = if isDarwin then {
@@ -41,6 +46,19 @@ in
           wayland.windowManager.hyprland.settings.bind = [
             (bind "SUPER + B" (exec browserCmd.${defaultBrowser}))
           ];
+
+          # mimeapps.list is owned by home-manager, so the browser's own
+          # "make default" button can't write it - declare it here instead.
+          xdg.mimeApps = {
+            enable = true;
+            defaultApplications = lib.genAttrs [
+              "text/html"
+              "x-scheme-handler/http"
+              "x-scheme-handler/https"
+              "x-scheme-handler/about"
+              "x-scheme-handler/unknown"
+            ] (_: browserDesktop.${defaultBrowser});
+          };
         })
       ];
     }

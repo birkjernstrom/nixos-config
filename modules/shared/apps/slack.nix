@@ -17,6 +17,12 @@ in
     home-manager.users.${username} = lib.mkIf slackEnabled {
       home.packages = [ pkgs.slack ];
 
+      # slack:// links (e.g. the sign-in redirect from the browser).
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications."x-scheme-handler/slack" = "slack.desktop";
+      };
+
       # Add hyprland keybinding (Super+S to launch Slack)
       wayland.windowManager.hyprland.settings.bind = [
         (bind "SUPER + S" (exec "slack"))
