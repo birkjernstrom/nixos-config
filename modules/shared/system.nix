@@ -10,6 +10,7 @@
     ./apps/obsidian.nix
     ./apps/popsicle.nix
     ./apps/foliate.nix
+    ./apps/zathura.nix
     ./docker.nix
   ];
 }

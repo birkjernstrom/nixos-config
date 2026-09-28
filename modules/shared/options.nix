@@ -30,6 +30,12 @@ with lib;
         description = "Enable Foliate (EPUB reader). NixOS only.";
       };
 
+      zathura.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Zathura (PDF reader) and set it as the default PDF handler. NixOS only.";
+      };
+
       browsers = {
         chrome = {
           enable = mkOption {

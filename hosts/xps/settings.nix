@@ -38,6 +38,7 @@
       obsidian.enable = true;
       popsicle.enable = true;
       foliate.enable = true;
+      zathura.enable = true;
       browsers = {
         chrome = {
           enable = true;
