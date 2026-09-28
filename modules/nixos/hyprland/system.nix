@@ -19,6 +19,11 @@ in
       brightnessctl
     ];
 
+    # For the `screenrecord` script (./screenrecord.nix). Also installs the
+    # setcap'd gsr-kms-server wrapper gpu-screen-recorder needs to capture a
+    # monitor or region directly, without a portal prompt each time.
+    programs.gpu-screen-recorder.enable = true;
+
     # Ships udev rules that hand the `video` group write access to
     # /sys/class/backlight/*/brightness, so brightnessctl works unprivileged.
     services.udev.packages = [ pkgs.brightnessctl ];

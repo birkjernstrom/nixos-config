@@ -11,6 +11,7 @@ in
     ./hyprlock.nix
     ./hyprshot.nix
     ./internal-refresh.nix
+    ./screenrecord.nix
     ./scrolloverview.nix
     ./touchpad.nix
     ./workspaces.nix
