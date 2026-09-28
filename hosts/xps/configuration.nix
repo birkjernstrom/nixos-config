@@ -186,6 +186,32 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # The haptic Synaptics touchpad (06CB:D01D) tracks fine from a cold boot
+  # but ignores presses until it has been power-cycled once - a suspend
+  # (closing the lid) fixes it every time. Do the same once at boot:
+  # unbinding i2c_hid_acpi powers the device down, rebinding powers it back
+  # up and re-runs hid-multitouch's setup, as a resume does.
+  systemd.services.touchpad-reinit =
+    let
+      dev = "i2c-VEN_06CB:00";
+      drv = "/sys/bus/i2c/drivers/i2c_hid_acpi";
+    in
+    {
+      description = "Power-cycle the haptic touchpad so clicks register";
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig.Type = "oneshot";
+      script = ''
+        for _ in $(seq 60); do
+          [ -e ${drv}/${dev} ] && break
+          sleep 0.5
+        done
+        [ -e ${drv}/${dev} ] || exit 0
+        echo ${dev} > ${drv}/unbind
+        sleep 2
+        echo ${dev} > ${drv}/bind
+      '';
+    };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.birk = {
     isNormalUser = true;
