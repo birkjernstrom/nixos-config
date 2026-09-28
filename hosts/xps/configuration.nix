@@ -1,4 +1,4 @@
-{ config, pkgs, nixpkgs-stable, settings, isDarwin, inputs, ... }:
+{ config, lib, pkgs, nixpkgs-stable, settings, isDarwin, inputs, ... }:
 let
   hostSettings = import ./settings.nix;
 in
@@ -23,6 +23,69 @@ in
   # Left unset, the wrong driver loads at that stage and gets displaced once
   # userspace takes over.
   hardware.intelgpu.driver = "xe";
+
+  # The MIPI webcam (ov08x40 sensor) needs this: the in-tree kernel staging
+  # driver alone enumerates the sensor but never brings up the ISP firmware
+  # (journal: "IPU7 in secure mode" / "Failed to get runtime PM" on every
+  # boot), so nothing ever produces a readable video stream. ipu75xa matches
+  # this board's PCI ID (dmesg: "Device 0xb05d") - ipu7x is the Lunar Lake one.
+  hardware.ipu7 = {
+    enable = true;
+    platform = "ipu75xa";
+  };
+
+  # The sensor is mounted upside down. Rotate in the relay rather than via the
+  # sensor's flip controls, which would change the Bayer order the HAL's
+  # sensor config expects (SGRBG10).
+  services.v4l2-relayd.instances.ipu7.input.pipeline =
+    lib.mkForce "icamerasrc ! videoflip video-direction=180";
+
+  # The loopback device upstream creates gets v4l2loopback's default of 2
+  # buffers, which GStreamer's v4l2sink can't cope with: it fails at once with
+  # "buffer 1 was not queued, this indicate a driver bug", taking the relay
+  # down on start and whenever a client (a Meet tab) disconnects - after which
+  # every restart dies the same way until systemd's start limit gives up.
+  # Tested: with 8 buffers the relay starts, serves frames and survives
+  # clients leaving, every time.
+  #
+  # Also keep one device for the whole boot (reuse it, never delete it)
+  # rather than upstream's add-on-start/delete-on-stop: the delete fails with
+  # EBUSY while a browser holds the camera open, leaving a stale device
+  # behind. And keep retrying restarts rather than giving up.
+  systemd.services.v4l2-relayd-ipu7 =
+    let
+      ctl = "${config.boot.kernelPackages.v4l2loopback.bin}/bin/v4l2loopback-ctl";
+      label = config.services.v4l2-relayd.instances.ipu7.cardLabel;
+    in
+    {
+      preStart = lib.mkForce ''
+        mkdir -p $(dirname $V4L2_DEVICE_FILE)
+        for d in /sys/class/video4linux/video*; do
+          if [ "$(cat $d/name 2>/dev/null)" = "${label}" ]; then
+            echo /dev/$(basename $d) > $V4L2_DEVICE_FILE
+            exit 0
+          fi
+        done
+        ${ctl} add -x 1 -b 8 -n "${label}" > $V4L2_DEVICE_FILE
+      '';
+      postStop = lib.mkForce "";
+      startLimitIntervalSec = 0;
+      serviceConfig.RestartSec = 2;
+    };
+
+  # This board routes the sensor through an Intel CVS bridge
+  # (ov08x40 -> Intel CVS -> IPU7 CSI2 0), which the camera HAL doesn't know
+  # about: it takes the entity linked into CSI2 as the sensor (resolving the
+  # sensor name to "ov08x40 S" and never finding it), and leaves the CVS pads
+  # at their Y8 1x1 default so STREAMON fails with EPIPE on the format
+  # mismatch. The patch looks the sensor up by name and sets the CVS formats.
+  nixpkgs.overlays = [
+    (final: prev: {
+      ipu75xa-camera-hal = prev.ipu75xa-camera-hal.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ./ipu7-cvs-bridge.patch ];
+      });
+    })
+  ];
 
   # The stable kernel line has no SoundWire machine driver for this board's
   # ACPI configuration yet (dmesg: "No SoundWire machine driver found",

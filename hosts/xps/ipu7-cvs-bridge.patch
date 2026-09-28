@@ -1,0 +1,53 @@
+diff -ruN a/config/linux/ipu75xa/sensors/ov08x40-uf.json b/config/linux/ipu75xa/sensors/ov08x40-uf.json
+--- a/config/linux/ipu75xa/sensors/ov08x40-uf.json	2026-09-28 12:19:21.275783980 +0200
++++ b/config/linux/ipu75xa/sensors/ov08x40-uf.json	2026-09-28 12:19:33.527199091 +0200
+@@ -32,16 +32,20 @@
+                 "format": "V4L2_MBUS_FMT_SGRBG10_1X10"
+               },
+               {
++                "name": "Intel CVS", "pad": 0, "width": 3856, "height": 2176,
++                "format": "V4L2_MBUS_FMT_SGRBG10_1X10"
++              },
++              {
++                "name": "Intel CVS", "pad": 1, "width": 3856, "height": 2176,
++                "format": "V4L2_MBUS_FMT_SGRBG10_1X10"
++              },
++              {
+                 "name": "Intel IPU7 CSI2 $CSI_PORT", "pad": 0, "width": 3856, "height": 2176,
+                 "format": "V4L2_MBUS_FMT_SGRBG10_1X10"
+               }
+             ],
+             "link": [
+               {
+-                "srcName": "ov08x40 $I2CBUS", "srcPad": 0, "sinkName": "Intel IPU7 CSI2 $CSI_PORT",
+-                "sinkPad": 0, "enable": true
+-              },
+-              {
+                 "srcName": "Intel IPU7 CSI2 $CSI_PORT", "srcPad": 1,
+                 "sinkName": "Intel IPU7 ISYS Capture $CAP_N", "sinkPad": 0, "enable": true
+               }
+diff -ruN a/src/v4l2/MediaControl.cpp b/src/v4l2/MediaControl.cpp
+--- a/src/v4l2/MediaControl.cpp	2026-09-28 12:19:21.256448784 +0200
++++ b/src/v4l2/MediaControl.cpp	2026-09-28 12:19:27.410215999 +0200
+@@ -1120,15 +1120,14 @@
+     CheckAndLogError(!i2cBus, UNKNOWN_ERROR, "i2cBus is nullptr");
+ 
+     for (auto& entity : mEntities) {
+-        int linksCount = entity.info.links;
+-        MediaLink* links = entity.links;
+         char* entityName = nullptr;
+         size_t sensorEntityNameLen = sensorEntityName.length();
+-        for (int i = 0; i < linksCount; i++) {
+-            if (strcmp(links[i].sink->entity->info.name, sinkEntityName.c_str()) == 0) {
+-                entityName = entity.info.name;
+-                break;
+-            }
++        // Match the sensor by name rather than by its link into the CSI2
++        // receiver: on boards with an Intel CVS bridge the entity linked to
++        // CSI2 is "Intel CVS", not the sensor.
++        if (strncmp(entity.info.name, sensorEntityName.c_str(), sensorEntityNameLen) == 0 &&
++            entity.info.name[sensorEntityNameLen] == ' ') {
++            entityName = entity.info.name;
+         }
+ 
+         // entityName example: "imx319 10-0010", sensorEntityName example: "imx319"
