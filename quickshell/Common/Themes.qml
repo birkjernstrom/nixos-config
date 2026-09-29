@@ -47,6 +47,42 @@ Singleton {
             // rather than the loose base16-schemes version, so no overrides.
             palette: Vesper,
             overrides: ({})
+        },
+        {
+            id: "nord",
+            name: "Nord",
+            palette: Nord,
+            // Nord's base07 is a frost teal, but base07 is the terminal's bright
+            // white - bold text would come out teal. Snow Storm's white instead.
+            overrides: ({
+                base07: "#eceff4"
+            })
+        },
+        {
+            id: "grayscale-dark",
+            name: "Grayscale Dark",
+            palette: GrayscaleDark,
+            // Every accent slot in Grayscale is a mid-grey, so errors, warnings,
+            // urgent workspaces and agents waiting on you would vanish into the
+            // rest. One muted red and one muted amber keep those readable
+            // without breaking the monochrome look.
+            overrides: ({
+                base08: "#c76b6b",
+                base0A: "#c9a866"
+            })
+        },
+        {
+            id: "rose-pine",
+            name: "Rosé Pine",
+            palette: RosePine,
+            // The base16 port puts a dark grey in base07, the terminal's bright
+            // white, and the pale "rose" in base0A, where warnings and agents
+            // waiting on you would barely show. Rosé Pine's text colour and its
+            // gold instead.
+            overrides: ({
+                base07: "#e0def4",
+                base0A: "#f6c177"
+            })
         }
     ]
 

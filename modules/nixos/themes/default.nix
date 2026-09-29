@@ -38,6 +38,29 @@ with lib; let
       scheme = ../../../quickshell/tools/schemes/vesper.yaml;
       override = { };
     };
+    nord = {
+      scheme = "${schemes}/nord.yaml";
+      # base07 is the terminal's bright white; Nord puts a frost teal there.
+      override.base07 = "eceff4";
+    };
+    grayscale-dark = {
+      scheme = "${schemes}/grayscale-dark.yaml";
+      # All-grey accents would hide errors and warnings; bring back one muted
+      # red and one muted amber.
+      override = {
+        base08 = "c76b6b";
+        base0A = "c9a866";
+      };
+    };
+    rose-pine = {
+      scheme = "${schemes}/rose-pine.yaml";
+      # base07 (bright white) is a dark grey in the port, and base0A (warnings)
+      # the pale rose; use Rosé Pine's text colour and its gold.
+      override = {
+        base07 = "e0def4";
+        base0A = "f6c177";
+      };
+    };
   };
 
   themeSwitch = pkgs.writeShellApplication {
