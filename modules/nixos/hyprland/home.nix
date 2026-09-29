@@ -51,6 +51,14 @@ in
     userSettings.quickshell.enable = true;
     userSettings.mako.enable = true;
 
+    # No wallpaper: the desktop is Hyprland's own `misc.background_color`,
+    # which Stylix sets to the theme's base00 - so it follows theme-switch
+    # (modules/nixos/themes) like everything else. The wallpaper image in
+    # modules/nixos/stylix.nix stays for Noctalia. This gate, not
+    # stylix.targets.hyprpaper, is what starts the hyprpaper service (see
+    # noctalia/home.nix).
+    stylix.targets.hyprland.hyprpaper.enable = false;
+
     # Clipboard utilities for Wayland
     home.packages = with pkgs; [
       wl-clipboard  # Wayland clipboard utilities (wl-copy, wl-paste)
@@ -96,11 +104,16 @@ in
         ];
 
         config = {
-          # General settings (border colors handled by Stylix)
+          # General settings. Border colours come from Stylix's palette, but a
+          # step dimmer than its defaults (base0D active, base03 inactive): the
+          # active border in the theme's dim grey, inactive ones barely above
+          # the background. Read from the palette, so they follow theme-switch.
           general = {
             gaps_in = 5;
             gaps_out = 5;
             border_size = 1;
+            "col.active_border" = mkForce "rgb(${config.lib.stylix.colors.base03})";
+            "col.inactive_border" = mkForce "rgb(${config.lib.stylix.colors.base01})";
             resize_on_border = true;
             layout = "dwindle";
           };
