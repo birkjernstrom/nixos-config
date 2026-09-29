@@ -6,7 +6,7 @@ import Quickshell.Io
 
 // Live view of the tailnet, for the bar's Tailnet module.
 //
-// There is no daemon socket to talk to the way Herdr does: tailscaled's local
+// There is no daemon socket to talk to directly: tailscaled's local
 // API is HTTP over a unix socket that only root and the configured operator may
 // open, and Quickshell has no HTTP client. So this polls the CLI, which is the
 // same thing every other Tailscale frontend does.

@@ -37,7 +37,28 @@ in
             updatetime = 250;
             timeoutlen = 300;
           };
-          # Colorscheme comes from Stylix's nvf target.
+          # Colorscheme comes from Stylix's nvf target - but nvf bakes that
+          # palette into the nvim package, and user packages come from
+          # /etc/profiles, which a runtime theme switch (modules/nixos/themes)
+          # does not touch. So re-apply it from the palette Stylix writes into
+          # ~/.config for the active theme; running instances get the same call
+          # from theme-switch.
+          luaConfigPost = ''
+            do
+              local f = io.open(vim.fn.expand("~/.config/stylix/palette.json"))
+              if f then
+                local ok, palette = pcall(vim.json.decode, f:read("*a"))
+                f:close()
+                if ok and type(palette) == "table" then
+                  local colors = {}
+                  for slot, hex in pairs(palette) do
+                    if slot:match("^base0%x$") then colors[slot] = "#" .. hex end
+                  end
+                  pcall(function() require("base16-colorscheme").setup(colors) end)
+                end
+              end
+            end
+          '';
 
           git = {
             gitsigns = {

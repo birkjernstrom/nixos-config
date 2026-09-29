@@ -37,6 +37,12 @@ Singleton {
     // background of its own.
     readonly property color workspaceActiveFg: "white"
 
+    // Agent states (Agents.qml), for the bar module and the picker rows.
+    // Waiting shares the warning slot on purpose: it is the one that wants you.
+    readonly property color agentWorking: Themes.base0D
+    readonly property color agentWaiting: Themes.base0A
+    readonly property color agentIdle: Themes.base03   // same as fgDim
+
     // Geometry. barHeight matches the waybar it replaces so nothing reflows.
     readonly property int barHeight: 29
     readonly property int radius: 8

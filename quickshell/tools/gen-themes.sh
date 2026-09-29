@@ -7,7 +7,9 @@
 #
 # Palettes are read straight out of the base16-schemes package rather than from
 # the live Stylix config, so any of its ~300 schemes can be added by appending to
-# SCHEMES below and adding one line to Common/Themes.qml. Only base00-base0F are
+# SCHEMES below and adding one line to Common/Themes.qml. A scheme in
+# tools/schemes/ takes precedence over the package's, for palettes it lacks or
+# gets wrong (Vesper). Only base00-base0F are
 # emitted: Theme.qml never reads the base10-base17 slots, and those are a Stylix
 # base24 extension that the raw scheme files do not define anyway.
 #
@@ -20,14 +22,15 @@ repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 out="$repo/quickshell/Common"
 host="${1:-framework}"
 
-SCHEMES=(kanagawa-dragon tokyo-night-storm)
+SCHEMES=(kanagawa-dragon tokyo-night-storm vesper)
 
 schemes_dir="$(nix eval --raw "$repo#nixosConfigurations.$host.pkgs.base16-schemes")/share/themes"
 
 mkdir -p "$out/themes"
 
 for scheme in "${SCHEMES[@]}"; do
-  src="$schemes_dir/$scheme.yaml"
+  src="$repo/quickshell/tools/schemes/$scheme.yaml"
+  [ -f "$src" ] || src="$schemes_dir/$scheme.yaml"
   [ -f "$src" ] || { echo "no such scheme: $src" >&2; exit 1; }
 
   # PascalCase: tokyo-night-storm -> TokyoNightStorm. Quickshell only registers

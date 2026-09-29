@@ -53,13 +53,21 @@ Singleton {
     readonly property string tailscaleExitNode: "󰰜"
     readonly property string tailscaleOff: "󰨛"
 
-    // herdr agent states. One silhouette, three interiors: the circle is the
-    // constant, so a glance at the bar's centre reads the interiors as a status
-    // rather than re-reading three unrelated shapes. All three measure 600x600,
-    // so the counters sit on exactly the same line.
+    // Agent states (Agents.qml). One silhouette, three interiors: the circle
+    // is the constant, so a glance reads the interior as a status rather than
+    // re-reading three unrelated shapes. All three measure 600x600, so the
+    // count beside them sits on the same line whichever is showing.
     readonly property string agentWorking: "󰪡"
-    readonly property string agentBlocked: "󰀨"
-    readonly property string agentDone: "󰗠"
+    readonly property string agentWaiting: "󰀨"
+    readonly property string agentIdle: "󰗠"
+
+    function agent(state) {
+        if (state === "waiting")
+            return root.agentWaiting;
+        if (state === "working")
+            return root.agentWorking;
+        return root.agentIdle;
+    }
 
     readonly property string search: "󰍉"
     readonly property string app: "󰣆"

@@ -7,12 +7,15 @@
     noctalia.enable = false;
     primo.enable = true;
     tailscale.enable = true;
+    agents.enable = true;
     clamav.enable = true;
     clamav.onAccess.enable = true;
   };
 
   # Maps to config.userSettings.*
   user = {
+    agents.enable = true;
+    themes.enable = true;
     cli = {
       core.enable = true;
       zsh.enable = true;

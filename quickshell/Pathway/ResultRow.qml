@@ -49,9 +49,17 @@ Rectangle {
                 return Icons.image;
             if (root.item.kind === "theme" || root.item.id === "command:theme")
                 return Icons.theme;
+            if (root.item.kind?.startsWith("agent-"))
+                return Icons.agent(root.item.kind.slice(6));
             return Icons.app;
         }
-        color: Theme.fgDim
+        color: {
+            if (root.item.kind === "agent-waiting")
+                return Theme.agentWaiting;
+            if (root.item.kind === "agent-working")
+                return Theme.agentWorking;
+            return Theme.fgDim;
+        }
         visible: !icon.visible
     }
 

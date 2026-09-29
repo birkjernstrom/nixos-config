@@ -70,7 +70,10 @@ Scope {
                 spacing: 0
 
                 // Order matches the waybar it replaces: audio, bluetooth,
-                // network, battery, hard against the edge.
+                // network, battery, hard against the edge. Agents lead, since
+                // they are the one item that asks something of you.
+                AgentStatus {}
+
                 Volume {}
 
                 Bluetooth {}

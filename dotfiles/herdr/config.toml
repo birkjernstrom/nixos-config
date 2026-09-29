@@ -27,8 +27,5 @@ pane_gaps = false
 pane_outer_borders = false
 
 # Title herdr writes to the terminal it runs in, and therefore the title hyprland
-# sees. The "herdr · " prefix is load-bearing: the Quickshell bar's agent module
-# (quickshell/Bar/modules/Agents.qml) raises this window by matching on it, since
-# the window is an ordinary ghostty with nothing else to tell it apart from any
-# other terminal. Change the prefix in both places or not at all.
+# sees. The "herdr · " prefix tells this window apart from any other ghostty.
 window_title = "herdr · {workspace} — {hostname}"

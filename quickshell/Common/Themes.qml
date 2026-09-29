@@ -7,11 +7,15 @@ import qs.Common.themes
 
 // The switchable colour layer. Theme.qml maps these slots onto semantic tokens,
 // and every widget reads only those tokens - so changing `currentId` re-evaluates
-// the whole shell through ordinary bindings. That is the entire live-reload
-// mechanism; there is no reloading to do.
+// the whole shell through ordinary bindings, instantly.
 //
-// Palettes come from tools/gen-themes.sh. Adding one is a line in that script's
-// SCHEMES list plus an entry below.
+// Everything outside the shell - GTK, Ghostty, Hyprland, tmux, mako, Neovim and
+// the rest of what Stylix themes - is switched by `theme-switch`, which
+// activates that theme's pre-built home-manager specialisation
+// (modules/nixos/themes). The theme ids and overrides here must match its list.
+//
+// Palettes come from tools/gen-themes.sh. Adding a theme is a line in that
+// script's SCHEMES list, an entry below, and one in modules/nixos/themes.
 Singleton {
     id: root
 
@@ -35,6 +39,14 @@ Singleton {
                 base08: "#f7768e",
                 base0A: "#ff9e64"
             })
+        },
+        {
+            id: "vesper",
+            name: "Vesper",
+            // Hand-mapped from the original theme (tools/schemes/vesper.yaml)
+            // rather than the loose base16-schemes version, so no overrides.
+            palette: Vesper,
+            overrides: ({})
         }
     ]
 
@@ -60,58 +72,45 @@ Singleton {
     readonly property color base0E: root._slot("base0E")
     readonly property color base0F: root._slot("base0F")
 
-    readonly property string dir: Quickshell.statePath("shell")
-    readonly property string path: root.dir + "/theme.json"
+    // theme-switch's own record of the active theme, so the bar and the rest
+    // of the desktop cannot disagree - including after `theme-switch` is run
+    // from a terminal, which the watch below picks up.
+    readonly property string path: `${Quickshell.env("XDG_STATE_HOME") || Quickshell.env("HOME") + "/.local/state"}/theme-switch/current`
 
     function select(id) {
         if (!root.available.some(t => t.id === id))
             return;
+        // The bar switches now; the rest follows once the activation lands, a
+        // second or two later.
         root.currentId = id;
-        file.setText(JSON.stringify({
-            id: id
-        }));
-        // Quickshell restyles itself through bindings; everything else needs
-        // pushing out and reloading.
-        ThemeExport.apply(true);
+        Quickshell.execDetached(["theme-switch", id]);
     }
 
     function _slot(name) {
         return root.entry.overrides[name] ?? root.entry.palette[name];
     }
 
+    function _load() {
+        const id = file.text().trim();
+        if (id !== "" && root.available.some(t => t.id === id))
+            root.currentId = id;
+    }
+
     FileView {
         id: file
 
         path: root.path
-        atomicWrites: true
-        // A missing file on first run is expected, not an error worth logging.
+        // A missing file just means the default theme was never changed.
         printErrors: false
         preload: true
         blockLoading: true
-    }
-
-    // FileView will not create the parent directory itself, so the first save
-    // would otherwise fail silently.
-    Process {
-        command: ["mkdir", "-p", root.dir]
-        running: true
-    }
-
-    Component.onCompleted: {
-        // Blocking read: the right palette has to be live before the first frame,
-        // otherwise the shell flashes the default theme on every start.
-        const raw = file.text();
-        if (!raw)
-            return;
-        try {
-            const parsed = JSON.parse(raw);
-            if (parsed && parsed.id)
-                root.currentId = parsed.id;
-        } catch (e) {
-            console.warn("themes: discarding unreadable theme state:", e);
-        }
-        // Keep the exported files in step with the restored theme, but do not
-        // signal running terminals just because the shell restarted.
-        ThemeExport.apply(false);
+        watchChanges: true
+        // Applied once the contents are actually in, not from Component.onCompleted:
+        // at startup that can run before the file has been read, which left the
+        // bar on the default theme whatever had been chosen.
+        onLoaded: root._load()
+        // theme-switch replaces the file (a rename), which a watch reports as
+        // a change; reloading ends in onLoaded again.
+        onFileChanged: file.reload()
     }
 }

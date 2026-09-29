@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Io
 import qs.Bar
+import qs.Common
 import qs.Pathway
 import qs.Pathway.providers
 
@@ -41,6 +42,22 @@ ShellRoot {
         // Unbound by default - the command is reachable by searching for it.
         function theme(): void {
             pathway.showScoped(ThemeProvider, "Theme");
+        }
+
+        // SUPER+A. Re-read first so ages and states are current on open.
+        function agents(): void {
+            Agents.refresh();
+            pathway.showScoped(AgentsProvider, "Agents");
+        }
+    }
+
+    // Poked by every agent hook (`agent-status hook`) so the bar follows a
+    // state change immediately rather than on its next poll.
+    IpcHandler {
+        target: "agents"
+
+        function refresh(): void {
+            Agents.refresh();
         }
     }
 }

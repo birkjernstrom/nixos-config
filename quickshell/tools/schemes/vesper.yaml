@@ -1,0 +1,45 @@
+# Vesper (Rauno Freiberg), as base16. https://github.com/vladzima/vesper-theme
+#
+# base16-schemes ships its own vesper.yaml, but it is a loose reinterpretation:
+# it trades Vesper's mint for a muted teal and adds pinks and blues the theme
+# never uses. This one is taken from the original VS Code theme instead, with
+# the terminal slots following the Warp port.
+#
+# Vesper is near-monochrome - greys on #101010, white text - with three
+# accents: peach #FFC799 (its accent and focus colour), mint #99FFE4 (strings)
+# and red #FF8080 (errors). The slots keep base16 terminal semantics (08 red,
+# 0A yellow, 0B green, 0D blue, 0E magenta), because they also feed the ANSI
+# palette:
+#
+#   00-02  editor background, input background, list selection
+#   03-04  line numbers (the shell's dim text), keyword grey
+#   05-07  Vesper's foreground is pure white
+#   09     Warp's bright yellow, the only orange-ish tone besides peach
+#   0D     Vesper has no blue; Warp maps it to the keyword grey. Also the
+#          active window border, which suits the monochrome look.
+#   0E     peach again: the shell's accent (launcher border, selection), and
+#          Vesper's focus colour. Terminal magenta follows it.
+#
+# No comments below this line: Stylix's YAML parser rejects them inside the
+# palette.
+system: "base16"
+name: "Vesper"
+author: "Rauno Freiberg, adapted from the VS Code and Warp themes"
+variant: "dark"
+palette:
+  base00: "#101010"
+  base01: "#1c1c1c"
+  base02: "#232323"
+  base03: "#505050"
+  base04: "#a0a0a0"
+  base05: "#ffffff"
+  base06: "#ffffff"
+  base07: "#ffffff"
+  base08: "#ff8080"
+  base09: "#ffcfa8"
+  base0A: "#ffc799"
+  base0B: "#99ffe4"
+  base0C: "#99ffe4"
+  base0D: "#a0a0a0"
+  base0E: "#ffc799"
+  base0F: "#ff7300"
