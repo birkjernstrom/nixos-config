@@ -69,6 +69,14 @@ in
         # Keep pane backgrounds transparent so the terminal shows through.
         set -g window-style "bg=default"
         set -g window-active-style "bg=default"
+
+        # Stylix paints the status bar with the scheme's base00, which never
+        # quite matches Ghostty's background. Appending bg=default keeps its
+        # foreground colours but lets the terminal background show through.
+        set -ga status-style "bg=default"
+        set -ga window-status-style "bg=default"
+        set -ga window-status-current-style "bg=default"
+        set -ga window-status-activity-style "bg=default"
         set -g status-left-length 50
         set -g status-right-length 50
 
