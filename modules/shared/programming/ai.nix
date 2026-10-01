@@ -27,6 +27,11 @@ in
       pi-coding-agent   # `pi` coding agent CLI (pi.dev)
     ];
 
+    home.file.".claude/CLAUDE.md".source = ../../../dotfiles/agents/AGENTS.md;
+    home.file.".codex/AGENTS.md".source = ../../../dotfiles/agents/AGENTS.md;
+    home.file.".config/opencode/AGENTS.md".source = ../../../dotfiles/agents/AGENTS.md;
+    home.file.".pi/agent/AGENTS.md".source = ../../../dotfiles/agents/AGENTS.md;
+
     home.file.".config/herdr/config.toml" = {
       source = ../../../dotfiles/herdr/config.toml;
 
