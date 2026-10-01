@@ -44,11 +44,17 @@ in
         unbind '"'
         bind '-' split-window -v
 
-        # Resize vim-style
-        bind -r j resize-pane -D 5
-        bind -r k resize-pane -U 5
-        bind -r l resize-pane -R 5
-        bind -r h resize-pane -L 5
+        # Move between panes vim-style
+        bind h select-pane -L
+        bind j select-pane -D
+        bind k select-pane -U
+        bind l select-pane -R
+
+        # Resize with the arrows
+        bind -r Down resize-pane -D 5
+        bind -r Up resize-pane -U 5
+        bind -r Right resize-pane -R 5
+        bind -r Left resize-pane -L 5
 
         # m to Zoom
         bind -r m resize-pane -Z
