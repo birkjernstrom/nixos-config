@@ -14,7 +14,7 @@ in
     # claude-cli:// deep links. Claude Code writes the handler's .desktop file
     # into ~/.local/share/applications itself; this only points the scheme at
     # it, since mimeapps.list is owned by home-manager (see apps/zathura.nix).
-    xdg.mimeApps = mkIf pkgs.stdenv.isLinux {
+    xdg.mimeApps = mkIf pkgs.stdenv.hostPlatform.isLinux {
       enable = true;
       defaultApplications."x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
     };
