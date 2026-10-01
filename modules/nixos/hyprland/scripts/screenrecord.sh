@@ -28,7 +28,12 @@ OUTPUT_DIR="$(xdg-user-dir VIDEOS 2>/dev/null || echo "$HOME/Videos")"
 
 notify() { notify-send -a "Screen recording" "$@"; }
 
-recording_active() { pgrep -f "^gpu-screen-recorder" >/dev/null; }
+# Matches the recorder whether it was started by bare name or, as on NixOS, as
+# /nix/store/.../bin/.wrapped/gpu-screen-recorder - Omarchy's "^gpu-screen-recorder"
+# only matches the former, so every press here used to start another recording.
+RECORDER='(^|/)gpu-screen-recorder '
+
+recording_active() { pgrep -f "$RECORDER" >/dev/null; }
 
 # Prefer the IPU7 relay's loopback camera, skip the raw IPU capture nodes
 # (they're capture-capable but carry unprocessed Bayer data), and otherwise
@@ -166,7 +171,7 @@ finalize_recording() {
 
 stop_recording() {
   # SIGINT, so the MP4 is finalized properly.
-  pkill -SIGINT -f "^gpu-screen-recorder" || true
+  pkill -SIGINT -f "$RECORDER" || true
   local count=0
   while recording_active && ((count < 50)); do
     sleep 0.1
@@ -179,7 +184,7 @@ stop_recording() {
   rm -f "$RECORDING_FILE"
 
   if recording_active; then
-    pkill -9 -f "^gpu-screen-recorder" || true
+    pkill -9 -f "$RECORDER" || true
     notify -u critical -t 5000 "Screen recording error" "Recording had to be force-killed. Video may be corrupted."
     return 1
   fi
