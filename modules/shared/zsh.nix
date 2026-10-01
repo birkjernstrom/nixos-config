@@ -40,6 +40,7 @@ in
         # Use zsh after nix develop -- unfortunately from within bash
         # https://github.com/NixOS/nix/issues/4609
         "nixdev" = "nix develop --command zsh";
+        "tslogin" = "sudo tailscale login --report-posture --operator=$USER";
       } // lib.optionalAttrs (!isDarwin) {
         "pwr" = "powerprofilesctl";
       };
