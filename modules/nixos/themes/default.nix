@@ -20,7 +20,8 @@ with lib; let
 
   schemes = "${pkgs.base16-schemes}/share/themes";
 
-  # id -> Stylix settings. Keep in step with Themes.qml.
+  # id -> Stylix settings, polarity defaulting to dark. Keep in step with
+  # Themes.qml.
   themes = {
     tokyo-night-storm = {
       scheme = "${schemes}/tokyo-night-storm.yaml";
@@ -61,6 +62,21 @@ with lib; let
         base0A = "f6c177";
       };
     };
+    rose-pine-dawn = {
+      scheme = "${schemes}/rose-pine-dawn.yaml";
+      polarity = "light";
+      # Same fixes as Rosé Pine: base07 is a pale grey and base0A the rose;
+      # use Dawn's text colour and its gold.
+      override = {
+        base07 = "575279";
+        base0A = "ea9d34";
+      };
+      # Dawn's highlight-high and highlight-med; base03 reads as a pale blue.
+      borders = {
+        active = "cecacd";
+        inactive = "dfdad9";
+      };
+    };
   };
 
   themeSwitch = pkgs.writeShellApplication {
@@ -96,8 +112,27 @@ in
         userSettings.themes.isSpecialisation = true;
         stylix.base16Scheme = mkForce theme.scheme;
         stylix.override = mkForce theme.override;
+        stylix.polarity = mkForce (theme.polarity or "dark");
+        wayland.windowManager.hyprland.settings.config.general = mkIf (theme ? borders) {
+          "col.active_border" = mkOverride 10 "rgb(${theme.borders.active})";
+          "col.inactive_border" = mkOverride 10 "rgb(${theme.borders.inactive})";
+        };
       };
     }) themes;
+
+    # Stylix writes 'default' for light, which the portal reports as no
+    # preference; Chromium and Electron only switch on an explicit one.
+    dconf.settings."org/gnome/desktop/interface".color-scheme = mkForce
+      (if config.stylix.polarity == "light" then "prefer-light" else "prefer-dark");
+
+    # Runs in every theme's activation, so Claude Code follows the polarity.
+    home.activation.claudeTheme = hm.dag.entryAfter [ "writeBoundary" ] ''
+      settings="$HOME/.claude/settings.json"
+      if [[ -f $settings && -z ''${DRY_RUN:-} ]]; then
+        ${getExe pkgs.jq} --arg t ${if config.stylix.polarity == "light" then "light" else "dark"} \
+          '.theme = $t' "$settings" > "$settings.tmp" && mv "$settings.tmp" "$settings"
+      fi
+    '';
 
     # Boot and every nixos-rebuild activate the base generation, i.e. the
     # default theme. Put the remembered one back straight after.

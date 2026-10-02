@@ -224,7 +224,7 @@ RowLayout {
                     if (pill.workspace?.urgent)
                         return Theme.onAccent;
                     // No fill to contrast against, so the active workspace is
-                    // marked with a flat white label rather than a themed one.
+                    // marked with a flat white label (dark text on light themes).
                     if (pill.workspace?.active)
                         return Theme.workspaceActiveFg;
                     if (pill.hovered)

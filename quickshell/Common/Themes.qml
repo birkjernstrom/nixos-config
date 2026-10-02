@@ -83,6 +83,17 @@ Singleton {
                 base07: "#e0def4",
                 base0A: "#f6c177"
             })
+        },
+        {
+            id: "rose-pine-dawn",
+            name: "Rosé Pine Dawn",
+            palette: RosePineDawn,
+            light: true,
+            // The same two fixes as Rosé Pine, with Dawn's text colour and gold.
+            overrides: ({
+                base07: "#575279",
+                base0A: "#ea9d34"
+            })
         }
     ]
 
@@ -90,6 +101,7 @@ Singleton {
 
     // An id from a stale or hand-edited state file must not take the shell down.
     readonly property var entry: root.available.find(t => t.id === root.currentId) ?? root.available[0]
+    readonly property bool light: root.entry.light ?? false
 
     readonly property color base00: root._slot("base00")
     readonly property color base01: root._slot("base01")

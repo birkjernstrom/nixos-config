@@ -34,8 +34,9 @@ Singleton {
 
     // Flat white rather than a palette slot, by request - the label color for
     // the active workspace pill on its own screen, which otherwise carries no
-    // background of its own.
-    readonly property color workspaceActiveFg: "white"
+    // background of its own. White vanishes on a light bar, so light themes
+    // use their text colour, the darkest they have.
+    readonly property color workspaceActiveFg: Themes.light ? root.fg : "white"
 
     // Agent states (Agents.qml), for the bar module and the picker rows.
     // Waiting shares the warning slot on purpose: it is the one that wants you.

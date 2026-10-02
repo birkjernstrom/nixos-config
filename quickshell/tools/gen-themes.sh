@@ -22,7 +22,7 @@ repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 out="$repo/quickshell/Common"
 host="${1:-framework}"
 
-SCHEMES=(kanagawa-dragon tokyo-night-storm vesper nord grayscale-dark rose-pine)
+SCHEMES=(kanagawa-dragon tokyo-night-storm vesper nord grayscale-dark rose-pine rose-pine-dawn)
 
 schemes_dir="$(nix eval --raw "$repo#nixosConfigurations.$host.pkgs.base16-schemes")/share/themes"
 
