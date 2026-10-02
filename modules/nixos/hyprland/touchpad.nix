@@ -23,6 +23,13 @@ in
           # still not fast enough.
           sensitivity = 0.5;
         }
+
+        # Temporary: a smudge on the touchscreen triggers phantom clicks.
+        # Remove once the screen is cleaned.
+        {
+          name = "cust0000:00-3558:2002";
+          enabled = false;
+        }
       ];
     };
   };
