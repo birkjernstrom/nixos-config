@@ -44,11 +44,22 @@ Item {
         font.pixelSize: label.px
         renderType: Text.NativeRendering
 
-        // The ink centre sits `cx` right of and `cy` above the pen origin, which
-        // is this Text's left edge and its baseline. baselineOffset gives where
-        // that baseline falls from the top, so both lines below read "put the
-        // ink centre where the box centre is".
+        // Both lines read "put the ink centre where the box centre is". The
+        // vertical one asks Qt for the ink box rather than using IconMetrics'
+        // `cy`: that mixed the font file's units with Qt's baseline and left
+        // every glyph about a pixel low.
         x: Math.round(root.width / 2 - label.px * root.ink.cx / 1000)
-        y: Math.round(root.height / 2 - (label.baselineOffset - label.px * root.ink.cy / 1000))
+        y: Math.round(root.height / 2 - (label.baselineOffset + metrics.ink.y + metrics.ink.height / 2))
+    }
+
+    FontMetrics {
+        id: metrics
+
+        readonly property rect ink: {
+            metrics.font;
+            return metrics.tightBoundingRect(root.glyph);
+        }
+
+        font: label.font
     }
 }

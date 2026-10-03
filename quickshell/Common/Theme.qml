@@ -44,8 +44,7 @@ Singleton {
     readonly property color agentWaiting: Themes.base0A
     readonly property color agentIdle: Themes.base03   // same as fgDim
 
-    // Geometry. barHeight matches the waybar it replaces so nothing reflows.
-    readonly property int barHeight: 29
+    readonly property int barHeight: 33
     readonly property int radius: 8
     readonly property int radiusLarge: 12
     readonly property int paddingH: 6         // waybar had 10px; tightened per-item padding
