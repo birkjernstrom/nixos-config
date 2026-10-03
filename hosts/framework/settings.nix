@@ -10,6 +10,7 @@
     agents.enable = true;
     clamav.enable = true;
     clamav.onAccess.enable = true;
+    steam.enable = true;
   };
 
   # Maps to config.userSettings.*

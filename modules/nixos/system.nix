@@ -10,6 +10,7 @@
     ./primo.nix
     ./clamav.nix
     ./tailscale.nix
+    ./steam.nix
     ./agents/system.nix
   ];
 }
