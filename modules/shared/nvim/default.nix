@@ -20,6 +20,9 @@ in
       neovim
     ];
 
+    # Stylix's nvf target sets the deprecated `lualine.theme`, so the theme is set here instead.
+    stylix.targets.nvf.enable = false;
+
     programs.nvf = {
       enable = true;
 
@@ -37,7 +40,7 @@ in
             updatetime = 250;
             timeoutlen = 300;
           };
-          # Colorscheme comes from Stylix's nvf target - but nvf bakes that
+          # Colorscheme comes from the Stylix palette - but nvf bakes that
           # palette into the nvim package, and user packages come from
           # /etc/profiles, which a runtime theme switch (modules/nixos/themes)
           # does not touch. So re-apply it from the palette Stylix writes into
@@ -72,8 +75,18 @@ in
             };
           };
 
+          theme = {
+            enable = true;
+            name = "base16";
+            base16-colors = filterAttrs (n: _: builtins.match "base0[0-9A-F]" n != null)
+              config.lib.stylix.colors.withHashtag;
+          };
+
           statusline = {
-            lualine.enable = true;
+            lualine = {
+              enable = true;
+              setupOpts.options.theme = "base16";
+            };
           };
 
           utility = {

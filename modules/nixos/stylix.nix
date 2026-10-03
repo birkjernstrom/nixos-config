@@ -22,6 +22,9 @@
   # Left on, it writes a Kvantum theme into ~/.config/Kvantum, which is what
   # was blocking home-manager activation.
   home-manager.sharedModules = [
-    { stylix.targets.qt.enable = false; }
+    {
+      stylix.targets.qt.enable = false;
+      stylix.targets.rofi.enable = false;
+    }
   ];
 }
