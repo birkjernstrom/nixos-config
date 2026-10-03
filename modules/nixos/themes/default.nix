@@ -125,12 +125,12 @@ in
     dconf.settings."org/gnome/desktop/interface".color-scheme = mkForce
       (if config.stylix.polarity == "light" then "prefer-light" else "prefer-dark");
 
-    # Runs in every theme's activation, so Claude Code follows the polarity.
+    # "auto" asks the terminal for its background, so running sessions follow
+    # Ghostty's reload rather than keeping the polarity they started with.
     home.activation.claudeTheme = hm.dag.entryAfter [ "writeBoundary" ] ''
       settings="$HOME/.claude/settings.json"
       if [[ -f $settings && -z ''${DRY_RUN:-} ]]; then
-        ${getExe pkgs.jq} --arg t ${if config.stylix.polarity == "light" then "light" else "dark"} \
-          '.theme = $t' "$settings" > "$settings.tmp" && mv "$settings.tmp" "$settings"
+        ${getExe pkgs.jq} '.theme = "auto"' "$settings" > "$settings.tmp" && mv "$settings.tmp" "$settings"
       fi
     '';
 
