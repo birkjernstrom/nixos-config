@@ -79,6 +79,8 @@ Scope {
                 // Order matches the waybar it replaces: audio, bluetooth,
                 // network, battery, hard against the edge. Agents lead, since
                 // they are the one item that asks something of you.
+                DictationStatus {}
+
                 AgentStatus {}
 
                 Volume {}

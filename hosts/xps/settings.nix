@@ -16,6 +16,7 @@
   # Maps to config.userSettings.*
   user = {
     agents.enable = true;
+    dictation.enable = true;
     themes.enable = true;
     cli = {
       core.enable = true;

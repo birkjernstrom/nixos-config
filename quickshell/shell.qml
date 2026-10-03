@@ -60,4 +60,16 @@ ShellRoot {
             Agents.refresh();
         }
     }
+
+    IpcHandler {
+        target: "dictation"
+
+        function set(status: string): void {
+            Dictation.set(status);
+        }
+
+        function error(message: string): void {
+            Dictation.fail(message);
+        }
+    }
 }

@@ -9,7 +9,7 @@ import Quickshell
 // origin (x rightwards, y up from the baseline). Widgets/Icon.qml scales each
 // glyph so max(w, h) fills its box and puts (cx, cy) at the box's centre.
 //
-// Measured from: /nix/store/h2sx68wsfvhgznkadx6q40rh95c7fizn-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
+// Measured from: /nix/store/n22vjizi4q761ar31c2w2y7d0gsnc5y4-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
 Singleton {
     // Used for a glyph nobody measured - a square filling the cell, which is
     // what setting a font size and hoping would have given anyway.
@@ -56,6 +56,8 @@ Singleton {
         "󰪡": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0AA1 circle-slice-4
         "󰀨": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0028 alert-circle
         "󰗠": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F05E0 check-circle.1
+        "󰍬": { w: 600, h: 816, cx: 300, cy: 356 },  // U+F036C microphone.1
+        "󰍭": { w: 600, h: 632, cx: 300, cy: 356 },  // U+F036D microphone-off
         "󰍉": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0349 magnify
         "󰣆": { w: 600, h: 544, cx: 300, cy: 356 },  // U+F08C6 application
         "󰆒": { w: 600, h: 732, cx: 300, cy: 356 },  // U+F0192 content-paste

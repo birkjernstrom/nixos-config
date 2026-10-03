@@ -66,6 +66,9 @@ Singleton {
         return root.agentIdle;
     }
 
+    readonly property string microphone: "󰍬"
+    readonly property string microphoneOff: "󰍭"
+
     readonly property string search: "󰍉"
     readonly property string app: "󰣆"
     readonly property string clipboard: "󰆒"
