@@ -103,7 +103,7 @@ in
           general = {
             gaps_in = 6;
             gaps_out = 12;
-            border_size = 1;
+            border_size = 0;
             "col.active_border" = mkForce "rgb(${config.lib.stylix.colors.base03})";
             "col.inactive_border" = mkForce "rgb(${config.lib.stylix.colors.base01})";
             resize_on_border = true;
