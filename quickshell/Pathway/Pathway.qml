@@ -29,6 +29,15 @@ Scope {
         root.open = !root.open;
     }
 
+    function submit() {
+        if (!Nav.moduleSubmit) {
+            list.activateSelected();
+            return;
+        }
+        Nav.moduleSubmit(search.text);
+        search.text = "";
+    }
+
     // Opens straight into one provider's list, e.g. SUPER+V for the clipboard.
     // Order matters: the scope is set before showing, and closing is what clears
     // it, so opening scoped does not immediately reset itself.
@@ -141,7 +150,13 @@ Scope {
 
                     Layout.fillWidth: true
                     focus: root.open
-                    placeholder: Nav.scope ? `Search ${Nav.scopeTitle.toLowerCase()}...` : "Search apps and commands..."
+                    placeholder: {
+                        if (Nav.moduleSubmit)
+                            return `Reply to ${Nav.moduleTitle}...`;
+                        if (Nav.scope)
+                            return `Search ${Nav.scopeTitle.toLowerCase()}...`;
+                        return "Search apps and commands...";
+                    }
 
 
                     // Arrow keys and Enter belong to the list even while the
@@ -157,8 +172,8 @@ Scope {
                     }
                     Keys.onUpPressed: list.moveSelection(-1)
                     Keys.onDownPressed: list.moveSelection(1)
-                    Keys.onReturnPressed: list.activateSelected()
-                    Keys.onEnterPressed: list.activateSelected()
+                    Keys.onReturnPressed: root.submit()
+                    Keys.onEnterPressed: root.submit()
                 }
 
                 Rectangle {
@@ -200,6 +215,12 @@ Scope {
         function onScopeChanged() {
             search.text = "";
             list.selectedIndex = 0;
+        }
+
+        // Same for modules: "@linear ..." would otherwise sit in the field
+        // that now takes replies.
+        function onModuleViewChanged() {
+            search.text = "";
         }
 
         target: Nav

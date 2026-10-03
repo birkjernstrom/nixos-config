@@ -216,7 +216,8 @@ cmd_jump() {
 case "${1:-}" in
 # A hook must never get in the agent's way: whatever happens, exit 0 (exit 2
 # would block the tool call).
-hook) cmd_hook 2>/dev/null || true ;;
+# AGENT_STATUS_IGNORE opts a session out, e.g. Pathway's headless MCP chats.
+hook) [[ -n ${AGENT_STATUS_IGNORE:-} ]] || cmd_hook 2>/dev/null || true ;;
 list) cmd_list ;;
 jump) cmd_jump "${2:-}" ;;
 *)

@@ -11,6 +11,9 @@ Singleton {
 
     property Component moduleView: null
     property string moduleTitle: ""
+    // Set by modules that take typed input, e.g. an MCP chat: Enter in the
+    // search field goes here instead of to the result list.
+    property var moduleSubmit: null
 
     // A scope narrows the result list to one provider while reusing ResultList
     // wholesale. Modules that are "a filtered list" (clipboard, and most of what
@@ -21,14 +24,16 @@ Singleton {
 
     signal closeRequested
 
-    function pushModule(component, title) {
+    function pushModule(component, title, submit) {
         root.moduleView = component;
         root.moduleTitle = title ?? "";
+        root.moduleSubmit = submit ?? null;
     }
 
     function popModule() {
         root.moduleView = null;
         root.moduleTitle = "";
+        root.moduleSubmit = null;
     }
 
     function pushScope(provider, title) {

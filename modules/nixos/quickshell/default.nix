@@ -28,6 +28,9 @@ in
       # sh.pathway.tui.* in modules/nixos/hyprland/home.nix.
       pkgs.impala
       pkgs.bluetui
+
+      # `@linear ...` in Pathway.
+      (import ./pathway-mcp.nix { inherit lib pkgs; })
     ];
 
     # Until the shell reaches v1, ~/.config/quickshell is a hand-made symlink to

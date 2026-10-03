@@ -36,6 +36,9 @@ Singleton {
         const raw = (text ?? "").trim();
         const q = raw.toLowerCase();
 
+        if (!scope && raw.startsWith("@"))
+            return Mcp.mentions(raw);
+
         if (q === "") {
             // A scoped provider already emits its own meaningful order (the
             // clipboard is newest-first), so re-ranking it would be wrong.

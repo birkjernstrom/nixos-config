@@ -51,6 +51,8 @@ Rectangle {
                 return Icons.theme;
             if (root.item.kind === "wallpaper" || root.item.id === "command:wallpaper")
                 return Icons.image;
+            if (root.item.id?.startsWith("mcp:"))
+                return Icons.chat;
             if (root.item.kind?.startsWith("agent-"))
                 return Icons.agent(root.item.kind.slice(6));
             return Icons.app;

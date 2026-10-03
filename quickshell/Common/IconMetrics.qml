@@ -61,6 +61,7 @@ Singleton {
         "󰆒": { w: 600, h: 732, cx: 300, cy: 356 },  // U+F0192 content-paste
         "󰋩": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F02E9 image.1
         "󰅂": { w: 600, h: 970, cx: 300, cy: 356 },  // U+F0142 chevron-right.2
-        "󰏘": { w: 600, h: 600, cx: 300, cy: 356 }  // U+F03D8 palette
+        "󰏘": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F03D8 palette
+        "󰍪": { w: 600, h: 600, cx: 300, cy: 356 }  // U+F036A message-text-outline
     })
 }

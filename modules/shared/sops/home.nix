@@ -13,6 +13,7 @@ in
 
     secrets = {
       anthropic = {};
+      linear = {};
     };
   };
 }
