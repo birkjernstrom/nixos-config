@@ -9,6 +9,7 @@
     ./noctalia
     ./primo.nix
     ./clamav.nix
+    ./dns.nix
     ./tailscale.nix
     ./steam.nix
     ./agents/system.nix

@@ -36,6 +36,7 @@ in
       extraSetFlags = [
         "--operator=${settings.user.name}"
         "--posture-checking=true"
+        "--accept-dns=true"
       ];
 
       # Seals tailscaled's state file to the TPM (/dev/tpm0) instead of leaving
