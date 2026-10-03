@@ -49,6 +49,8 @@ Rectangle {
                 return Icons.image;
             if (root.item.kind === "theme" || root.item.id === "command:theme")
                 return Icons.theme;
+            if (root.item.kind === "wallpaper" || root.item.id === "command:wallpaper")
+                return Icons.image;
             if (root.item.kind?.startsWith("agent-"))
                 return Icons.agent(root.item.kind.slice(6));
             return Icons.app;
@@ -68,7 +70,7 @@ Rectangle {
     RowLayout {
         anchors.left: icon.right
         anchors.leftMargin: 12
-        anchors.right: swatch.visible ? swatch.left : chevron.left
+        anchors.right: swatch.visible ? swatch.left : preview.visible ? preview.left : chevron.left
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
         spacing: 10
@@ -124,6 +126,28 @@ Rectangle {
                 border.color: Theme.border
                 border.width: 1
             }
+        }
+    }
+
+    // Thumbnail for wallpaper rows.
+    ClippingRectangle {
+        id: preview
+
+        anchors.right: chevron.left
+        anchors.rightMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
+        width: 56
+        height: 32
+        radius: 4
+        color: Theme.border
+        visible: root.item.preview !== undefined
+
+        Image {
+            anchors.fill: parent
+            source: root.item.preview ?? ""
+            sourceSize.width: 112
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
         }
     }
 

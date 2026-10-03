@@ -51,14 +51,6 @@ in
     userSettings.quickshell.enable = true;
     userSettings.mako.enable = true;
 
-    # No wallpaper: the desktop is Hyprland's own `misc.background_color`,
-    # which Stylix sets to the theme's base00 - so it follows theme-switch
-    # (modules/nixos/themes) like everything else. The wallpaper image in
-    # modules/nixos/stylix.nix stays for Noctalia. This gate, not
-    # stylix.targets.hyprpaper, is what starts the hyprpaper service (see
-    # noctalia/home.nix).
-    stylix.targets.hyprland.hyprpaper.enable = false;
-
     # Clipboard utilities for Wayland
     home.packages = with pkgs; [
       wl-clipboard  # Wayland clipboard utilities (wl-copy, wl-paste)

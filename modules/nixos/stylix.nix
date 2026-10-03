@@ -4,8 +4,9 @@
 {
   stylix = {
     # Wallpaper. Only used as the desktop background - colours come from
-    # `base16Scheme`, not from this image.
-    image = ../../wallpapers/dark_sand.jpg;
+    # `base16Scheme`, not from this image. hyprpaper starts on it until
+    # `wallpaper --restore` swaps in the one picked in Pathway.
+    image = ../../wallpapers/dark/dark_sand.jpg;
 
     cursor = {
       package = pkgs.bibata-cursors;

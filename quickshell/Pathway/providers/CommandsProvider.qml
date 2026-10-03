@@ -19,6 +19,18 @@ Singleton {
             // the scope then replaces the result list with the theme list.
             kind: "module",
             activate: () => Nav.pushScope(ThemeProvider, "Theme")
+        },
+        {
+            id: "command:wallpaper",
+            name: "Wallpaper",
+            subtitle: "Pick a wallpaper for this theme",
+            icon: "",
+            keywords: ["wallpaper", "background", "desktop", "image", "appearance"],
+            kind: "module",
+            activate: () => {
+                WallpaperProvider.refresh();
+                Nav.pushScope(WallpaperProvider, "Wallpaper");
+            }
         }
     ]
 }

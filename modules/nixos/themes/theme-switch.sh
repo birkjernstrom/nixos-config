@@ -72,6 +72,9 @@ reload_running() {
   tmux source-file "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" >/dev/null 2>&1 || true
   makoctl reload >/dev/null 2>&1 || true
 
+  # The theme's polarity may have changed, and with it the wallpaper folder.
+  wallpaper --restore >/dev/null 2>&1 || true
+
   # nvf bakes the palette into the nvim package, which only new instances run,
   # so hand running ones the new palette through their RPC sockets.
   local palette="${XDG_CONFIG_HOME:-$HOME/.config}/stylix/palette.json" lua sock

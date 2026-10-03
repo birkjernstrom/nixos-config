@@ -13,6 +13,8 @@ import qs.Common
 Scope {
     id: root
 
+    property bool solid: false
+
     Variants {
         model: Quickshell.screens
 
@@ -22,7 +24,7 @@ Scope {
             required property var modelData
 
             screen: modelData
-            color: Theme.bg
+            color: root.solid ? Theme.bg : "transparent"
             implicitHeight: Theme.barHeight
 
             anchors {
@@ -36,6 +38,11 @@ Scope {
 
             WlrLayershell.layer: WlrLayer.Top
             WlrLayershell.namespace: "quickshell-bar"
+
+            MouseArea {
+                anchors.fill: parent
+                onDoubleClicked: root.solid = !root.solid
+            }
 
             RowLayout {
                 id: leftSlot

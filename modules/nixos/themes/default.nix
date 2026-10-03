@@ -79,11 +79,19 @@ with lib; let
     };
   };
 
+  # Takes hyprctl from the package rather than the session: it also runs as
+  # hyprpaper's ExecStartPost, outside any shell's PATH.
+  wallpaper = pkgs.writeShellApplication {
+    name = "wallpaper";
+    runtimeInputs = with pkgs; [ coreutils findutils hyprland ];
+    text = builtins.readFile ./wallpaper.sh;
+  };
+
   themeSwitch = pkgs.writeShellApplication {
     name = "theme-switch";
     # hyprctl, makoctl, tmux and nvim come from the session, so they always
     # match what is actually running.
-    runtimeInputs = with pkgs; [ coreutils gnugrep procps jq glib ];
+    runtimeInputs = with pkgs; [ coreutils gnugrep procps jq glib wallpaper ];
     text = replaceStrings [ "@default@" ] [ default ] (builtins.readFile ./theme-switch.sh);
   };
 in
@@ -105,7 +113,20 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ themeSwitch ];
+    home.packages = [ themeSwitch wallpaper ];
+
+    # Out of the store so new images show up in the picker without a rebuild.
+    xdg.dataFile."wallpapers".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.nixos-config/wallpapers";
+
+    # Differs per specialisation, so it tells `wallpaper` which folder to use.
+    xdg.configFile."wallpaper/polarity".text =
+      if config.stylix.polarity == "light" then "light" else "dark";
+
+    # hyprpaper starts on Stylix's image; put the picked one back over it.
+    systemd.user.services.hyprpaper = mkIf config.services.hyprpaper.enable {
+      Service.ExecStartPost = "${getExe wallpaper} --restore";
+    };
 
     specialisation = mapAttrs (_: theme: {
       configuration = {
