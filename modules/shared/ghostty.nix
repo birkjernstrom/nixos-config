@@ -27,8 +27,9 @@ in
             font-feature = [ "-calt" "-liga" "-dlig" ];
             cursor-style = "block";
 
-            window-padding-x = "4,4";
-            window-padding-y = "4,4";
+            window-padding-x = "8,8";
+            window-padding-y = "4,6";
+            window-padding-balance = false;
           };
         };
       };
