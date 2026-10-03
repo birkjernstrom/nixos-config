@@ -105,13 +105,26 @@ Scope {
         Rectangle {
             id: card
 
-            anchors.centerIn: parent
+            // Collapsed to the search field until there is something to show.
+            // Pinned by its top edge so growing never moves the field.
+            readonly property bool collapsed: search.text === "" && !Nav.scope && !root.moduleView
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            y: Math.round((parent.height - Theme.pathwayHeight) / 2)
             width: Theme.pathwayWidth
-            height: Theme.pathwayHeight
+            height: card.collapsed ? search.implicitHeight + 2 : Theme.pathwayHeight
+            clip: true
             color: Theme.bgAlt
             radius: Theme.radiusLarge
             border.color: Theme.accent
             border.width: 1
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: Theme.animFast
+                    easing.type: Easing.OutCubic
+                }
+            }
 
             // Swallow clicks on the card so they don't reach the dismiss scrim.
             MouseArea {
@@ -152,6 +165,7 @@ Scope {
                     Layout.fillWidth: true
                     implicitHeight: 1
                     color: Theme.border
+                    visible: !card.collapsed
                 }
 
                 ModuleHost {
@@ -159,6 +173,7 @@ Scope {
 
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    visible: !card.collapsed
                     source: root.moduleView
 
                     ResultList {
