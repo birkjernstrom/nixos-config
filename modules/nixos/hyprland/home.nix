@@ -158,6 +158,8 @@ in
             focus_on_activate = true;
           };
 
+          xwayland.force_zero_scaling = true;
+
           input = {
             # se(us) is a plain US layout with å/ö/ä added as direct keysyms
             # on AltGr+[ ; ' -- the same physical keys they occupy on a
