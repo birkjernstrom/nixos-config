@@ -9,7 +9,7 @@ import Quickshell
 // origin (x rightwards, y up from the baseline). Widgets/Icon.qml scales each
 // glyph so max(w, h) fills its box and puts (cx, cy) at the box's centre.
 //
-// Measured from: /nix/store/z060rwxkdh3g2k66wsxj9z62cn8xa08c-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
+// Measured from: /nix/store/h2sx68wsfvhgznkadx6q40rh95c7fizn-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
 Singleton {
     // Used for a glyph nobody measured - a square filling the cell, which is
     // what setting a font size and hoping would have given anyway.
@@ -21,11 +21,17 @@ Singleton {
     })
 
     readonly property var ink: ({
-        "": { w: 600, h: 334, cx: 300, cy: 356 },  // U+0F244 _544
-        "": { w: 600, h: 334, cx: 300, cy: 356 },  // U+0F243 _543
-        "": { w: 600, h: 334, cx: 300, cy: 356 },  // U+0F242 _542
-        "": { w: 600, h: 334, cx: 300, cy: 356 },  // U+0F241 _541
-        "": { w: 600, h: 334, cx: 300, cy: 356 },  // U+0F240 _540
+        "󰂎": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F008E battery-outline
+        "󰁺": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F007A battery-10
+        "󰁻": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F007B battery-20
+        "󰁼": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F007C battery-30
+        "󰁽": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F007D battery-40
+        "󰁾": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F007E battery-50
+        "󰁿": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F007F battery-60
+        "󰂀": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0080 battery-70
+        "󰂁": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0081 battery-80
+        "󰂂": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0082 battery-90
+        "󰁹": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0079 battery
         "": { w: 600, h: 1114, cx: 301, cy: 356 },  // U+0F0E7 bolt
         "󰂑": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0091 battery-unknown
         "󰤯": { w: 600, h: 476, cx: 300, cy: 356 },  // U+F092F wifi-strength-outline

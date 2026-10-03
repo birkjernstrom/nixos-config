@@ -18,18 +18,15 @@ import Quickshell
 Singleton {
     id: root
 
-    // Font Awesome's horizontal battery rather than MDI's upright one. At bar
-    // height an upright battery is a 17px column of ink that towers over every
-    // other module; the horizontal one reads as a battery at a glance and sits
-    // in the same visual band as the text beside it. All five frames share one
-    // ink box, so the icon holds perfectly still as the level drops.
-    readonly property var batteryRamp: ["", "", "", "", ""]
+    // MDI's upright battery, empty outline through full in tenths. All eleven
+    // frames share one ink box, so the icon holds perfectly still as the level
+    // drops.
+    readonly property var batteryRamp: ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     // Shown beside the battery while it charges - see rule 1 above. Drawn small
     // by Battery.qml: it annotates the battery, it is not a peer of it.
     readonly property string batteryCharging: ""
-    // UPower reports Unknown for a moment after every shell restart. MDI's
-    // upright battery breaks the horizontal set, which is the point - it is not
-    // a level, and it should not be mistaken for one.
+    // UPower reports Unknown for a moment after every shell restart. The
+    // question mark keeps it from being mistaken for a level.
     readonly property string batteryUnknown: "󰂑"
 
     readonly property var wifiRamp: ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"]
