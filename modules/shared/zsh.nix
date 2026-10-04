@@ -50,6 +50,7 @@ in
         DISABLE_AUTO_TITLE = "true";
 
         ANTHROPIC_API_KEY = ''$(cat ${config.sops.secrets."anthropic".path})'';
+        NGROK_AUTHTOKEN = ''$(cat ${config.sops.secrets."ngrok".path})'';
       };
     };
   };

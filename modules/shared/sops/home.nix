@@ -14,6 +14,7 @@ in
     secrets = {
       anthropic = {};
       linear = {};
+      ngrok = {};
     };
   };
 }

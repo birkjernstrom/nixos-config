@@ -88,10 +88,10 @@
     "config-private": {
       "flake": false,
       "locked": {
-        "lastModified": 1791066249,
-        "narHash": "sha256-rurAldRORftv70GTVrj6eNGBcLAYdw77o542SQbfbBY=",
+        "lastModified": 1791110839,
+        "narHash": "sha256-Ad5fBZCVlWhVtgfd8pEC5OQDfBJoHZ3Vxoy6ToNtOP4=",
         "ref": "main",
-        "rev": "fd956e4155ae990931099fff0f7fb9f5db624c60",
+        "rev": "36ccea206b9098b78dd0bc08d973e9cccb2450de",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/birkjernstrom/config-private.git"
