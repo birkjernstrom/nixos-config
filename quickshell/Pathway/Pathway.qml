@@ -120,8 +120,12 @@ Scope {
 
             anchors.horizontalCenter: parent.horizontalCenter
             y: Math.round((parent.height - Theme.pathwayHeight) / 2)
-            width: Theme.pathwayWidth
-            height: card.collapsed ? search.implicitHeight + 2 : Theme.pathwayHeight
+            width: root.moduleView ? Theme.pathwayChatWidth : Theme.pathwayWidth
+            height: {
+                if (card.collapsed)
+                    return search.implicitHeight + 2;
+                return root.moduleView ? Theme.pathwayChatHeight : Theme.pathwayHeight;
+            }
             clip: true
             color: Theme.bgAlt
             radius: Theme.radiusLarge
@@ -129,6 +133,13 @@ Scope {
             border.width: 1
 
             Behavior on height {
+                NumberAnimation {
+                    duration: Theme.animFast
+                    easing.type: Easing.OutCubic
+                }
+            }
+
+            Behavior on width {
                 NumberAnimation {
                     duration: Theme.animFast
                     easing.type: Easing.OutCubic

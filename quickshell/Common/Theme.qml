@@ -44,6 +44,26 @@ Singleton {
     readonly property color agentWaiting: Themes.base0A
     readonly property color agentIdle: Themes.base03   // same as fgDim
 
+    // The first of the cool accents that stays legible on the card, else text.
+    readonly property color chatLink: {
+        for (const c of [Themes.base0D, Themes.base0C, Themes.base0E]) {
+            if (root.contrast(c, root.bgAlt) >= 4.5)
+                return c;
+        }
+        return root.fg;
+    }
+
+    function luminance(c: color): real {
+        const lin = v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+        return 0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b);
+    }
+
+    function contrast(a: color, b: color): real {
+        const la = root.luminance(a);
+        const lb = root.luminance(b);
+        return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+    }
+
     readonly property int barHeight: 33
     readonly property int radius: 8
     readonly property int radiusLarge: 12
@@ -67,6 +87,8 @@ Singleton {
     readonly property int pathwayWidth: 640
     readonly property int pathwayHeight: 400
     readonly property int pathwayRowHeight: 44
+    readonly property int pathwayChatWidth: 780
+    readonly property int pathwayChatHeight: 580
     readonly property color scrim: Qt.rgba(0, 0, 0, 0.35)
 
     readonly property int animFast: 120
