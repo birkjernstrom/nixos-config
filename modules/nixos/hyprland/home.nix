@@ -114,7 +114,7 @@ in
           decoration = {
             rounding = 10;
             active_opacity = 1.0;
-            inactive_opacity = 0.95;
+            inactive_opacity = if config.stylix.polarity == "light" then 0.85 else 0.95;
             # shadow = {
             #   enabled = true;
             #   range = 20;
