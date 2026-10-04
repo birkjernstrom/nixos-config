@@ -23,6 +23,7 @@
       zsh.enable = true;
       git.enable = true;
       jj.enable = true;
+      direnv.enable = true;
       tmux.enable = true;
       nvim.enable = true;
     };
