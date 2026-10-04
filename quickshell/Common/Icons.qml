@@ -76,6 +76,7 @@ Singleton {
     readonly property string chevronRight: "󰅂"
     readonly property string theme: "󰏘"
     readonly property string chat: "󰍪"
+    readonly property string calculator: "󰃬"
 
     // percent: 0-100. The last frame means full.
     function battery(percent) {

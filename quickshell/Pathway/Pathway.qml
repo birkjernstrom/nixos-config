@@ -52,6 +52,7 @@ Scope {
     onOpenChanged: {
         // Every open starts from a clean slate rather than resuming the last query.
         if (root.open) {
+            Rates.refresh();
             search.text = "";
             list.selectedIndex = 0;
             search.takeFocus();

@@ -2,6 +2,8 @@ pragma Singleton
 
 import Quickshell
 import qs.Pathway.providers
+import "calc.js" as Calc
+import "currency.js" as Currency
 
 // Fans every provider's items into one ranked list, scored by fuzzy
 // subsequence matching over name, subtitle and keywords.
@@ -39,6 +41,8 @@ Singleton {
         if (!scope && raw.startsWith("@"))
             return Mcp.mentions(raw);
 
+        const calc = scope ? [] : root._answers(raw);
+
         if (q === "") {
             // A scoped provider already emits its own meaningful order (the
             // clipboard is newest-first), so re-ranking it would be wrong.
@@ -68,7 +72,29 @@ Singleton {
             return d !== 0 ? d : Frecency.score(b.item.id) - Frecency.score(a.item.id);
         });
 
-        return scored.map(e => e.item);
+        return calc.concat(scored.map(e => e.item));
+    }
+
+    function _answers(raw) {
+        const row = (name, subtitle, copy) => ({
+                id: "calc",
+                name: name,
+                subtitle: subtitle,
+                icon: "",
+                keywords: [],
+                kind: "calc",
+                frecency: false,
+                activate: () => Quickshell.execDetached(["wl-copy", copy])
+            });
+
+        const conversions = Currency.convert(raw, Rates.rates);
+        if (conversions.length > 0) {
+            const date = new Date(Rates.updated * 1000).toLocaleDateString(Qt.locale(), "d MMM");
+            return conversions.map(c => row(c.name, `${c.subtitle}  ·  rates ${date}`, c.copy));
+        }
+
+        const answer = Calc.evaluate(raw);
+        return answer ? [row(answer.text, `= ${raw.replace(/^=\s*/, "")}  ·  Enter to copy`, answer.copy)] : [];
     }
 
     function _buildIndex(items) {
