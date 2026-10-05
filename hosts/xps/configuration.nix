@@ -175,6 +175,14 @@ in
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.extraConfig."51-bluez-no-suspend" = {
+      "monitor.bluez.rules" = [
+        {
+          matches = [ { "node.name" = "~bluez_output.*"; } ];
+          actions.update-props."session.suspend-timeout-seconds" = 0;
+        }
+      ];
+    };
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
 
