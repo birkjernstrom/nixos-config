@@ -10,6 +10,7 @@
     ./primo.nix
     ./clamav.nix
     ./dns.nix
+    ./fwupd.nix
     ./tailscale.nix
     ./ssh.nix
     ./steam.nix
