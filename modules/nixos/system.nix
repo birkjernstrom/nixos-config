@@ -11,6 +11,7 @@
     ./clamav.nix
     ./dns.nix
     ./tailscale.nix
+    ./ssh.nix
     ./steam.nix
     ./agents/system.nix
   ];

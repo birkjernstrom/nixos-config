@@ -7,6 +7,7 @@
     noctalia.enable = false;
     primo.enable = true;
     tailscale.enable = true;
+    ssh.enable = true;
     agents.enable = true;
     clamav.enable = true;
     clamav.onAccess.enable = true;
