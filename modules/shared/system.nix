@@ -12,6 +12,7 @@
     ./apps/foliate.nix
     ./apps/zathura.nix
     ./apps/beekeeper-studio.nix
+    ./apps/zoom.nix
     ./docker.nix
   ];
 }

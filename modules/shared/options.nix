@@ -36,6 +36,12 @@ with lib;
         description = "Enable Beekeeper Studio (SQL client). NixOS only.";
       };
 
+      zoom.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Zoom (video conferencing). NixOS only.";
+      };
+
       zathura.enable = mkOption {
         type = types.bool;
         default = false;

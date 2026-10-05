@@ -46,6 +46,7 @@
       foliate.enable = true;
       zathura.enable = true;
       beekeeper-studio.enable = true;
+      zoom.enable = true;
       browsers = {
         chrome = {
           enable = true;
