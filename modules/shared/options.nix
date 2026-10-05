@@ -30,6 +30,12 @@ with lib;
         description = "Enable Foliate (EPUB reader). NixOS only.";
       };
 
+      beekeeper-studio.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Beekeeper Studio (SQL client). NixOS only.";
+      };
+
       zathura.enable = mkOption {
         type = types.bool;
         default = false;

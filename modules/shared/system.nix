@@ -11,6 +11,7 @@
     ./apps/popsicle.nix
     ./apps/foliate.nix
     ./apps/zathura.nix
+    ./apps/beekeeper-studio.nix
     ./docker.nix
   ];
 }

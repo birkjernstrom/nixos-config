@@ -45,6 +45,7 @@
       popsicle.enable = true;
       foliate.enable = true;
       zathura.enable = true;
+      beekeeper-studio.enable = true;
       browsers = {
         chrome = {
           enable = true;
