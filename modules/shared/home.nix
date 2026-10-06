@@ -14,5 +14,6 @@
     ./programming
     ./scripts
     ./options.nix
+    ./nh.nix
   ];
 }

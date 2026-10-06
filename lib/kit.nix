@@ -25,6 +25,7 @@
       inherit inputs;
       inherit settings;
       inherit isDarwin;
+      host = name;
     };
 
     configuration = ../hosts/${name}/configuration.nix;
