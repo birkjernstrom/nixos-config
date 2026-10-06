@@ -66,11 +66,7 @@ in
   # Reuse the same layout on the virtual consoles.
   console.useXkbConfig = true;
 
-  services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
-  # GDM otherwise defaults to GNOME on a fresh install until a session choice
-  # is remembered in /var/lib/AccountsService.
-  services.displayManager.defaultSession = "hyprland";
   programs.dconf.enable = true;
   services.keyd.enable = true;
   services.keyd.keyboards.default = {
