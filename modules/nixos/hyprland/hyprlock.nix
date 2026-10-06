@@ -6,9 +6,7 @@ with lib; let
   inherit (hypr) bind mod exec;
 in
 {
-  # Noctalia ships its own lock screen, and two of them would both answer
-  # `loginctl lock-session`. ../noctalia/home.nix is the switch.
-  config = mkIf (cfg.enable && !config.userSettings.noctalia.enable) {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       hyprlock
     ];

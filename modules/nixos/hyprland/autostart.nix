@@ -7,10 +7,7 @@ in
 {
   # Everything started here belongs to the Quickshell stack - the shell process
   # itself and the cliphist watchers behind Pathway's clipboard history - so it
-  # is gated on that shell rather than on the session. Noctalia keeps its own
-  # clipboard history and is started by its own systemd user unit off
-  # hyprland-session.target (../noctalia/default.nix), so with it in charge
-  # there is nothing left for this handler to do.
+  # is gated on that shell rather than on the session.
   config = mkIf (cfg.enable && config.userSettings.quickshell.enable) {
     wayland.windowManager.hyprland.settings = {
       # Run once, when the compositor starts (the hyprlang `exec-once`).

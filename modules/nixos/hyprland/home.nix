@@ -72,8 +72,7 @@ in
         fileManager = { _var = "nautilus"; };
         # Toggles the resident Pathway window rather than spawning a launcher.
         # Both of these are locals rather than literals in the bind so that a
-        # different shell can take the key over by redefining one word -
-        # noctalia/home.nix does exactly that.
+        # different shell can take the key over by redefining one word.
         menu = { _var = "qs ipc call pathway toggle"; };
         clipboard = { _var = "qs ipc call pathway clipboard"; };
 

@@ -4,7 +4,6 @@
   # Maps to config.systemSettings.*
   system = {
     hyprland.enable = true;
-    noctalia.enable = false;
     primo.enable = true;
     tailscale.enable = true;
     ssh.enable = true;
@@ -99,6 +98,5 @@
       };
     };
     hyprland.enable = true;
-    noctalia.enable = false;
   };
 }

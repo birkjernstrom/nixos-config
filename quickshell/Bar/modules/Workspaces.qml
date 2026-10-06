@@ -216,8 +216,8 @@ RowLayout {
 
                 text: String(pill.modelData)
                 // Occupied-but-idle keeps the normal idle tone; a genuinely
-                // empty workspace fades further, same idea as Noctalia's bar,
-                // but as a text dim rather than a pill fill.
+                // empty workspace fades further, as a text dim rather than a
+                // pill fill.
                 color: {
                     if (pill.elsewhere)
                         return pill.workspace?.urgent ? Theme.critical : pill.workspace?.active ? Theme.workspaceActive : Theme.fgDim;

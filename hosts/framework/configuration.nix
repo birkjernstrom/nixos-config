@@ -31,8 +31,7 @@ in
   networking.networkmanager.wifi.backend = "iwd";
 
   # Quickshell's bar reads these directly (Bar/modules/Bluetooth.qml,
-  # Battery.qml) - Noctalia used to backfill all three via
-  # `programs.noctalia.recommendedServices`, which stood down with it.
+  # Battery.qml).
   hardware.bluetooth.enable = true;
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;

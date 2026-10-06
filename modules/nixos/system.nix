@@ -6,7 +6,6 @@
     ./nix.nix
     ./stylix.nix
     ./hyprland/system.nix
-    ./noctalia
     ./primo.nix
     ./clamav.nix
     ./dns.nix
