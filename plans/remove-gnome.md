@@ -26,10 +26,9 @@ rather than duplicated per host.
 
 ### 2. Polkit agent
 
-GNOME Shell provides it today. Add `hyprpolkitagent` as a systemd user
-service off `hyprland-session.target`.
-
-- Verify: 1Password system unlock, `pkexec true`, popsicle drive listing.
+- [x] `modules/nixos/hyprland/polkit.nix`: home-manager's
+  `services.hyprpolkitagent`, started off `graphical-session.target`.
+- [ ] Verify: 1Password system unlock, `pkexec true`, popsicle drive listing.
 
 ### 3. Keyring
 
