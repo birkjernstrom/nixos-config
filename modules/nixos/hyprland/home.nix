@@ -11,7 +11,6 @@ in
     ./hyprlock.nix
     ./hyprshot.nix
     ./internal-refresh.nix
-    ./polkit.nix
     ./screenrecord.nix
     ./screenshare.nix
     ./scrolloverview.nix

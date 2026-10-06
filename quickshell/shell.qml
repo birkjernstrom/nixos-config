@@ -4,11 +4,14 @@ import qs.Bar
 import qs.Common
 import qs.Pathway
 import qs.Pathway.providers
+import qs.Polkit
 
 // Entry point. Loads the two surfaces and exposes Pathway over IPC; everything
 // else lives in its own module.
 ShellRoot {
     Bar {}
+
+    PolkitPrompt {}
 
     Pathway {
         id: pathway

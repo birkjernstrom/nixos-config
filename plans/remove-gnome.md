@@ -26,8 +26,9 @@ rather than duplicated per host.
 
 ### 2. Polkit agent
 
-- [x] `modules/nixos/hyprland/polkit.nix`: home-manager's
-  `services.hyprpolkitagent`, started off `graphical-session.target`.
+- [x] Quickshell is the agent: `quickshell/Polkit/PolkitPrompt.qml`
+  (`Quickshell.Services.Polkit`), themed like Pathway. hyprpolkitagent was
+  tried first and dropped for looking unstyled.
 - [ ] Verify: 1Password system unlock, `pkexec true`, popsicle drive listing.
 
 ### 3. Keyring
