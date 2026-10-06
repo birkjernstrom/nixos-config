@@ -112,9 +112,9 @@ case "${1:-}" in
   current
   ;;
 --restore)
-  # Called from the base generation's own activation (boot, nixos-rebuild),
-  # which has just put the default theme back. Nothing to do if that is the
-  # one remembered.
+  # Called from the start of the base generation's own activation (boot,
+  # nixos-rebuild), which then stops. Nothing to do if the default is the one
+  # remembered.
   id="$(current)"
   [[ $id == "$DEFAULT" ]] && exit 0
   activate "$id" && reload_running

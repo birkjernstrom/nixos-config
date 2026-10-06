@@ -156,10 +156,15 @@ in
     '';
 
     # Boot and every nixos-rebuild activate the base generation, i.e. the
-    # default theme. Put the remembered one back straight after.
+    # default theme. When another theme is remembered, hand off to its
+    # specialisation before touching any files, so the activation runs once.
     home.activation.restoreTheme = mkIf (!cfg.isSpecialisation)
-      (hm.dag.entryAfter [ "reloadSystemd" ] ''
-        run ${getExe themeSwitch} --restore || true
+      (hm.dag.entryBefore [ "checkFilesChanged" ] ''
+        theme="$(${getExe themeSwitch} --current)"
+        if [[ ! -v DRY_RUN && $theme != "${default}" && -x $newGenPath/specialisation/$theme/activate ]]; then
+          ${getExe themeSwitch} --restore || true
+          exit 0
+        fi
       '');
   };
 }
