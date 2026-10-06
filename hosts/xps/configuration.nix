@@ -103,6 +103,7 @@ in
 
   networking.hostName = "birk-xps"; # Define your hostname.
   boot.initrd.luks.devices."luks-e488d31f-e56b-4cc3-bd05-2717acd6728c".device = "/dev/disk/by-uuid/e488d31f-e56b-4cc3-bd05-2717acd6728c";
+  boot.initrd.luks.devices."luks-3d0b7dbb-076c-4b36-af6b-8b52701f3fb4".device = "/dev/disk/by-uuid/3d0b7dbb-076c-4b36-af6b-8b52701f3fb4";
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
