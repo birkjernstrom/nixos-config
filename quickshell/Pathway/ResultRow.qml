@@ -51,8 +51,6 @@ Rectangle {
                 return Icons.theme;
             if (root.item.kind === "wallpaper" || root.item.id === "command:wallpaper")
                 return Icons.image;
-            if (root.item.kind === "webcam")
-                return Icons.webcam;
             if (root.item.kind === "calc")
                 return Icons.calculator;
             if (root.item.id?.startsWith("mcp:"))

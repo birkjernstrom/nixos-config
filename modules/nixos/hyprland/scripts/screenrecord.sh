@@ -9,8 +9,7 @@
 
 # Usage: screenrecord [--with-webcam] [--webcam-size=small|medium|large]
 # Starts a recording (mic audio, region/window/monitor picked with slurp),
-# or stops the one already running. With several cameras connected, Pathway
-# asks which one to overlay once the region is picked.
+# or stops the one already running.
 
 WEBCAM=false
 WEBCAM_SIZE=medium
@@ -24,7 +23,6 @@ done
 RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp}"
 RECORDING_FILE="$RUNTIME_DIR/screenrecord-filename"
 REGION_FILE="${XDG_RUNTIME_DIR:-/tmp}/screenrecord-region"
-WEBCAM_CHOICE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/screenrecord/webcam"
 OUTPUT_DIR="$(xdg-user-dir VIDEOS 2>/dev/null || echo "$HOME/Videos")"
 [[ $OUTPUT_DIR == "$HOME" ]] && OUTPUT_DIR="$HOME/Videos"
 
@@ -37,67 +35,26 @@ RECORDER='(^|/)gpu-screen-recorder '
 
 recording_active() { pgrep -f "$RECORDER" >/dev/null; }
 
-# Echoes "DEVICE<TAB>NAME" per usable camera, the IPU7 relay's loopback camera
-# first. The raw IPU capture nodes are skipped (they're capture-capable but carry
-# unprocessed Bayer data), as are metadata-only nodes like a UVC camera's second.
-list_webcams() {
-  local node name dev preferred="" others=""
+# Prefer the IPU7 relay's loopback camera, skip the raw IPU capture nodes
+# (they're capture-capable but carry unprocessed Bayer data), and otherwise
+# take the first real capture device - e.g. a USB webcam.
+find_webcam() {
+  local fallback="" node name dev
   for node in /sys/class/video4linux/video*; do
     [[ -e $node/name ]] || continue
     name="$(<"$node/name")"
-    name="${name%"${name##*[![:space:]]}"}"
     dev="/dev/${node##*/}"
     [[ $name == "Intel IPU"* ]] && continue
     if [[ $name == "Intel MIPI Camera" ]]; then
-      preferred+="$dev"$'\t'"$name"$'\n'
-    elif v4l2-ctl -d "$dev" --info 2>/dev/null |
+      echo "$dev"
+      return
+    fi
+    if [[ -z $fallback ]] && v4l2-ctl -d "$dev" --info 2>/dev/null |
       awk '/Device Caps/ { inspect = 1; next } inspect && /Video Capture/ { found = 1 } END { exit !found }'; then
-      others+="$dev"$'\t'"$name"$'\n'
+      fallback="$dev"
     fi
   done
-  printf '%s%s' "$preferred" "$others"
-}
-
-# Echoes the camera device to overlay. The last pick is listed first, so
-# Enter repeats it; Escape in the picker cancels the recording.
-choose_webcam() {
-  local cameras last dev name ordered="" rest="" fifo reply
-  cameras="$(list_webcams)"
-  if [[ -z $cameras ]]; then
-    notify -u critical -t 3000 "No webcam found"
-    return 1
-  fi
-  if (($(wc -l <<<"$cameras") == 1)); then
-    cut -f1 <<<"$cameras"
-    return
-  fi
-
-  last="$(cat "$WEBCAM_CHOICE_FILE" 2>/dev/null || true)"
-  while IFS=$'\t' read -r dev name; do
-    if [[ -z $ordered && $name == "$last" ]]; then
-      ordered="$dev"$'\t'"$name"$'\t'"Last used"$'\n'
-    else
-      rest+="$dev"$'\t'"$name"$'\t'"${dev#/dev/}"$'\n'
-    fi
-  done <<<"$cameras"
-
-  fifo="$RUNTIME_DIR/screenrecord-webcam-pick"
-  rm -f "$fifo"
-  mkfifo "$fifo"
-  if ! qs ipc call pathway webcam "$ordered$rest" "$fifo" >/dev/null; then
-    rm -f "$fifo"
-    notify -u critical -t 3000 "Couldn't open the webcam picker"
-    return 1
-  fi
-  reply="$(timeout 120 head -n1 "$fifo" || true)"
-  rm -f "$fifo"
-  [[ $reply == =/dev/* ]] || return 1
-  dev="${reply#=}"
-
-  name="$(awk -F'\t' -v dev="$dev" '$1 == dev { print $2; exit }' <<<"$cameras")"
-  mkdir -p "${WEBCAM_CHOICE_FILE%/*}"
-  echo "$name" >"$WEBCAM_CHOICE_FILE"
-  echo "$dev"
+  echo "$fallback"
 }
 
 # Echoes "monitor:NAME" when the selection is a whole monitor (captured
@@ -133,7 +90,13 @@ cleanup_webcam() {
 }
 
 start_webcam() {
-  local device="$2"
+  local device
+  device="$(find_webcam)"
+  if [[ -z $device ]]; then
+    notify -u critical -t 3000 "No webcam found"
+    return 1
+  fi
+
   mpv "av://v4l2:$device" \
     --profile=low-latency --untimed --no-cache \
     --demuxer-lavf-o=framerate=30 \
@@ -166,9 +129,7 @@ start_recording() {
   esac
 
   if [[ $WEBCAM == true ]]; then
-    local device
-    device="$(choose_webcam)" || return 1
-    start_webcam "$target" "$device" || return 1
+    start_webcam "$target" || return 1
   fi
 
   local filename
