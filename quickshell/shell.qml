@@ -52,6 +52,13 @@ ShellRoot {
             Agents.refresh();
             pathway.showScoped(AgentsProvider, "Agents");
         }
+
+        // `screenrecord --with-webcam` with several cameras connected, between
+        // picking the region and starting. See WebcamProvider for the protocol.
+        function webcam(cameras: string, reply: string): void {
+            WebcamProvider.ask(cameras, reply);
+            pathway.showScoped(WebcamProvider, "Camera");
+        }
     }
 
     // Poked by every agent hook (`agent-status hook`) so the bar follows a
