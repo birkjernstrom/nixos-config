@@ -18,5 +18,8 @@ in
         hl.config(colors)
       end
     '';
+
+    stylix.targets.ghostty.colors.enable = false;
+    programs.ghostty.settings.theme = "${current}/ghostty";
   };
 }
