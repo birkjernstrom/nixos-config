@@ -95,25 +95,19 @@ in
         ];
 
         config = {
-          # General settings. Border colours come from Stylix's palette, but a
-          # step dimmer than its defaults (base0D active, base03 inactive): the
-          # active border in the theme's dim grey, inactive ones barely above
-          # the background. Read from the palette, so they follow theme-switch.
+          # Colours, and the polarity-dependent inactive_opacity, come from
+          # the active theme (modules/nixos/themes).
           general = {
             gaps_in = 6;
             gaps_out = 12;
             border_size = 0;
-            "col.active_border" = mkForce "rgb(${config.lib.stylix.colors.base03})";
-            "col.inactive_border" = mkForce "rgb(${config.lib.stylix.colors.base01})";
             resize_on_border = true;
             layout = "dwindle";
           };
 
-          # Decoration settings (colors handled by Stylix)
           decoration = {
             rounding = 10;
             active_opacity = 1.0;
-            inactive_opacity = if config.stylix.polarity == "light" then 0.85 else 0.95;
             # shadow = {
             #   enabled = true;
             #   range = 20;

@@ -41,6 +41,8 @@ with lib; let
   };
 in
 {
+  imports = [ ./programs.nix ];
+
   options.userSettings.themes = {
     enable = mkOption {
       type = types.bool;
@@ -91,10 +93,6 @@ in
         stylix.base16Scheme = mkForce theme.scheme;
         stylix.override = mkForce (theme.override or { });
         stylix.polarity = mkForce (theme.polarity or "dark");
-        wayland.windowManager.hyprland.settings.config.general = mkIf (theme ? borders) {
-          "col.active_border" = mkOverride 10 "rgb(${theme.borders.active})";
-          "col.inactive_border" = mkOverride 10 "rgb(${theme.borders.inactive})";
-        };
       };
     }) (removeAttrs themes [ default ]);
 
