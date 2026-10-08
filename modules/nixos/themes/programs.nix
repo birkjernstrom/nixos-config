@@ -40,5 +40,18 @@ in
         @import url("file://${current}/gtk.css");
       '';
     });
+
+    stylix.targets.hyprlock.colors.enable = false;
+    programs.hyprlock.settings = {
+      source = "${current}/hyprlock.conf";
+      background.color = "$base00";
+      input-field = {
+        outer_color = "$base03";
+        inner_color = "$base00";
+        font_color = "$base05";
+        fail_color = "$base08";
+        check_color = "$base0A";
+      };
+    };
   };
 }
