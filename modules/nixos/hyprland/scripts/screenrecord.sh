@@ -141,11 +141,17 @@ start_webcam() {
     --title=WebcamOverlay --wayland-app-id="WebcamOverlay-$WEBCAM_SIZE" \
     --no-border --no-audio --no-osc --osd-level=0 \
     --really-quiet &>/dev/null &
+  local mpv_pid=$!
 
   # Let the window map and settle in its corner before recording starts,
   # or the camera is recorded sliding into place.
   local waited=0
-  while ((waited < 40)) && ! hyprctl clients -j | jq -e 'any(.[]; .title == "WebcamOverlay")' >/dev/null 2>&1; do
+  while ! hyprctl clients -j | jq -e 'any(.[]; .title == "WebcamOverlay")' >/dev/null 2>&1; do
+    if ((waited >= 100)) || ! kill -0 "$mpv_pid" 2>/dev/null; then
+      kill -9 "$mpv_pid" 2>/dev/null || true
+      notify -u critical -t 5000 "Webcam overlay failed to open" "$device"
+      return 1
+    fi
     sleep 0.05
     waited=$((waited + 1))
   done
