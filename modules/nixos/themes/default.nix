@@ -2,12 +2,12 @@
 
 # Runtime theme switching for the whole desktop, not just the Quickshell bar.
 #
-# Stylix themes everything at build time, into read-only store paths, so a
-# switch cannot rewrite its output in place. Instead every theme is built ahead
-# of time: the default is this home-manager configuration as-is (Stylix set up
-# in modules/shared/stylix.nix), and each other theme is a specialisation of it
-# with Stylix pointed at another scheme. `theme-switch <id>` activates one and
-# tells running programs to reload (see ./theme-switch.sh).
+# Each theme in ./themes.nix is rendered into a folder of colour files
+# (./colors.nix), and ~/.local/state/theme/current links to the active one.
+# The programs in ./programs.nix include their colours from there, so their
+# own configs are the same for every theme. `theme-switch <id>` repoints the
+# link and reloads them (see ./theme-switch.sh). Stylix still themes fonts,
+# the cursor, and every other program, in the default theme.
 #
 # Quickshell's theme menu calls it; quickshell/Common/Themes.qml lists the same
 # themes, with the same overrides, for the bar's own palette.
@@ -47,15 +47,7 @@ in
     enable = mkOption {
       type = types.bool;
       default = false;
-      description = "Pre-build every theme and switch between them at runtime with theme-switch";
-    };
-
-    # Set inside each theme's specialisation. Their activations must not run
-    # the restore hook below - they are what it activates.
-    isSpecialisation = mkOption {
-      type = types.bool;
-      default = false;
-      internal = true;
+      description = "Switch between the themes in ./themes.nix at runtime with theme-switch";
     };
   };
 
@@ -89,20 +81,6 @@ in
     systemd.user.services.hyprpaper = mkIf config.services.hyprpaper.enable {
       Service.ExecStartPost = "${getExe wallpaper} --restore";
     };
-
-    specialisation = mapAttrs (_: theme: {
-      configuration = {
-        userSettings.themes.isSpecialisation = true;
-        stylix.base16Scheme = mkForce theme.scheme;
-        stylix.override = mkForce (theme.override or { });
-        stylix.polarity = mkForce (theme.polarity or "dark");
-      };
-    }) (removeAttrs themes [ default ]);
-
-    # Stylix writes 'default' for light, which the portal reports as no
-    # preference; Chromium and Electron only switch on an explicit one.
-    dconf.settings."org/gnome/desktop/interface".color-scheme = mkForce
-      (if config.stylix.polarity == "light" then "prefer-light" else "prefer-dark");
 
     # "auto" asks the terminal for its background, so running sessions follow
     # Ghostty's reload rather than keeping the polarity they started with.
