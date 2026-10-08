@@ -21,5 +21,11 @@ in
 
     stylix.targets.ghostty.colors.enable = false;
     programs.ghostty.settings.theme = "${current}/ghostty";
+
+    # Before tmux.nix's own lines, which paint over its backgrounds.
+    stylix.targets.tmux.colors.enable = false;
+    programs.tmux.extraConfig = lib.mkBefore ''
+      source-file -q ${current}/tmux.conf
+    '';
   };
 }
