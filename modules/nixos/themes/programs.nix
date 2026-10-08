@@ -53,5 +53,8 @@ in
         check_color = "$base0A";
       };
     };
+
+    stylix.targets.zathura.colors.enable = false;
+    programs.zathura.extraConfig = "include ${current}/zathurarc";
   };
 }
