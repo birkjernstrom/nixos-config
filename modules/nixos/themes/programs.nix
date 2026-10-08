@@ -66,10 +66,14 @@ in
     stylix.targets.bat.colors.enable = false;
     programs.bat.config.theme = "base16";
 
-    # Small enough to render whole per theme (./colors.nix), from these same
-    # settings.
+    # starship and mako are small enough to render whole per theme
+    # (./colors.nix), from their usual settings.
     stylix.targets.starship.colors.enable = false;
     home.file.${config.programs.starship.configPath}.source =
       lib.mkForce (config.lib.file.mkOutOfStoreSymlink "${current}/starship.toml");
+
+    stylix.targets.mako.colors.enable = false;
+    xdg.configFile."mako/config".source =
+      lib.mkForce (config.lib.file.mkOutOfStoreSymlink "${current}/mako");
   };
 }
