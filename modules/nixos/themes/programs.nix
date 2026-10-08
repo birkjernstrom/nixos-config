@@ -60,5 +60,10 @@ in
     # Nothing merges ~/.Xresources in a Hyprland session.
     stylix.targets.x11.colors.enable = false;
     stylix.targets.sxiv.colors.enable = false;
+
+    # bat's built-in base16 theme uses the terminal's ANSI colours, so it
+    # follows Ghostty.
+    stylix.targets.bat.colors.enable = false;
+    programs.bat.config.theme = "base16";
   };
 }
