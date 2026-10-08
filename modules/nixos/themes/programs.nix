@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 # Each program's config is the same for every theme and includes its colours
 # from the active theme's folder, so a switch is a symlink change and a reload.
@@ -27,5 +27,18 @@ in
     programs.tmux.extraConfig = lib.mkBefore ''
       source-file -q ${current}/tmux.conf
     '';
+
+    # Stylix's colour block also chose the base theme; keep it.
+    stylix.targets.gtk.colors.enable = false;
+    gtk.theme = {
+      package = pkgs.adw-gtk3;
+      name = "adw-gtk3";
+    };
+    gtk.gtk4.theme = config.gtk.theme;
+    xdg.configFile = lib.genAttrs [ "gtk-3.0/gtk.css" "gtk-4.0/gtk.css" ] (_: {
+      text = ''
+        @import url("file://${current}/gtk.css");
+      '';
+    });
   };
 }
