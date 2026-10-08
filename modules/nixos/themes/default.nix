@@ -34,10 +34,10 @@ with lib; let
 
   themeSwitch = pkgs.writeShellApplication {
     name = "theme-switch";
-    # hyprctl, makoctl, tmux and nvim come from the session, so they always
+    # hyprctl, makoctl, tmux, qs and nvim come from the session, so they always
     # match what is actually running.
-    runtimeInputs = with pkgs; [ coreutils gnugrep procps jq glib wallpaper ];
-    text = replaceStrings [ "@default@" ] [ default ] (builtins.readFile ./theme-switch.sh);
+    runtimeInputs = with pkgs; [ coreutils procps jq glib wallpaper ];
+    text = builtins.readFile ./theme-switch.sh;
   };
 in
 {
@@ -65,22 +65,25 @@ in
     xdg.dataFile."theme-colors".source = themeColors;
 
     # The active theme's colour files. Repointed by theme-switch; created on
-    # first activation, or when the theme it named no longer exists.
-    home.activation.themeCurrent = hm.dag.entryAfter [ "linkGeneration" ] ''
+    # first activation, or when the theme it named no longer exists. Every
+    # activation loads the default theme's color-scheme into dconf, so put
+    # the active one's back.
+    home.activation.themeCurrent = hm.dag.entryAfter [ "linkGeneration" "dconfSettings" ] ''
       current="${config.xdg.stateHome}/theme/current"
       if [[ ! -e $current/name ]]; then
         run mkdir -p "$(dirname "$current")"
         run ln -sfn "${config.xdg.dataHome}/theme-colors/${default}" "$current"
+      fi
+      if [[ -e $current/polarity ]]; then
+        bus=""
+        [[ -v DBUS_SESSION_BUS_ADDRESS ]] || bus="${pkgs.dbus}/bin/dbus-run-session --dbus-daemon=${pkgs.dbus}/bin/dbus-daemon"
+        run $bus ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'prefer-$(<"$current/polarity")'"
       fi
     '';
 
     # Out of the store so new images show up in the picker without a rebuild.
     xdg.dataFile."wallpapers".source =
       config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.nixos-config/wallpapers";
-
-    # Differs per specialisation, so it tells `wallpaper` which folder to use.
-    xdg.configFile."wallpaper/polarity".text =
-      if config.stylix.polarity == "light" then "light" else "dark";
 
     # hyprpaper starts on Stylix's image; put the picked one back over it.
     systemd.user.services.hyprpaper = mkIf config.services.hyprpaper.enable {
@@ -109,17 +112,5 @@ in
         ${getExe pkgs.jq} '.theme = "auto"' "$settings" > "$settings.tmp" && mv "$settings.tmp" "$settings"
       fi
     '';
-
-    # Boot and every nixos-rebuild activate the base generation, i.e. the
-    # default theme. When another theme is remembered, hand off to its
-    # specialisation before touching any files, so the activation runs once.
-    home.activation.restoreTheme = mkIf (!cfg.isSpecialisation)
-      (hm.dag.entryBefore [ "checkFilesChanged" ] ''
-        theme="$(${getExe themeSwitch} --current)"
-        if [[ ! -v DRY_RUN && $theme != "${default}" && -x $newGenPath/specialisation/$theme/activate ]]; then
-          ${getExe themeSwitch} --restore || true
-          exit 0
-        fi
-      '');
   };
 }

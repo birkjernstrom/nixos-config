@@ -12,7 +12,7 @@
 
 DIR="${XDG_DATA_HOME:-$HOME/.local/share}/wallpapers"
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/wallpaper"
-POLARITY_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/wallpaper/polarity"
+POLARITY_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/theme/current/polarity"
 
 polarity() {
   local p=""

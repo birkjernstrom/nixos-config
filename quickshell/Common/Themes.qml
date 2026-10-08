@@ -9,13 +9,13 @@ import qs.Common.themes
 // and every widget reads only those tokens - so changing `currentId` re-evaluates
 // the whole shell through ordinary bindings, instantly.
 //
-// Everything outside the shell - GTK, Ghostty, Hyprland, tmux, mako, Neovim and
-// the rest of what Stylix themes - is switched by `theme-switch`, which
-// activates that theme's pre-built home-manager specialisation
-// (modules/nixos/themes). The theme ids and overrides here must match its list.
+// Everything outside the shell - GTK, Ghostty, Hyprland, tmux, mako, Neovim -
+// is switched by `theme-switch`, which repoints ~/.local/state/theme/current
+// at that theme's colour files (modules/nixos/themes). The theme ids and
+// overrides here must match modules/nixos/themes/themes.nix.
 //
 // Palettes come from tools/gen-themes.sh. Adding a theme is a line in that
-// script's SCHEMES list, an entry below, and one in modules/nixos/themes.
+// script's SCHEMES list, an entry below, and one in themes.nix.
 Singleton {
     id: root
 
@@ -120,16 +120,13 @@ Singleton {
     readonly property color base0E: root._slot("base0E")
     readonly property color base0F: root._slot("base0F")
 
-    // theme-switch's own record of the active theme, so the bar and the rest
-    // of the desktop cannot disagree - including after `theme-switch` is run
-    // from a terminal, which the watch below picks up.
-    readonly property string path: `${Quickshell.env("XDG_STATE_HOME") || Quickshell.env("HOME") + "/.local/state"}/theme-switch/current`
+    // The active theme's id, read once at startup; after that theme-switch
+    // tells the shell over IPC, including when it is run from a terminal.
+    readonly property string path: `${Quickshell.env("XDG_STATE_HOME") || Quickshell.env("HOME") + "/.local/state"}/theme/current/name`
 
     function select(id) {
         if (!root.available.some(t => t.id === id))
             return;
-        // The bar switches now; the rest follows once the activation lands, a
-        // second or two later.
         root.currentId = id;
         Quickshell.execDetached(["theme-switch", id]);
     }
@@ -138,27 +135,27 @@ Singleton {
         return root.entry.overrides[name] ?? root.entry.palette[name];
     }
 
-    function _load() {
-        const id = file.text().trim();
+    function _apply(id) {
         if (id !== "" && root.available.some(t => t.id === id))
             root.currentId = id;
+    }
+
+    IpcHandler {
+        target: "theme"
+
+        function set(id: string): void {
+            root._apply(id);
+        }
     }
 
     FileView {
         id: file
 
         path: root.path
-        // A missing file just means the default theme was never changed.
+        // A missing file just means no theme has been set up yet.
         printErrors: false
         preload: true
         blockLoading: true
-        watchChanges: true
-        // Applied once the contents are actually in, not from Component.onCompleted:
-        // at startup that can run before the file has been read, which left the
-        // bar on the default theme whatever had been chosen.
-        onLoaded: root._load()
-        // theme-switch replaces the file (a rename), which a watch reports as
-        // a change; reloading ends in onLoaded again.
-        onFileChanged: file.reload()
+        onLoaded: root._apply(file.text().trim())
     }
 }

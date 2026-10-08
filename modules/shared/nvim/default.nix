@@ -41,14 +41,13 @@ in
             timeoutlen = 300;
           };
           # Colorscheme comes from the Stylix palette - but nvf bakes that
-          # palette into the nvim package, and user packages come from
-          # /etc/profiles, which a runtime theme switch (modules/nixos/themes)
-          # does not touch. So re-apply it from the palette Stylix writes into
-          # ~/.config for the active theme; running instances get the same call
-          # from theme-switch.
+          # palette into the nvim package, which a runtime theme switch
+          # (modules/nixos/themes) does not touch. So re-apply the active
+          # theme's palette when it has one; running instances get the same
+          # call from theme-switch.
           luaConfigPost = ''
             do
-              local f = io.open(vim.fn.expand("~/.config/stylix/palette.json"))
+              local f = io.open(vim.fn.expand("~/.local/state/theme/current/palette.json"))
               if f then
                 local ok, palette = pcall(vim.json.decode, f:read("*a"))
                 f:close()
