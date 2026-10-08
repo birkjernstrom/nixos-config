@@ -56,5 +56,9 @@ in
 
     stylix.targets.zathura.colors.enable = false;
     programs.zathura.extraConfig = "include ${current}/zathurarc";
+
+    # Nothing merges ~/.Xresources in a Hyprland session.
+    stylix.targets.x11.colors.enable = false;
+    stylix.targets.sxiv.colors.enable = false;
   };
 }
