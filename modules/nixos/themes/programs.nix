@@ -5,6 +5,9 @@
 # Stylix's colours are turned off for these; its fonts and the rest stay.
 let
   current = "${config.xdg.stateHome}/theme/current";
+  gtkCss = ''
+    @import url("file://${current}/gtk.css");
+  '';
 in
 {
   config = lib.mkIf config.userSettings.themes.enable {
@@ -35,11 +38,8 @@ in
       name = "adw-gtk3";
     };
     gtk.gtk4.theme = config.gtk.theme;
-    xdg.configFile = lib.genAttrs [ "gtk-3.0/gtk.css" "gtk-4.0/gtk.css" ] (_: {
-      text = ''
-        @import url("file://${current}/gtk.css");
-      '';
-    });
+    xdg.configFile."gtk-3.0/gtk.css".text = gtkCss;
+    xdg.configFile."gtk-4.0/gtk.css".text = gtkCss;
 
     stylix.targets.hyprlock.colors.enable = false;
     programs.hyprlock.settings = {
@@ -65,5 +65,11 @@ in
     # follows Ghostty.
     stylix.targets.bat.colors.enable = false;
     programs.bat.config.theme = "base16";
+
+    # Small enough to render whole per theme (./colors.nix), from these same
+    # settings.
+    stylix.targets.starship.colors.enable = false;
+    home.file.${config.programs.starship.configPath}.source =
+      lib.mkForce (config.lib.file.mkOutOfStoreSymlink "${current}/starship.toml");
   };
 }
