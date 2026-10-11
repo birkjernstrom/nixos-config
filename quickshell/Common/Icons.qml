@@ -80,6 +80,9 @@ Singleton {
     readonly property string webcam: "󰖠"
     readonly property string lock: "󰌾"
 
+    readonly property string caffeinated: "󰅶"
+    readonly property string decaffeinated: "󰛊"
+
     // percent: 0-100. The last frame means full.
     function battery(percent) {
         return root.batteryRamp[root._rampIndex(percent, root.batteryRamp.length)];

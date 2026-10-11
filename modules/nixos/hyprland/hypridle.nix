@@ -32,10 +32,10 @@ in
             on-timeout = "hyprctl dispatch dpms off";
             on-resume = "hyprctl dispatch dpms on";
           }
-          # Suspend after 30 minutes
+          # Suspend after 30 minutes, unless caffeinated from the bar
           {
             timeout = 1800;
-            on-timeout = "systemctl suspend";
+            on-timeout = ''[ -e "$XDG_RUNTIME_DIR/caffeinated" ] || systemctl suspend'';
           }
         ];
       };

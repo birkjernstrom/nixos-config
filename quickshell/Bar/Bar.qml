@@ -83,6 +83,8 @@ Scope {
 
                 AgentStatus {}
 
+                Caffeinated {}
+
                 Volume {}
 
                 Bluetooth {}

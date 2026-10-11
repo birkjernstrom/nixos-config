@@ -9,7 +9,7 @@ import Quickshell
 // origin (x rightwards, y up from the baseline). Widgets/Icon.qml scales each
 // glyph so max(w, h) fills its box and puts (cx, cy) at the box's centre.
 //
-// Measured from: /nix/store/n22vjizi4q761ar31c2w2y7d0gsnc5y4-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
+// Measured from: /nix/store/6f0q8hy2jsv4pyzjhymfqgfm65kk5ffa-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
 Singleton {
     // Used for a glyph nobody measured - a square filling the cell, which is
     // what setting a font size and hoping would have given anyway.
@@ -65,6 +65,10 @@ Singleton {
         "󰅂": { w: 600, h: 970, cx: 300, cy: 356 },  // U+F0142 chevron-right.2
         "󰏘": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F03D8 palette
         "󰍪": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F036A message-text-outline
-        "󰃬": { w: 600, h: 858, cx: 300, cy: 356 }  // U+F00EC calculator
+        "󰃬": { w: 600, h: 858, cx: 300, cy: 356 },  // U+F00EC calculator
+        "󰖠": { w: 600, h: 748, cx: 300, cy: 356 },  // U+F05A0 webcam
+        "󰌾": { w: 600, h: 786, cx: 300, cy: 356 },  // U+F033E lock.3
+        "󰅶": { w: 600, h: 540, cx: 300, cy: 356 },  // U+F0176 coffee.1
+        "󰛊": { w: 600, h: 540, cx: 300, cy: 356 }  // U+F06CA coffee-outline
     })
 }
