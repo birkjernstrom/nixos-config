@@ -33,20 +33,19 @@ rather than duplicated per host.
 
 ### 3. Keyring
 
-Keep `services.gnome.gnome-keyring.enable = true` standalone. greetd's PAM
-stack includes `login`, which already gets `enableGnomeKeyring`, so unlock at
-login needs nothing extra.
-
-- Verify: Chromium, Slack, Zoom stay logged in across reboots.
+- [x] `modules/nixos/desktop.nix`: `services.gnome.gnome-keyring.enable`
+  standalone. greetd's PAM stack includes `login`, which gets
+  `enableGnomeKeyring`, so it unlocks at login. Checked: still on with GNOME
+  forced off.
+- [ ] Verify: Chromium, Slack, Zoom stay logged in across reboots.
 
 ### 4. Portals
 
-`programs.hyprland` only adds xdg-desktop-portal-hyprland. Add
-`xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ]` for file
-chooser and the settings portal.
-
-- Verify: file picker in browser/Slack, theme switch flips Chromium/Electron
-  dark/light (`modules/nixos/themes/default.nix` color-scheme), screenshare.
+- [x] `modules/nixos/desktop.nix`: `xdg-desktop-portal-gtk` explicitly.
+  `hyprland-portals.conf` already prefers `hyprland;gtk`, so the gnome portal
+  was never used under Hyprland. Checked: still present with GNOME forced off.
+- [ ] Verify: file picker (browser, Slack), theme switch flips
+  Chromium/Electron dark/light, screenshare.
 
 ### 5. File manager
 

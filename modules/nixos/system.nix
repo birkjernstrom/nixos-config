@@ -9,6 +9,7 @@
     ./primo.nix
     ./clamav.nix
     ./dns.nix
+    ./desktop.nix
     ./fwupd.nix
     ./greetd.nix
     ./tailscale.nix
