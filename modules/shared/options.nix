@@ -36,6 +36,18 @@ with lib;
         description = "Enable Beekeeper Studio (SQL client). NixOS only.";
       };
 
+      yazi.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Yazi (terminal file manager)";
+      };
+
+      nemo.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Nemo (graphical file manager). NixOS only.";
+      };
+
       zoom.enable = mkOption {
         type = types.bool;
         default = false;

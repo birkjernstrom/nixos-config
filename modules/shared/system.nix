@@ -13,6 +13,8 @@
     ./apps/zathura.nix
     ./apps/beekeeper-studio.nix
     ./apps/zoom.nix
+    ./apps/yazi.nix
+    ./apps/nemo.nix
     ./docker.nix
   ];
 }

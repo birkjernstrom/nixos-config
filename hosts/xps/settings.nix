@@ -47,6 +47,8 @@
       zathura.enable = true;
       beekeeper-studio.enable = true;
       zoom.enable = true;
+      yazi.enable = true;
+      nemo.enable = true;
       browsers = {
         chrome = {
           enable = true;

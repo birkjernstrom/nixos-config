@@ -69,7 +69,7 @@ in
         # Lua locals, referenced from the keybindings in ./bindings.nix
         mainMod = { _var = "SUPER"; };
         terminal = { _var = "ghostty"; };
-        fileManager = { _var = "nautilus"; };
+        fileManager = { _var = "ghostty -e yazi"; };
         # Toggles the resident Pathway window rather than spawning a launcher.
         # Both of these are locals rather than literals in the bind so that a
         # different shell can take the key over by redefining one word.

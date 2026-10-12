@@ -49,8 +49,16 @@ rather than duplicated per host.
 
 ### 5. File manager
 
-`modules/nixos/hyprland/home.nix` binds `fileManager = nautilus`. Install
-`pkgs.nautilus` explicitly, or switch (Thunar, Nemo, yazi).
+- [x] Yazi: `modules/shared/apps/yazi.nix` (`apps.yazi.enable` on both
+  Linux hosts). SUPER+E opens `ghostty -e yazi`; a `yazi.desktop` override
+  launches it in Ghostty and is the default for `inode/directory`.
+  Shell wrapper is `y` (cd to the last directory on quit).
+- [x] Nemo alongside it: `modules/shared/apps/nemo.nix`. Not the default,
+  but it provides `org.freedesktop.FileManager1`, so "Show in folder" opens
+  Nemo once Nautilus is gone. Its terminal action opens Ghostty.
+- [ ] Verify: SUPER+E, `xdg-open ~`, opening a folder from Chrome's
+  downloads, "Show in folder". Nemo's trash and network locations need gvfs
+  (step 6).
 
 ### 6. Services GNOME enabled implicitly
 
