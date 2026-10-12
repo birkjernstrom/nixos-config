@@ -76,6 +76,8 @@ Singleton {
     readonly property string chevronRight: "󰅂"
     readonly property string theme: "󰏘"
     readonly property string chat: "󰍪"
+    readonly property string taskAdd: "󰐙"
+    readonly property string team: "󰭘"
     readonly property string calculator: "󰃬"
     readonly property string webcam: "󰖠"
     readonly property string lock: "󰌾"

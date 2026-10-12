@@ -65,6 +65,8 @@ Singleton {
         "󰅂": { w: 600, h: 970, cx: 300, cy: 356 },  // U+F0142 chevron-right.2
         "󰏘": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F03D8 palette
         "󰍪": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F036A message-text-outline
+        "󰐙": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0419 plus-circle-outline
+        "󰭘": { w: 600, h: 350, cx: 300, cy: 356 },  // U+F0B58 account-group-outline
         "󰃬": { w: 600, h: 858, cx: 300, cy: 356 },  // U+F00EC calculator
         "󰖠": { w: 600, h: 748, cx: 300, cy: 356 },  // U+F05A0 webcam
         "󰌾": { w: 600, h: 786, cx: 300, cy: 356 },  // U+F033E lock.3

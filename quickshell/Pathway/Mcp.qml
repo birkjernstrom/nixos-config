@@ -29,29 +29,95 @@ Singleton {
         McpChat {}
     }
 
-    function mentions(raw) {
-        const m = raw.match(/^@(\S*)\s*([\s\S]*)$/);
+    // Shorthands for `@server`, e.g. `@l ...` for `@linear ...`.
+    readonly property var aliases: ({
+            l: "linear"
+        })
+
+    // Splits `@name rest` into the server it names and the rest, untrimmed so
+    // Linear can tell `#gro` (still typing) from `#gro ` (done). `server` is
+    // empty unless the name is a server or an alias of one.
+    function _mention(text) {
+        const m = text.match(/^@(\S*)([\s\S]*)$/);
         if (!m)
-            return [];
+            return null;
         const name = m[1].toLowerCase();
-        const message = m[2].trim();
-        return Object.keys(root.servers).filter(id => message ? id === name : id.startsWith(name)).map(id => ({
-                    id: "mcp:" + id,
-                    name: message ? `Ask ${root.servers[id]}` : root.servers[id],
-                    subtitle: message || `@${id} <message>`,
-                    icon: "",
-                    keywords: [],
-                    kind: "module",
-                    frecency: false,
-                    activate: () => root.start(id, message)
-                }));
+        const id = root.aliases[name] ?? name;
+        return {
+            name: m[1],
+            server: root.servers[id] ? id : "",
+            rest: m[2]
+        };
     }
 
-    function start(server, message) {
+    // The Linear team chip in the search field: the team `text` would act on,
+    // or the open chat's.
+    function teamTag(text) {
+        if (Nav.moduleView === root.view)
+            return root.server === "linear" ? Linear.team : "";
+        const m = root._mention(text);
+        if (m?.server !== "linear" || m.rest === "")
+            return "";
+        return Linear.parse(m.rest).team ?? "";
+    }
+
+    function mentions(text) {
+        const m = root._mention(text);
+        if (!m)
+            return [];
+
+        // `@`, `@li`: the servers that name could still become.
+        if (m.rest.trim() === "") {
+            const name = m.name.toLowerCase();
+            return Object.keys(root.servers).filter(id => id.startsWith(name) || root.aliases[name] === id).map(id => root._askRow(id, "", root.servers[id], `@${id} <message>`));
+        }
+        if (m.server === "")
+            return [];
+        if (m.server !== "linear")
+            return [root._askRow(m.server, m.rest.trim(), `Ask ${root.servers[m.server]}`, m.rest.trim())];
+
+        const p = Linear.parse(m.rest);
+        if (p.picking)
+            return Linear.teamItems(p.token, m.name);
+        if (p.team === null)
+            return [];
+        if (p.text === "")
+            return [root._askRow("linear", "", "Linear", `${p.team} · type a task or question`, p.team)];
+        return [
+            {
+                id: "linear-task",
+                name: `Add task to ${p.team}`,
+                subtitle: p.text,
+                icon: "",
+                keywords: [],
+                kind: "linear-task",
+                frecency: false,
+                activate: () => Linear.create(p.team, p.text)
+            },
+            root._askRow("linear", p.text, "Ask Linear", p.text, p.team)
+        ];
+    }
+
+    function _askRow(server, message, name, subtitle, team) {
+        return {
+            id: "mcp:" + server,
+            name: name,
+            subtitle: subtitle,
+            icon: "",
+            keywords: [],
+            kind: "module",
+            frecency: false,
+            activate: () => root.start(server, message, team)
+        };
+    }
+
+    function start(server, message, team) {
         root._gen += 1;
         if (root._proc)
             root._proc.running = false;
         root.server = server;
+        if (team)
+            Linear.team = team;
         root.sessionId = "";
         root.messages = [];
         root.busy = false;
@@ -69,7 +135,7 @@ Singleton {
         root.status = "Thinking";
         root._proc = turn.createObject(root, {
             gen: root._gen,
-            command: ["pathway-mcp", root.server, root.sessionId || "-", message],
+            command: ["pathway-mcp", root.server, root.sessionId || "-", message, root.server === "linear" ? Linear.context : ""],
             running: true
         });
     }

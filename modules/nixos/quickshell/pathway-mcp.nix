@@ -1,8 +1,9 @@
 { lib, pkgs }:
 
-# `pathway-mcp <server> <session-id|-> <message>`: one turn of a Pathway `@server`
-# chat, as Claude Code stream-json on stdout. Claude Code is the MCP client, so
-# Pathway never speaks MCP itself; `claude` comes from the user's session.
+# `pathway-mcp <server> <session-id|-> <message> [context]`: one turn of a
+# Pathway `@server` chat, as Claude Code stream-json on stdout. Claude Code is
+# the MCP client, so Pathway never speaks MCP itself; `claude` comes from the
+# user's session. `context` is appended to the system prompt.
 #
 # Each server authenticates with the sops secret of the same name, sent as a
 # bearer token.
@@ -33,7 +34,7 @@ pkgs.writeShellApplication {
   name = "pathway-mcp";
   runtimeInputs = with pkgs; [ coreutils jq ];
   text = ''
-    server="$1" session="$2" message="$3"
+    server="$1" session="$2" message="$3" context="''${4:-}"
     config="${configs}/$server.json"
     secret="''${XDG_CONFIG_HOME:-$HOME/.config}/sops-nix/secrets/$server"
 
@@ -57,7 +58,7 @@ pkgs.writeShellApplication {
       --mcp-config "$config" --strict-mcp-config
       --tools "" --allowedTools "mcp__$server"
       --disable-slash-commands
-      --append-system-prompt ${lib.escapeShellArg prompt}
+      --append-system-prompt ${lib.escapeShellArg prompt}"$context"
     )
     [[ $session == - ]] || args+=(--resume "$session")
 

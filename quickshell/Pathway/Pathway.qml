@@ -53,6 +53,7 @@ Scope {
         // Every open starts from a clean slate rather than resuming the last query.
         if (root.open) {
             Rates.refresh();
+            Linear.reset();
             search.text = "";
             list.selectedIndex = 0;
             search.takeFocus();
@@ -162,6 +163,7 @@ Scope {
 
                     Layout.fillWidth: true
                     focus: root.open
+                    tag: Mcp.teamTag(search.text)
                     placeholder: {
                         if (Nav.moduleSubmit)
                             return `Reply to ${Nav.moduleTitle}...`;
@@ -233,6 +235,10 @@ Scope {
         // that now takes replies.
         function onModuleViewChanged() {
             search.text = "";
+        }
+
+        function onQueryRequested(text) {
+            search.text = text;
         }
 
         target: Nav

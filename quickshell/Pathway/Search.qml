@@ -39,7 +39,7 @@ Singleton {
         const q = raw.toLowerCase();
 
         if (!scope && raw.startsWith("@"))
-            return Mcp.mentions(raw);
+            return Mcp.mentions((text ?? "").replace(/^\s+/, ""));
 
         const calc = scope ? [] : root._answers(raw);
 

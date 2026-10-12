@@ -55,6 +55,10 @@ Rectangle {
                 return Icons.webcam;
             if (root.item.kind === "calc")
                 return Icons.calculator;
+            if (root.item.kind === "linear-task")
+                return Icons.taskAdd;
+            if (root.item.id?.startsWith("linear-team:"))
+                return Icons.team;
             if (root.item.id?.startsWith("mcp:"))
                 return Icons.chat;
             if (root.item.kind?.startsWith("agent-"))

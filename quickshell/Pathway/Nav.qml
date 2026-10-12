@@ -23,6 +23,7 @@ Singleton {
     property string scopeTitle: ""
 
     signal closeRequested
+    signal queryRequested(string text)
 
     function pushModule(component, title, submit) {
         root.moduleView = component;
@@ -44,6 +45,10 @@ Singleton {
     function popScope() {
         root.scope = null;
         root.scopeTitle = "";
+    }
+
+    function setQuery(text) {
+        root.queryRequested(text);
     }
 
     function close() {

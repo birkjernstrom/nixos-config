@@ -31,6 +31,7 @@ in
 
       # `@linear ...` in Pathway.
       (import ./pathway-mcp.nix { inherit lib pkgs; })
+      (import ./pathway-linear.nix { inherit pkgs; })
     ];
 
     # Until the shell reaches v1, ~/.config/quickshell is a hand-made symlink to
