@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import qs.Common
 import qs.Widgets
 
@@ -18,6 +19,20 @@ BarItem {
         id: clock
 
         precision: SystemClock.Minutes
+    }
+
+    // The minute timer runs on the monotonic clock, which stops during suspend.
+    Process {
+        running: true
+        command: ["gdbus", "monitor", "--system", "--dest", "org.freedesktop.login1", "--object-path", "/org/freedesktop/login1"]
+        stdout: SplitParser {
+            onRead: line => {
+                if (line.includes("PrepareForSleep (false")) {
+                    clock.enabled = false;
+                    clock.enabled = true;
+                }
+            }
+        }
     }
 
     RowLayout {
