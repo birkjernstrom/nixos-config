@@ -70,6 +70,9 @@ in
         bus=""
         [[ -v DBUS_SESSION_BUS_ADDRESS ]] || bus="${pkgs.dbus}/bin/dbus-run-session --dbus-daemon=${pkgs.dbus}/bin/dbus-daemon"
         run $bus ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'prefer-$(<"$current/polarity")'"
+        gtk="${config.gtk.theme.name}"
+        [[ $(<"$current/polarity") == dark ]] && gtk+="-dark"
+        run $bus ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/gtk-theme "'$gtk'"
       fi
     '';
 

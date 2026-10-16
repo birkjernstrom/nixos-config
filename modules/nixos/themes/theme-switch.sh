@@ -61,12 +61,15 @@ if running mako; then
 fi
 
 # GTK loads gtk.css as part of loading its theme, so changing the theme name
-# away and back makes running apps load it again.
-gtk="$(gsettings get org.gnome.desktop.interface gtk-theme 2>/dev/null || true)"
+# away and back makes running apps load it again. Electron takes its polarity
+# from the theme name too, so land on the variant that matches.
+gtk="$(gsettings get org.gnome.desktop.interface gtk-theme 2>/dev/null | tr -d "'" || true)"
 if [[ -n $gtk ]]; then
+  gtk="${gtk%-dark}"
+  [[ $(<"$CURRENT/polarity") == dark ]] && gtk+="-dark"
   gsettings set org.gnome.desktop.interface gtk-theme "'Adwaita'"
   sleep 0.2
-  gsettings set org.gnome.desktop.interface gtk-theme "$gtk"
+  gsettings set org.gnome.desktop.interface gtk-theme "'$gtk'"
 fi
 
 # Quickshell's bar has its own copy of each palette and only needs the id.
