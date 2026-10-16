@@ -22,6 +22,8 @@ in
           # to compensate. Range is -1.0 to 1.0; bump towards 1.0 if it's
           # still not fast enough.
           sensitivity = 0.5;
+
+          clickfinger_behavior = true;
         }
 
         # Temporary: a smudge on the touchscreen triggers phantom clicks.
