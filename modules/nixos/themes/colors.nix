@@ -29,7 +29,6 @@ let
       "col.inactive_border" = rgb borders.inactive;
     };
     decoration = {
-      inactive_opacity = if polarity == "light" then 0.85 else 0.95;
       shadow.color = "rgba(${colors.base00}99)";
     };
     group = {

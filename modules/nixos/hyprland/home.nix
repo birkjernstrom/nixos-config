@@ -95,8 +95,7 @@ in
         ];
 
         config = {
-          # Colours, and the polarity-dependent inactive_opacity, come from
-          # the active theme (modules/nixos/themes).
+          # Colours come from the active theme (modules/nixos/themes).
           general = {
             gaps_in = 6;
             gaps_out = 12;
@@ -108,6 +107,7 @@ in
           decoration = {
             rounding = 10;
             active_opacity = 1.0;
+            inactive_opacity = 1.0;
             # shadow = {
             #   enabled = true;
             #   range = 20;
