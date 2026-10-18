@@ -70,7 +70,7 @@ in
       '';
       postStop = lib.mkForce "";
       startLimitIntervalSec = 0;
-      serviceConfig.RestartSec = 2;
+      serviceConfig.RestartSec = lib.mkForce 2;
     };
 
   # This board routes the sensor through an Intel CVS bridge
