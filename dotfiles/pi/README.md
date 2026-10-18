@@ -1,4 +1,50 @@
-# Pi extensions
+# Pi extensions and skills
+
+## Live development links
+
+`modules/shared/programming/pi.nix` currently sets `livePiSources = true`. Home Manager installs directory symlinks resolving to:
+
+```text
+~/.pi/agent/extensions → ~/.nixos-config/dotfiles/pi/extensions
+~/.pi/agent/skills     → ~/.nixos-config/dotfiles/pi/skills
+```
+
+After initial activation, editing or adding extensions and skills needs only `/reload`, not a rebuild or sudo. Do not also load them with `-e` or `--skill`. The repository must remain at `~/.nixos-config`. Pi's `AGENTS.md` and the Pi package remain Nix-managed and still need the usual deployment workflow.
+
+These links use the live working tree, including uncommitted and untracked files. Broken edits can fail on reload. Nix generation rollbacks do not restore the repository contents. Extensions that write runtime state relative to their source directory may now write into the repository; prefer storing that state outside the source tree.
+
+### One-time migration
+
+Build the new configuration first. Before switching, back up the existing resource directories, since Home Manager cannot replace nonempty real directories with its directory symlinks. On the current XPS host, after reviewing/staging the intended changes:
+
+```sh
+nixos-rebuild build --flake "$HOME/.nixos-config#xps" --no-update-lock-file
+```
+
+Only after that succeeds, in your own terminal:
+
+```sh
+backup="$(mktemp -d "$HOME/.pi/agent/resources-before-live.XXXXXX")"
+for name in extensions skills; do
+  path="$HOME/.pi/agent/$name"
+  if [ -d "$path" ] && [ ! -L "$path" ]; then
+    mv "$path" "$backup/$name" || break
+  fi
+done
+printf 'Previous Pi resources saved in %s\n' "$backup"
+```
+
+Check the move succeeded for both directories before switching:
+
+```sh
+sudo nixos-rebuild switch --flake "$HOME/.nixos-config#xps" --no-update-lock-file
+```
+
+Keep the backup: it preserves old logs and any manually installed resources. If switching fails, inspect its state before restoring anything; do not restore the backup over newly installed directory links. After success, verify both destinations with `readlink -f`, then run `/reload` in Pi.
+
+### Return to Nix-store sources later
+
+Set `livePiSources = false` in `modules/shared/programming/pi.nix`, stage any new source files, and rebuild/switch. The same resource directories will then point into the Nix store. Subsequent source edits require another rebuild/switch and reload.
 
 ## Ask user
 
@@ -33,7 +79,7 @@ Run `/ask-user-demo`. The demo does not send its answers to the model. To test t
 
 ### Persistent installation
 
-`modules/shared/programming/pi.nix` installs the extension at `~/.pi/agent/extensions/ask-user.ts` when the AI tools option is enabled. Include the new files in Git before a Git-flake-based rebuild, then activate your usual Nix/Home Manager configuration and run `/reload` or restart Pi. Do not also load the file with `-e` once it is installed globally.
+`modules/shared/programming/pi.nix` installs the resource directories when the AI tools option is enabled. Follow the live-link migration above for initial activation. Once the live links are installed, extension and skill edits need only `/reload`. With `livePiSources = false`, include new files in Git and rebuild/switch for each update. Do not also load the file with `-e` once it is installed globally.
 
 No npm dependencies or compilation step are needed: the extension uses Pi's host-provided packages. The panel requires TUI mode; in other modes, the tool returns an error instructing the model to ask in plain text.
 
