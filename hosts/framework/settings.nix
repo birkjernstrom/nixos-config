@@ -41,6 +41,7 @@
     apps = {
       slack.enable = true;
       obsidian.enable = true;
+      localsend.enable = true;
       popsicle.enable = true;
       foliate.enable = true;
       zathura.enable = true;

@@ -15,6 +15,7 @@
     ./apps/zoom.nix
     ./apps/yazi.nix
     ./apps/nemo.nix
+    ./apps/localsend.nix
     ./docker.nix
   ];
 }

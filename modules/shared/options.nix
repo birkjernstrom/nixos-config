@@ -36,6 +36,12 @@ with lib;
         description = "Enable Beekeeper Studio (SQL client). NixOS only.";
       };
 
+      localsend.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable LocalSend (local network file sharing)";
+      };
+
       yazi.enable = mkOption {
         type = types.bool;
         default = false;
