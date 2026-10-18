@@ -25,6 +25,7 @@ Item {
     required property string glyph
     property color color: Theme.fgDim
     property int size: Theme.iconSize
+    property int offsetY: 0
 
     readonly property var ink: IconMetrics.ink[root.glyph] ?? IconMetrics.fallback
 
@@ -49,7 +50,7 @@ Item {
         // `cy`: that mixed the font file's units with Qt's baseline and left
         // every glyph about a pixel low.
         x: Math.round(root.width / 2 - label.px * root.ink.cx / 1000)
-        y: Math.round(root.height / 2 - (label.baselineOffset + metrics.ink.y + metrics.ink.height / 2))
+        y: Math.round(root.height / 2 - (label.baselineOffset + metrics.ink.y + metrics.ink.height / 2)) + root.offsetY
     }
 
     FontMetrics {
