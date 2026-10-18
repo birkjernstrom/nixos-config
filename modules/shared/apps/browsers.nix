@@ -7,6 +7,7 @@ let
   chromeEnabled = cfg.chrome.enable or false;
   chromeExtensions = cfg.chrome.extensions or [];
   firefoxEnabled = cfg.firefox.enable or false;
+  vivaldiEnabled = cfg.vivaldi.enable or false;
   defaultBrowser = cfg.default or "chrome";
   username = settings.user.name;
 
@@ -17,11 +18,13 @@ let
   browserCmd = {
     chrome = "google-chrome-stable";
     firefox = "firefox";
+    vivaldi = "vivaldi";
   };
 
   browserDesktop = {
     chrome = "google-chrome.desktop";
     firefox = "firefox.desktop";
+    vivaldi = "vivaldi-stable.desktop";
   };
 in
 {
@@ -30,6 +33,7 @@ in
     homebrew.casks = lib.mkMerge [
       (lib.mkIf chromeEnabled [ "google-chrome" ])
       (lib.mkIf firefoxEnabled [ "firefox" ])
+      (lib.mkIf vivaldiEnabled [ "vivaldi" ])
     ];
   } else lib.mkMerge [
     {
@@ -41,8 +45,11 @@ in
         (lib.mkIf firefoxEnabled {
           home.packages = [ pkgs.firefox ];
         })
+        (lib.mkIf vivaldiEnabled {
+          home.packages = [ pkgs.vivaldi ];
+        })
         # Add hyprland keybinding for default browser (Super+B)
-        (lib.mkIf (chromeEnabled || firefoxEnabled) {
+        (lib.mkIf (chromeEnabled || firefoxEnabled || vivaldiEnabled) {
           wayland.windowManager.hyprland.settings.bind = [
             (bind "SUPER + B" (exec browserCmd.${defaultBrowser}))
           ];

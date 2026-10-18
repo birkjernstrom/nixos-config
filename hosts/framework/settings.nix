@@ -59,6 +59,7 @@
           ];
         };
         firefox.enable = true;
+        vivaldi.enable = true;
         default = "chrome";
       };
       # Sites that get their own window and desktop entry - see

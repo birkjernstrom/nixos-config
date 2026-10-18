@@ -84,8 +84,13 @@ with lib;
           default = false;
           description = "Enable Firefox";
         };
+        vivaldi.enable = mkOption {
+          type = types.bool;
+          default = false;
+          description = "Enable Vivaldi";
+        };
         default = mkOption {
-          type = types.enum [ "chrome" "firefox" ];
+          type = types.enum [ "chrome" "firefox" "vivaldi" ];
           default = "chrome";
           description = "Default browser for keybindings";
         };

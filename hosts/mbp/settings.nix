@@ -36,6 +36,7 @@
       browsers = {
         chrome.enable = true;
         firefox.enable = true;
+        vivaldi.enable = true;
         default = "chrome";
       };
     };
