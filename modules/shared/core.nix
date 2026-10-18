@@ -16,6 +16,7 @@ in
       fzf
       tree
       htop
+      lsof
       btop
       fastfetch
       httpie
