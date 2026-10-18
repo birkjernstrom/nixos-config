@@ -85,6 +85,9 @@ Singleton {
     readonly property string caffeinated: "󰅶"
     readonly property string decaffeinated: "󰛊"
 
+    readonly property string bell: "󰂜"
+    readonly property string bellOff: "󰂛"
+
     // percent: 0-100. The last frame means full.
     function battery(percent) {
         return root.batteryRamp[root._rampIndex(percent, root.batteryRamp.length)];

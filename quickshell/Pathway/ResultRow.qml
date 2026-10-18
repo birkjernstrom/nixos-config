@@ -51,6 +51,8 @@ Rectangle {
                 return Icons.theme;
             if (root.item.kind === "wallpaper" || root.item.id === "command:wallpaper")
                 return Icons.image;
+            if (root.item.id === "command:dnd")
+                return Icons.bellOff;
             if (root.item.kind === "webcam")
                 return Icons.webcam;
             if (root.item.kind === "calc")

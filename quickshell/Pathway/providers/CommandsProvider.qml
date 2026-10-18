@@ -1,6 +1,7 @@
 pragma Singleton
 
 import Quickshell
+import qs.Common
 import qs.Pathway
 
 // Shell commands, as opposed to launchable applications. Registered globally in
@@ -31,6 +32,15 @@ Singleton {
                 WallpaperProvider.refresh();
                 Nav.pushScope(WallpaperProvider, "Wallpaper");
             }
+        },
+        {
+            id: "command:dnd",
+            name: "Do Not Disturb",
+            subtitle: "Toggle notifications",
+            icon: "",
+            keywords: ["dnd", "do not disturb", "notifications", "mute", "silence", "focus"],
+            kind: "command",
+            activate: () => DoNotDisturb.toggle()
         }
     ]
 }

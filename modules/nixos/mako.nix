@@ -37,6 +37,11 @@ in
         # Critical notifications stay until dismissed
         "urgency=critical".default-timeout = 0;
 
+        # Toggled from the bar and Pathway (quickshell/Common/DoNotDisturb.qml).
+        # Hidden notifications stay in history; critical ones still show.
+        "mode=do-not-disturb".invisible = 1;
+        "mode=do-not-disturb urgency=critical".invisible = 0;
+
         # Icons
         icons = true;
         max-icon-size = 48;

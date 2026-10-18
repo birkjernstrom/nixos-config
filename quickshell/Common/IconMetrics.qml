@@ -71,6 +71,8 @@ Singleton {
         "󰖠": { w: 600, h: 748, cx: 300, cy: 356 },  // U+F05A0 webcam
         "󰌾": { w: 600, h: 786, cx: 300, cy: 356 },  // U+F033E lock.3
         "󰅶": { w: 600, h: 540, cx: 300, cy: 356 },  // U+F0176 coffee.1
-        "󰛊": { w: 600, h: 540, cx: 300, cy: 356 }  // U+F06CA coffee-outline
+        "󰛊": { w: 600, h: 540, cx: 300, cy: 356 },  // U+F06CA coffee-outline
+        "󰂜": { w: 600, h: 700, cx: 300, cy: 356 },  // U+F009C bell-outline
+        "󰂛": { w: 600, h: 608, cx: 300, cy: 356 }  // U+F009B bell-off
     })
 }

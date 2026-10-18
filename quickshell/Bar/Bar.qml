@@ -83,6 +83,8 @@ Scope {
 
                 AgentStatus {}
 
+                DoNotDisturbStatus {}
+
                 Caffeinated {}
 
                 Volume {}
