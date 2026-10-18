@@ -3,6 +3,7 @@
 {
   imports = [
     ./ai.nix
+    ./pi.nix
     ./tools.nix
 
     # Languages
