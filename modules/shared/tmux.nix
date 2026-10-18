@@ -34,6 +34,10 @@ in
       escapeTime = 10;
 
       extraConfig = ''
+        # Allow modified Enter keys (needed by some TUIs, e.g. pi)
+        set -s extended-keys on
+        set -as terminal-features 'xterm*:extkeys'
+
         unbind r
         bind r source-file ~/.config/tmux/tmux.conf
 
