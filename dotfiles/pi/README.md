@@ -75,7 +75,7 @@ From this repository:
 pi -e ./dotfiles/pi/extensions/ask-user.ts
 ```
 
-Run `/ask-user-demo`. The demo does not send its answers to the model. To test the model integration, ask Pi to ask you a clarification question using `ask_user`.
+To try it, ask Pi: “Demo the ask_user tool with a few example questions, including choices and a free-form answer.” No slash command is registered. Answers are returned to the model as normal tool results.
 
 ### Persistent installation
 

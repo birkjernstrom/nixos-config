@@ -69,11 +69,11 @@ function checkWidths(component) {
 	}
 }
 
-test("registers the tool, sequential execution, guidance, and demo", () => {
+test("registers the tool, sequential execution, and guidance without slash commands", () => {
 	assert.equal(tool.name, "ask_user");
 	assert.equal(tool.executionMode, "sequential");
 	assert.ok(tool.promptGuidelines.length);
-	assert.ok(commands.has("ask-user-demo"));
+	assert.equal(commands.size, 0);
 	const schema = Compile(tool.parameters);
 	assert.ok(schema.Check({ questions: [{ question: "Why?" }] }));
 	assert.ok(!schema.Check({ questions: [] }));

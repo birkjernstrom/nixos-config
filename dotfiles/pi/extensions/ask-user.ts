@@ -189,16 +189,4 @@ export default function (pi: ExtensionAPI) {
 			return new Text(lines.join("\n"), 0, 0);
 		},
 	});
-
-	pi.registerCommand("ask-user-demo", {
-		description: "Try the question panel, custom answers, and external editor",
-		handler: async (_args, ctx) => {
-			if (ctx.mode !== "tui") return;
-			const result = await askQuestions(ctx, [
-				{ question: "Which approach would you prefer?", options: ["Keep it simple", "Make it configurable", "Explore both first"] },
-				{ question: "Any other requirements? Try Ctrl+G to write your answer in your editor." },
-			], undefined, pi.getSettings().externalEditor);
-			ctx.ui.notify(result.cancelled ? "Demo cancelled" : "Demo complete. Answers were not sent to the model.", "info");
-		},
-	});
 }
