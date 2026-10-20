@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "profile": "balanced",
+  "rules": {
+    "secrets.read": "ask",
+    "secrets.modify": "ask",
+    "secrets.search": "ask",
+    "permissions.modify": "ask",
+    "filesystem.delete": "ask",
+    "filesystem.overwrite": "ask",
+    "filesystem.outside-project": "ask",
+    "git.discard-changes": "ask",
+    "git.push": "ask",
+    "host.privileged": "ask",
+    "host.modify": "ask",
+    "network.request": "ask",
+    "network.upload": "ask",
+    "code.execute": "ask",
+    "code.download-and-execute": "ask",
+    "external.mutate": "ask",
+    "shell.dynamic": "ask",
+    "tools.unknown": "ask"
+  }
+}
