@@ -11,6 +11,7 @@
     ./dns.nix
     ./desktop.nix
     ./fwupd.nix
+    ./pki.nix
     ./greetd.nix
     ./tailscale.nix
     ./ssh.nix
