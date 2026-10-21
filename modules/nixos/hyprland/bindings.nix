@@ -13,7 +13,14 @@ with lib; let
 
   volumeMute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
   volumeDown = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-  volumeUp = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+  volumeUp = "sh -c " + escapeShellArg ''
+    if wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q '\[MUTED\]'; then
+      wpctl set-volume @DEFAULT_AUDIO_SINK@ 5% &&
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+    else
+      wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+    fi
+  '';
 
   # -e4 gives a perceptually even ramp, -n2 keeps the panel from going black.
   brightnessDown = "brightnessctl -e4 -n2 set 5%-";

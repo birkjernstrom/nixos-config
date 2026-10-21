@@ -76,10 +76,13 @@ BarItem {
     onWheel: delta => {
         if (!root.audio)
             return;
-        // Scrolling an audible level is meant to adjust it, not to unmute
-        // something that was deliberately silenced.
-        if (root.muted)
+        if (root.muted) {
+            if (delta > 0) {
+                root.audio.volume = root.step;
+                root.audio.muted = false;
+            }
             return;
+        }
         const next = root.audio.volume + (delta > 0 ? root.step : -root.step);
         root.audio.volume = Math.max(0, Math.min(root.maxVolume, next));
     }
