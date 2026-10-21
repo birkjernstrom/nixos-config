@@ -93,7 +93,16 @@ in
   # no PCM for the internal speakers/headphones at all). Panther Lake is
   # new enough that this support is still landing upstream; latest tracks
   # mainline closely enough to carry it sooner than the default kernel would.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #
+  # On 7.3 the kernel's modules_install runs depmod into v4l2loopback's output,
+  # whose index files then collide with the kernel's own in the modules tree.
+  boot.kernelPackages = pkgs.linuxPackages_latest.extend (kfinal: kprev: {
+    v4l2loopback = kprev.v4l2loopback.overrideAttrs (old: {
+      postInstall = (old.postInstall or "") + ''
+        rm -f $out/lib/modules/*/modules.*
+      '';
+    });
+  });
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
