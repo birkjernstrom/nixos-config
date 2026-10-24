@@ -10,8 +10,7 @@ import Quickshell
 //
 //   1. A ramp's frames must be the same drawing at different fills. MDI's
 //      battery-charging-* set is a different drawing at two thirds the scale of
-//      battery-*, so plugging in the charger used to visibly resize the icon;
-//      charging now rides alongside as its own bolt instead of forking the ramp.
+//      battery-*, so plugging in the charger used to visibly resize the icon.
 //   2. Every new glyph needs a re-run of tools/gen-icon-metrics.sh. Icon.qml
 //      falls back to treating an unmeasured glyph as filling its cell, which is
 //      the mismatched behaviour this all exists to avoid.
@@ -22,9 +21,6 @@ Singleton {
     // frames share one ink box, so the icon holds perfectly still as the level
     // drops.
     readonly property var batteryRamp: ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    // Shown beside the battery while it charges - see rule 1 above. Drawn small
-    // by Battery.qml: it annotates the battery, it is not a peer of it.
-    readonly property string batteryCharging: ""
     // UPower reports Unknown for a moment after every shell restart. The
     // question mark keeps it from being mistaken for a level.
     readonly property string batteryUnknown: "󰂑"

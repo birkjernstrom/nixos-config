@@ -23,6 +23,7 @@ Singleton {
 
     readonly property color accent: Themes.base0E     // selection, tooltip border
     readonly property color onAccent: Themes.base00
+    readonly property color batteryCharging: Qt.tint(root.fgDim, Qt.rgba(Themes.base0B.r, Themes.base0B.g, Themes.base0B.b, 0.3))
     readonly property color warning: Themes.base0A    // battery < 20%
     readonly property color critical: Themes.base08    // battery < 10%, urgent workspace
 
