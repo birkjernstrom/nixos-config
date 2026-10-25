@@ -71,6 +71,7 @@ in
           binds = {
             whichKey = {
               enable = true;
+              register."<leader>a" = "+Avante";
             };
           };
 
@@ -110,10 +111,48 @@ in
             snippets.enable = true;
           };
 
-          assistant = {
-            copilot = {
-              enable = true;
-              cmp.enable = true;
+          startPlugins = with pkgs.vimPlugins; [
+            mega-cmdparse
+            mega-logging
+          ];
+
+          pluginOverrides.avante-nvim = pkgs.vimPlugins.avante-nvim.overrideAttrs { pname = "avante-nvim"; };
+
+          assistant.avante-nvim = {
+            enable = true;
+            setupOpts = {
+              provider = "claude";
+              mappings = {
+                diff = {
+                  ours = "co";
+                  theirs = "ct";
+                  all_theirs = "ca";
+                  both = "cb";
+                  cursor = "cc";
+                  next = "]x";
+                  prev = "[x";
+                };
+                suggestion = {
+                  accept = "<M-l>";
+                  next = "<M-]>";
+                  prev = "<M-[>";
+                  dismiss = "<C-]>";
+                };
+                jump = {
+                  next = "]]";
+                  prev = "[[";
+                };
+                submit = {
+                  normal = "<CR>";
+                  insert = "<C-f>";
+                };
+                sidebar = {
+                  apply_all = "A";
+                  apply_cursor = "a";
+                  switch_windows = "<Tab>";
+                  reverse_switch_windows = "<S-Tab>";
+                };
+              };
             };
           };
 
@@ -121,7 +160,6 @@ in
             nvim-cmp = {
               enable = true;
               sourcePlugins = [
-                "copilot-cmp"
                 "cmp-nvim-lsp"
                 "cmp-buffer"
                 "cmp-path"
@@ -216,7 +254,10 @@ in
             python.enable = true;
             rust.enable = true;
             go.enable = true;
-            markdown.enable = true;
+            markdown = {
+              enable = true;
+              extensions.render-markdown-nvim.enable = true;
+            };
             html.enable = true;
             css.enable = true;
           };
@@ -261,10 +302,10 @@ in
                 swap = {
                   enable = true;
                   swap_next = {
-                    "<leader>a" = "@parameter.inner";
+                    "<leader>p" = "@parameter.inner";
                   };
                   swap_previous = {
-                    "<leader>A" = "@parameter.inner";
+                    "<leader>P" = "@parameter.inner";
                   };
                 };
               };
