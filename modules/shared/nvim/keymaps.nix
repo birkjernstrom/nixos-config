@@ -97,6 +97,8 @@ in
         { mode = "n"; key = "<leader>e"; action = ":Neotree toggle reveal float<CR>"; }
         { mode = "n"; key = "<leader><tab>"; action = ":Neotree toggle reveal left<CR>"; }
 
+        { mode = "n"; key = "<leader>d"; action = ":lua vim.diagnostic.open_float()<CR>"; desc = "Line Diagnostics"; }
+
         # Undotree
         { mode = "n"; key = "<leader>zz"; action = ":UndotreeToggle<CR>"; desc = "Undotree"; }
       ];
