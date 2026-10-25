@@ -189,6 +189,15 @@ in
             presets = {
               tailwindcss-language-server.enable = true;
             };
+
+            servers.clangd.cmd = mkForce [
+              "${pkgs.clang-tools}/bin/clangd"
+              "--background-index"
+              "--clang-tidy"
+              "--header-insertion=iwyu"
+              "--completion-style=detailed"
+              "--query-driver=/nix/store/*/bin/*,/etc/profiles/per-user/*/bin/*,/run/current-system/sw/bin/*"
+            ];
           };
 
           languages = {
@@ -200,7 +209,10 @@ in
             lua.enable = true;
             typescript.enable = true;
             tsx.enable = true;
-            clang.enable = true;
+            clang = {
+              enable = true;
+              cHeader = true;
+            };
             python.enable = true;
             rust.enable = true;
             go.enable = true;

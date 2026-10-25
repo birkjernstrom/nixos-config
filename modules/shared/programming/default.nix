@@ -7,6 +7,7 @@
     ./tools.nix
 
     # Languages
+    ./c.nix
     ./python.nix
     ./typescript.nix
     ./rust.nix

@@ -28,6 +28,7 @@
     };
     programming = {
       languages = {
+        c.enable = true;
         python.enable = true;
         typescript.enable = true;
         go.enable = true;
