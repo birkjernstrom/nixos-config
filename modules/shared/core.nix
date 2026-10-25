@@ -17,6 +17,7 @@ in
       tree
       htop
       lsof
+      dnsutils
       btop
       fastfetch
       httpie
