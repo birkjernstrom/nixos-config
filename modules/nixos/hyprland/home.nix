@@ -209,7 +209,7 @@ in
 
         window_rule = [
           {
-            # The TUI panes the Quickshell bar opens - impala on the wifi icon,
+            # The TUI panes the Quickshell bar opens - wifitui on the wifi icon,
             # bluetui on the bluetooth one. They are transient panes rather than
             # windows to tile against, and Quickshell owns their lifetime: a
             # second click on the icon closes the one it opened. Ghostty is told

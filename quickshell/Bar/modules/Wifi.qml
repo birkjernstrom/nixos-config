@@ -6,22 +6,21 @@ import qs.Widgets
 // Right slot: connectivity as a single glyph. The SSID stays in the tooltip -
 // a text label here would change width on every roam and pull the eye.
 //
-// Clicking opens impala, the iwd TUI. iwd is what actually holds the
-// connection on this machine - NetworkManager is configured with
-// `wifi.backend = "iwd"` (hosts/framework/configuration.nix) - so impala talks
-// to the daemon doing the work rather than to a layer above it.
+// Clicking opens wifitui, which goes through NetworkManager. Don't swap in an
+// iwd client like impala: NetworkManager drives iwd too, and two controllers
+// racing Connect calls wedges iwd until it is restarted.
 BarItem {
     id: root
 
     interactive: true
 
-    onClicked: impala.toggle()
+    onClicked: wifitui.toggle()
 
     TuiWindow {
-        id: impala
+        id: wifitui
 
-        program: "impala"
-        appId: "sh.pathway.tui.impala"
+        program: "wifitui"
+        appId: "sh.pathway.tui.wifitui"
     }
 
     tooltip: {

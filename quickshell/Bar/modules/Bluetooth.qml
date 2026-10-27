@@ -6,9 +6,8 @@ import qs.Widgets
 // Right slot: adapter state as a single glyph, with the connected devices in
 // the tooltip - the same three-state icon waybar showed (off, on, connected).
 //
-// Clicking opens bluetui, which is to bluez what impala (on the wifi module) is
-// to iwd: same author, same shape of TUI, so the two panes the bar can open
-// behave the same way.
+// Clicking opens bluetui, the bluez TUI, in the same floating pane as wifitui
+// on the wifi module.
 BarItem {
     id: root
 
