@@ -1,9 +1,5 @@
 # Pi extensions and skills
 
-## Permissions
-
-The permissions extension automatically asks before sensitive tool calls, using the shared `ask_user` panel. Global policy lives in `permissions.json`; project overrides require explicit hash-bound trust, and `/permissions` manages session settings. See [PERMISSIONS.md](PERMISSIONS.md) for installation, rules, examples, tests, and security limits. This is a confirmation guard, not a sandbox.
-
 ## Live development links
 
 `modules/shared/programming/pi.nix` currently sets `livePiSources = true`. Home Manager installs directory symlinks resolving to:
@@ -11,7 +7,6 @@ The permissions extension automatically asks before sensitive tool calls, using 
 ```text
 ~/.pi/agent/extensions → ~/.nixos-config/dotfiles/pi/extensions
 ~/.pi/agent/skills     → ~/.nixos-config/dotfiles/pi/skills
-~/.pi/agent/permissions.json → ~/.nixos-config/dotfiles/pi/permissions.json
 ```
 
 After initial activation, editing or adding extensions and skills needs only `/reload`, not a rebuild or sudo. Do not also load them with `-e` or `--skill`. The repository must remain at `~/.nixos-config`. Pi's `AGENTS.md` and the Pi package remain Nix-managed and still need the usual deployment workflow.

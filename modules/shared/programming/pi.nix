@@ -14,6 +14,5 @@ in
     home.file.".pi/agent/AGENTS.md".source = ../../../dotfiles/agents/AGENTS.md;
     home.file.".pi/agent/extensions".source = piSource "extensions";
     home.file.".pi/agent/skills".source = piSource "skills";
-    home.file.".pi/agent/permissions.json".source = piSource "permissions.json";
   };
 }

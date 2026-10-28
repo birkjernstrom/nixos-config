@@ -36,6 +36,7 @@ in
         "v" = "nvim";
 
         "ldo" = "lazydocker";
+        "pi" = "env -u ANTHROPIC_API_KEY pi";
 
         # Use zsh after nix develop -- unfortunately from within bash
         # https://github.com/NixOS/nix/issues/4609
