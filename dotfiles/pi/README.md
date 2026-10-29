@@ -1,5 +1,9 @@
 # Pi extensions and skills
 
+## Trusted GitHub repos
+
+`extensions/trust-github-repos.ts` handles Pi's `project_trust` prompt: checkouts whose `origin` remotes all point at `github.com/birkjernstrom/*` or `github.com/polarsource/*` are trusted and remembered. Other projects fall through to Pi's normal prompt. Edit `TRUSTED_OWNERS` to change the list.
+
 ## Live development links
 
 `modules/shared/programming/pi.nix` currently sets `livePiSources = true`. Home Manager installs directory symlinks resolving to:
