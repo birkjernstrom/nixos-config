@@ -221,6 +221,7 @@ in
             mappings = {
               renameSymbol = "<leader>cr";
               codeAction = "<leader>ca";
+              signatureHelp = "<C-k>";
             };
             trouble.enable = true;
 
