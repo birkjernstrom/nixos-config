@@ -94,14 +94,25 @@ in
   # new enough that this support is still landing upstream; latest tracks
   # mainline closely enough to carry it sooner than the default kernel would.
   #
-  # Temporarily pinned to 7.2: on 7.3 the cs35l56 speaker amps fail to probe
-  # ("Failed to get spk-id-gpios", -EBUSY), so no sound card appears at all.
-  # Go back to linuxPackages_latest once a 7.3 point release fixes it. Don't
-  # fall back to the default kernel: it lacks the SoundWire support above.
+  # Temporarily pinned to 7.2.8, the last kernel booted with working speakers.
+  # Newer kernels break the cs35l56 speaker amps and no sound card appears:
+  # - 7.3: amps fail to probe ("Failed to get spk-id-gpios", -EBUSY).
+  # - 7.2.11: card waits for a "cs35l56-ot25" DAI the amp driver never creates.
+  # Go back to pkgs.linuxPackages_latest once a release fixes both. Don't fall
+  # back to the default kernel: it lacks the support above.
   #
   # On 7.3 the kernel's modules_install runs depmod into v4l2loopback's output,
   # whose index files then collide with the kernel's own in the modules tree.
-  boot.kernelPackages = pkgs.linuxPackages_7_2.extend (kfinal: kprev: {
+  boot.kernelPackages = (pkgs.linuxPackagesFor (pkgs.linux_7_2.override {
+    argsOverride = rec {
+      version = "7.2.8";
+      modDirVersion = version;
+      src = pkgs.fetchurl {
+        url = "mirror://kernel/linux/kernel/v7.x/linux-${version}.tar.xz";
+        hash = "sha256:0h8rwp1zipb0szf3y05pbmqyscdi4902x239bid7rbfifflxbs0j";
+      };
+    };
+  })).extend (kfinal: kprev: {
     v4l2loopback = kprev.v4l2loopback.overrideAttrs (old: {
       postInstall = (old.postInstall or "") + ''
         rm -f $out/lib/modules/*/modules.*
