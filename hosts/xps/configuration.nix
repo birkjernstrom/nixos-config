@@ -143,6 +143,8 @@ in
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
+  hardware.keyboard.zsa.enable = true;
+
   # Set your time zone.
   time.timeZone = "Europe/Stockholm";
   services.timesyncd.enable = true;
