@@ -114,7 +114,7 @@ in
           startPlugins = with pkgs.vimPlugins; [
             mega-cmdparse
             mega-logging
-          ];
+          ] ++ optionals pkgs.stdenv.hostPlatform.isLinux [ nvim-dap-disasm ];
 
           pluginOverrides.avante-nvim = pkgs.vimPlugins.avante-nvim.overrideAttrs { pname = "avante-nvim"; };
 
@@ -208,7 +208,31 @@ in
             ];
           in {
             enable = true;
-            ui.enable = true;
+            ui = {
+              enable = true;
+              setupOpts.layouts = [
+                {
+                  elements = [
+                    { id = "scopes"; size = 0.4; }
+                    { id = "watches"; size = 0.3; }
+                    { id = "stacks"; size = 0.15; }
+                    { id = "breakpoints"; size = 0.15; }
+                  ];
+                  size = 45;
+                  position = "left";
+                }
+                {
+                  elements = [ "disassembly" ];
+                  size = 60;
+                  position = "right";
+                }
+                {
+                  elements = [ "repl" "console" ];
+                  size = 10;
+                  position = "bottom";
+                }
+              ];
+            };
             adapters.gdb = {
               type = "executable";
               command = "${pkgs.gdb}/bin/gdb";
@@ -219,6 +243,24 @@ in
               nasm = asmConfigurations;
             };
           });
+
+          lazy.plugins = mkIf pkgs.stdenv.hostPlatform.isLinux {
+            nvim-dap-ui.after = ''
+              require("dap-disasm").setup({ dapui_register = true, winbar = false })
+            '';
+          };
+
+          pluginRC.asm-stack-watch = mkIf pkgs.stdenv.hostPlatform.isLinux ''
+            local stack_expr = "*(void*(*)[8])$rsp"
+            require("dap").listeners.after.event_initialized["asm_stack_watch"] = function(session)
+              if session.config.type ~= "gdb" then return end
+              local watches = require("dapui").elements.watches
+              for _, w in ipairs(watches.get()) do
+                if w.expression == stack_expr then return end
+              end
+              watches.add(stack_expr)
+            end
+          '';
 
           diagnostics = {
             nvim-lint = {
