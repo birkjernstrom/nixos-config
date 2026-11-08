@@ -187,6 +187,39 @@ in
             };
           };
 
+          debugger.nvim-dap = mkIf pkgs.stdenv.hostPlatform.isLinux (let
+            asmConfigurations = [
+              {
+                name = "Launch (gdb)";
+                type = "gdb";
+                request = "launch";
+                program = lib.generators.mkLuaInline ''
+                  function()
+                    return nvf_dap_cached_input(
+                      'asm_gdb_launch_exe',
+                      "Path to executable: ",
+                      vim.fn.getcwd() .. "/",
+                      "file")
+                  end
+                '';
+                cwd = "\${workspaceFolder}";
+                stopAtBeginningOfMainSubprogram = false;
+              }
+            ];
+          in {
+            enable = true;
+            ui.enable = true;
+            adapters.gdb = {
+              type = "executable";
+              command = "${pkgs.gdb}/bin/gdb";
+              args = [ "--interpreter=dap" "--eval-command" "set print pretty on" ];
+            };
+            configurations = {
+              asm = asmConfigurations;
+              nasm = asmConfigurations;
+            };
+          });
+
           diagnostics = {
             nvim-lint = {
               enable = true;
@@ -252,6 +285,7 @@ in
               enable = true;
               cHeader = true;
             };
+            assembly.enable = true;
             python.enable = true;
             rust.enable = true;
             go.enable = true;

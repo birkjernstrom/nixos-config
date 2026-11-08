@@ -38,8 +38,24 @@ in
       man-pages-posix
     ] ++ optionals stdenv.hostPlatform.isLinux [
       gdb
+      gef
+      nasm
       valgrind
     ];
+
+    xdg.configFile."gdb/gdbinit" = mkIf pkgs.stdenv.hostPlatform.isLinux {
+      text = ''
+        set disassembly-flavor intel
+      '';
+    };
+
+    home.file.".gef.rc" = mkIf pkgs.stdenv.hostPlatform.isLinux {
+      text = ''
+        [context]
+        layout = regs stack code source
+        show_opcodes_size = 6
+      '';
+    };
 
     xdg.configFile."clangd/config.yaml" = mkIf pkgs.stdenv.hostPlatform.isLinux {
       text = clangdConfig;
