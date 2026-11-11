@@ -10,8 +10,9 @@
 
 ```text
 ~/.pi/agent/extensions → ~/.nixos-config/dotfiles/pi/extensions
-~/.pi/agent/skills     → ~/.nixos-config/dotfiles/pi/skills
 ```
+
+Skills are shared by all agents and live in `dotfiles/agents/skills`, linked to `~/.agents/skills` by `modules/shared/programming/ai.nix`. Pi discovers them there.
 
 After initial activation, editing or adding extensions and skills needs only `/reload`, not a rebuild or sudo. Do not also load them with `-e` or `--skill`. The repository must remain at `~/.nixos-config`. Pi's `AGENTS.md` and the Pi package remain Nix-managed and still need the usual deployment workflow.
 

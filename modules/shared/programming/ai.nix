@@ -2,6 +2,8 @@
 
 with lib; let
   cfg = config.userSettings.programming.ai;
+  skillsDir = "${config.home.homeDirectory}/.nixos-config/dotfiles/agents/skills";
+  skills = attrNames (filterAttrs (_: type: type == "directory") (builtins.readDir ../../../dotfiles/agents/skills));
 in
 {
   options.userSettings.programming.ai.enable = mkOption {
@@ -10,7 +12,7 @@ in
     description = "Enable AI tools (claude-code, codex, opencode, herdr, pi).";
   };
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.enable (mkMerge [{
     # claude-cli:// deep links. Claude Code writes the handler's .desktop file
     # into ~/.local/share/applications itself; this only points the scheme at
     # it, since mimeapps.list is owned by home-manager (see apps/zathura.nix).
@@ -31,6 +33,19 @@ in
     home.file.".codex/AGENTS.md".source = ../../../dotfiles/agents/AGENTS.md;
     home.file.".config/opencode/AGENTS.md".source = ../../../dotfiles/agents/AGENTS.md;
 
+    # ~/.agents/skills is read by Codex, OpenCode and Pi. Claude Code only reads
+    # ~/.claude/skills, which it also writes to, so link each skill separately.
+    home.file.".agents/skills".source = config.lib.file.mkOutOfStoreSymlink skillsDir;
+
+    # The commit skill forbids trailers. settings.json is rewritten by Claude
+    # Code, so patch it rather than owning it.
+    home.activation.claudeAttribution = hm.dag.entryAfter [ "writeBoundary" ] ''
+      settings="$HOME/.claude/settings.json"
+      if [[ -f $settings && -z ''${DRY_RUN:-} ]]; then
+        ${getExe pkgs.jq} '.attribution = { commit: "", pr: "" }' "$settings" > "$settings.tmp" && mv "$settings.tmp" "$settings"
+      fi
+    '';
+
     home.file.".config/herdr/config.toml" = {
       source = ../../../dotfiles/herdr/config.toml;
 
@@ -49,5 +64,10 @@ in
         fi
       '';
     };
-  };
+  }
+  {
+    home.file = listToAttrs (map (name: nameValuePair ".claude/skills/${name}" {
+      source = config.lib.file.mkOutOfStoreSymlink "${skillsDir}/${name}";
+    }) skills);
+  }]);
 }
