@@ -19,6 +19,7 @@ in
       enable = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
+      setOptions = [ "NO_FLOW_CONTROL" ];
       shellAliases = {
         # zoxide override
         "cd" = "z";
