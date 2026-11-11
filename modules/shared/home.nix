@@ -10,6 +10,7 @@
     ./jj.nix
     ./direnv.nix
     ./tmux.nix
+    ./workmux.nix
     ./nvim
     ./programming
     ./scripts

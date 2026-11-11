@@ -25,6 +25,7 @@
       jj.enable = true;
       direnv.enable = true;
       tmux.enable = true;
+      workmux.enable = true;
       nvim.enable = true;
     };
     programming = {

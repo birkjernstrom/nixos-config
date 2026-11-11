@@ -451,7 +451,8 @@
         "nixpkgs-stable": "nixpkgs-stable",
         "nvf": "nvf",
         "sops-nix": "sops-nix",
-        "stylix": "stylix"
+        "stylix": "stylix",
+        "workmux": "workmux"
       }
     },
     "sops-nix": {
@@ -584,6 +585,26 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "base16-zed",
+        "type": "github"
+      }
+    },
+    "workmux": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794346521,
+        "narHash": "sha256-pcS9uL918u9A8zcWoQrzLVC/pjchq1MzV4h3CA99OdA=",
+        "owner": "raine",
+        "repo": "workmux",
+        "rev": "e72fd5925cbfd617bbefbf51a75f93d16556119d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raine",
+        "repo": "workmux",
         "type": "github"
       }
     }
