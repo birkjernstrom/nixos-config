@@ -87,6 +87,8 @@ in
         set -ga window-status-style "bg=default"
         set -ga window-status-current-style "bg=default"
         set -ga window-status-activity-style "bg=default"
+        set -g popup-style "default"
+        set -g popup-border-style "default"
         set -g status-left-length 50
         set -g status-right-length 50
 
