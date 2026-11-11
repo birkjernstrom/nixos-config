@@ -13,6 +13,7 @@
     ./apps/zathura.nix
     ./apps/beekeeper-studio.nix
     ./apps/zoom.nix
+    ./apps/cursor.nix
     ./apps/yazi.nix
     ./apps/nemo.nix
     ./apps/localsend.nix

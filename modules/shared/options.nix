@@ -60,6 +60,12 @@ with lib;
         description = "Enable Zoom (video conferencing). NixOS only.";
       };
 
+      cursor.enable = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Enable Cursor (AI code editor). NixOS only.";
+      };
+
       zathura.enable = mkOption {
         type = types.bool;
         default = false;
