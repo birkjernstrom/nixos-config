@@ -10,7 +10,7 @@
 # before `starti`/`run`, so the program's output doesn't scribble over the TUI.
 
 # ---------- general ----------
-set disassembly-flavor intel      # matches .intel_syntax; remove for AT&T
+set disassembly-flavor intel
 set pagination off
 set confirm off
 set history save on
