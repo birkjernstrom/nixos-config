@@ -44,9 +44,7 @@ in
     ];
 
     xdg.configFile."gdb/gdbinit" = mkIf pkgs.stdenv.hostPlatform.isLinux {
-      text = ''
-        set disassembly-flavor intel
-      '';
+      source = ./gdbinit;
     };
 
     home.file.".gef.rc" = mkIf pkgs.stdenv.hostPlatform.isLinux {

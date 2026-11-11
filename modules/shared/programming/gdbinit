@@ -1,0 +1,277 @@
+# ~/.config/gdb/gdbinit  (gdb >= 11; or ~/.gdbinit)
+# "x86-64 playground"-style TUI: disassembly | registers | stack memory, command line below.
+#
+# Extra commands defined here:
+#   startr                 starti + record full  (then: si / rsi = step fwd / back)
+#   set pg-deref on|off    show what registers & stack slots point to   (default on)
+#   set pg-subregs on|off  show eax/ax/al etc. instead of signed decimal (default off)
+#
+# Program output: run `tty` in another terminal, then `tty /dev/pts/N` here
+# before `starti`/`run`, so the program's output doesn't scribble over the TUI.
+
+# ---------- general ----------
+set disassembly-flavor intel      # matches .intel_syntax; remove for AT&T
+set pagination off
+set confirm off
+set history save on
+set history size 10000
+set history filename ~/.gdb_history
+set style enabled on
+
+python
+import gdb, re
+
+RESET, BOLD, DIM, REV = "\x1b[0m", "\x1b[1m", "\x1b[2m", "\x1b[7m"
+RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN = (f"\x1b[3{n}m" for n in (1, 2, 3, 4, 5, 6))
+ANSI = re.compile(r"\x1b\[[0-9;]*m")
+REGNAMES = re.compile(r"\b(r[a-ds][xip]|r[sd]i|r[sb]p|r\d{1,2}[dwb]?|e[a-ds][xip]|e[sd]i|e[sb]p|"
+                      r"[a-d][lhx]|[sd]il|[sb]pl|[sd]i|[sb]p|xmm\d+|ymm\d+|[c-gs]s)\b")
+M64 = 0xFFFFFFFFFFFFFFFF
+
+
+# ---------- settings ----------
+class _BoolParam(gdb.Parameter):
+    def __init__(self, name, default, doc):
+        self.__doc__ = doc
+        self.set_doc, self.show_doc = doc, doc
+        super().__init__(name, gdb.COMMAND_DATA, gdb.PARAM_BOOLEAN)
+        self.value = default
+
+    def get_set_string(self):
+        return ""
+
+P_DEREF = _BoolParam("pg-deref", True, "Show what registers and stack slots point to.")
+P_SUBREGS = _BoolParam("pg-subregs", False, "Show 32/16/8-bit sub-registers in the Registers pane.")
+
+
+# ---------- helpers ----------
+def clip(s, width):
+    """Cut a string to `width` visible chars, keeping ANSI escapes intact."""
+    out, n, i = [], 0, 0
+    while i < len(s):
+        m = ANSI.match(s, i)
+        if m:
+            out.append(m.group()); i = m.end(); continue
+        if n >= width:
+            break
+        out.append(s[i]); n += 1; i += 1
+    return "".join(out) + RESET
+
+
+def reg(frame, name):
+    return int(frame.read_register(name)) & M64
+
+
+def symbol_at(addr):
+    """'_start+12' style name for an address, or ''."""
+    try:
+        out = gdb.execute(f"info symbol {addr:#x}", to_string=True).strip()
+    except gdb.error:
+        return ""
+    if not out or out.startswith("No symbol"):
+        return ""
+    return out.split(" in section")[0].replace(" + ", "+")
+
+
+def deref(addr):
+    """Describe what `addr` points to: a string, a symbol, or the qword there."""
+    if not P_DEREF.value or addr < 0x1000:
+        return ""
+    sym = symbol_at(addr)
+    inf = gdb.selected_inferior()
+    raw = None
+    for n in (32, 8):
+        try:
+            raw = bytes(inf.read_memory(addr, n)); break
+        except gdb.MemoryError:
+            pass
+    if raw is None:
+        return ""
+    s = raw.split(b"\0")[0]
+    if len(s) >= 3 and all(32 <= b < 127 or b in (9, 10) for b in s):
+        txt = s.decode().encode("unicode_escape").decode()
+        more = "…" if len(s) == len(raw) else ""
+        lbl = f"{MAGENTA}<{sym}>{RESET} " if sym else ""
+        return f'{lbl}{GREEN}→ "{txt}{more}"{RESET}'
+    if sym:
+        return f"{MAGENTA}<{sym}>{RESET}"
+    q = int.from_bytes(raw[:8], "little")
+    return f"{DIM}→ 0x{q:x}{RESET}"
+
+
+# ---------- windows ----------
+class PlaygroundWindow:
+    title = ""
+
+    def __init__(self, tui):
+        self.tui = tui
+        tui.title = self.title
+        gdb.events.before_prompt.connect(self.render)
+
+    def close(self):
+        gdb.events.before_prompt.disconnect(self.render)
+
+    def render(self):               # gdb also calls this on resize
+        if not self.tui.is_valid():
+            return
+        try:
+            frame = gdb.selected_frame()
+            lines = self.lines(frame)
+        except gdb.error:
+            lines = [DIM + "(no process: try `starti` or `startr`)" + RESET]
+        w = max(self.tui.width - 1, 1)
+        self.tui.erase()
+        self.tui.write("\n".join(clip(l, w) for l in lines[: self.tui.height]))
+
+
+class DisasmWindow(PlaygroundWindow):
+    """Address, raw bytes, instruction. Current instruction highlighted, breakpoints marked."""
+    title = "Disassembly"
+
+    @staticmethod
+    def _func_start(pc):
+        try:
+            out = gdb.execute(f"info symbol {pc:#x}", to_string=True)
+        except gdb.error:
+            return pc
+        m = re.match(r"\S+(?: \+ (\d+))? in section", out)
+        off = int(m.group(1) or 0) if m else 0
+        return pc - off if off <= 8192 else pc
+
+    @staticmethod
+    def _breakpoints():
+        addrs = set()
+        for bp in gdb.breakpoints() or ():
+            for loc in getattr(bp, "locations", ()) or ():
+                if loc.enabled and loc.address is not None:
+                    addrs.add(loc.address)
+        return addrs
+
+    @staticmethod
+    def _color_asm(text):
+        mnem, _, ops = text.partition(" ")
+        ops = REGNAMES.sub(lambda m: YELLOW + m.group() + RESET, ops.strip())
+        ops = re.sub(r"(<[^>]+>)", MAGENTA + r"\1" + RESET, ops)
+        return f"{BOLD}{mnem:<7}{RESET}{ops}"
+
+    def lines(self, frame):
+        pc, h = frame.pc(), self.tui.height
+        arch, inf = frame.architecture(), gdb.selected_inferior()
+        insns = arch.disassemble(self._func_start(pc), pc + 16 * h)
+        idx = next((i for i, ins in enumerate(insns) if ins["addr"] == pc), None)
+        if idx is None:                      # couldn't align from symbol start
+            insns, idx = arch.disassemble(pc, count=h), 0
+        first = max(0, idx - h // 3)
+        bps = self._breakpoints()
+        out, prev_label = [], None
+        for ins in insns[first : first + h]:
+            a, n = ins["addr"], ins["length"]
+            label = symbol_at(a)
+            if label and "+" not in label and label != prev_label:
+                out.append(f"{MAGENTA}{BOLD}{label}:{RESET}")   # e.g. "_start:"
+            prev_label = label
+            try:
+                raw = bytes(inf.read_memory(a, n))
+                hexb = " ".join(f"{b:02x}" for b in raw[:7]) + (" +" if n > 7 else "")
+            except gdb.MemoryError:
+                hexb = "??"
+            mark = "=>" if a == pc else (" *" if a in bps else "  ")
+            if a == pc:
+                out.append(f"{GREEN}{BOLD}{REV}{mark} {a:012x}  {hexb:<23} {ins['asm']}{RESET}")
+            else:
+                mcol = RED if a in bps else ""
+                out.append(f"{mcol}{mark}{RESET} {DIM}{a:012x}  {hexb:<23}{RESET} "
+                           + self._color_asm(ins["asm"]))
+        return out
+
+
+class RegistersWindow(PlaygroundWindow):
+    """GPRs + rip + decoded eflags. Changed values highlighted after each step.
+    Shows signed decimal (or sub-registers with pg-subregs) and pointer targets (pg-deref)."""
+    title = "Registers"
+    GPRS = ["rax", "rbx", "rcx", "rdx", "rsi", "rdi", "rbp", "rsp",
+            "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15", "rip"]
+    SUB = {"rax": ("eax", "ax", "al"), "rbx": ("ebx", "bx", "bl"), "rcx": ("ecx", "cx", "cl"),
+           "rdx": ("edx", "dx", "dl"), "rsi": ("esi", "si", "sil"), "rdi": ("edi", "di", "dil"),
+           "rbp": ("ebp", "bp", "bpl"), "rsp": ("esp", "sp", "spl"),
+           **{f"r{i}": (f"r{i}d", f"r{i}w", f"r{i}b") for i in range(8, 16)}}
+    FLAGS = [(0, "CF"), (2, "PF"), (4, "AF"), (6, "ZF"), (7, "SF"),
+             (8, "TF"), (9, "IF"), (10, "DF"), (11, "OF")]
+
+    def __init__(self, tui):
+        self.last, self.before = {}, {}
+        super().__init__(tui)
+
+    def lines(self, frame):
+        cur = {r: reg(frame, r) for r in self.GPRS + ["eflags"]}
+        if cur != self.last:                  # new stop -> remember previous state
+            self.before, self.last = self.last, cur
+        out = []
+        for r in self.GPRS:
+            v = cur[r]
+            changed = r in self.before and self.before[r] != v
+            col = YELLOW + BOLD if changed else ""
+            name_col = YELLOW if r == "rip" else BLUE
+            if P_SUBREGS.value and r in self.SUB:
+                d, w, b = self.SUB[r]
+                extra = f"{DIM}{d}={v & 0xFFFFFFFF:x} {w}={v & 0xFFFF:x} {b}={v & 0xFF:x}{RESET}"
+            else:
+                extra = f"{DIM}{v - (1 << 64) if v >> 63 else v}{RESET}"
+            target = deref(v) if r != "rip" else ""
+            out.append(f"{name_col}{r:>6}{RESET} : {col}0x{v:016x}{RESET}  {extra}  {target}")
+        e = cur["eflags"]
+        set_flags = " ".join(n for bit, n in self.FLAGS if e >> bit & 1)
+        changed = "eflags" in self.before and self.before["eflags"] != e
+        col = YELLOW + BOLD if changed else ""
+        out += ["", f"{BLUE}eflags{RESET} : {col}0x{e:x}{RESET}", f"         {col}[ {set_flags} ]{RESET}"]
+        return out
+
+
+class StackWindow(PlaygroundWindow):
+    """Hex + ASCII dump of the stack, 8 bytes per row from $rsp, with pointer targets."""
+    title = "Stack memory"
+
+    def lines(self, frame):
+        rsp, rbp = reg(frame, "rsp"), reg(frame, "rbp")
+        inf = gdb.selected_inferior()
+        out = []
+        for i in range(self.tui.height):
+            a = rsp + 8 * i
+            tag = "rsp" if a == rsp else ("rbp" if a == rbp else "")
+            try:
+                raw = bytes(inf.read_memory(a, 8))
+            except gdb.MemoryError:
+                out.append(f"{tag:>3} {a:016x}  {DIM}<unreadable>{RESET}")
+                break
+            hexs = " ".join((DIM if b == 0 else "") + f"{b:02x}" + RESET for b in raw)
+            asc = "".join(chr(b) if 32 <= b < 127 else "." for b in raw)
+            tcol = GREEN + BOLD if tag else ""
+            target = deref(int.from_bytes(raw, "little"))
+            out.append(f"{tcol}{tag:>3}{RESET} {CYAN}{a:016x}{RESET}  {hexs}  {DIM}{asc}{RESET}  {target}")
+        return out
+
+
+gdb.register_window_type("disasm", DisasmWindow)
+gdb.register_window_type("registers", RegistersWindow)
+gdb.register_window_type("stackmem", StackWindow)
+end
+
+# ---------- commands ----------
+define startr
+  starti
+  record full
+end
+document startr
+Stop at the first instruction and start recording, so you can step backwards
+with `rsi` (reverse-stepi) and `rc` (reverse-continue).
+end
+
+# ---------- layout ----------
+# top: disassembly | registers | stack memory   bottom: gdb command line
+tui new-layout playground {-horizontal disasm 5 registers 4 stackmem 4} 4 status 0 cmd 1
+
+set tui border-kind acs
+set tui active-border-mode bold-standout
+
+layout playground
+focus cmd
