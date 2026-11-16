@@ -22,18 +22,19 @@ with lib; let
   # runtime with a refusal to load.
   scrolloverview = pkgs.hyprlandPlugins.mkHyprlandPlugin {
     pluginName = "scrolloverview";
-    version = "0-unstable-2026-09-07";
+    version = "0-unstable-2026-11-01";
 
     src = pkgs.fetchFromGitHub {
       owner = "yayuuu";
       repo = "hyprland-scroll-overview";
-      rev = "5e96ae20ec73c320248bcf3ff68b330bc1ed4152";
-      hash = "sha256-clDeTM5itsJPvqpbEkbWUmuPROsz2+YUnTpqsjQDMqU=";
+      rev = "a8dcca6fe3ddc2164774cb6925bc67c0b974a78f";
+      hash = "sha256-684XIZXg/MPkFClgTJGUAVB/bEc4C2aTdD/nfQEt81o=";
     };
 
     buildInputs = [ pkgs.lua5_4 ];
     enableParallelBuilding = true;
     dontUseCmakeConfigure = true;
+    env.SCROLLOVERVIEW_BUILD_VERSION = "a8dcca6fe3dd";
 
     buildPhase = ''
       runHook preBuild
