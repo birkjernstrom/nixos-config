@@ -122,11 +122,15 @@ Scope {
 
             anchors.horizontalCenter: parent.horizontalCenter
             y: Math.round((parent.height - Theme.pathwayHeight) / 2)
-            width: root.moduleView ? Theme.pathwayChatWidth : Theme.pathwayWidth
+            // Scopes that are read rather than picked from (Keybinds) set `wide`.
+            readonly property bool wide: Nav.scope?.wide ?? false
+            width: root.moduleView ? Theme.pathwayChatWidth : card.wide ? Theme.pathwayWideWidth : Theme.pathwayWidth
             height: {
                 if (card.collapsed)
                     return search.implicitHeight + 2;
-                return root.moduleView ? Theme.pathwayChatHeight : Theme.pathwayHeight;
+                if (root.moduleView)
+                    return Theme.pathwayChatHeight;
+                return card.wide ? Theme.pathwayWideHeight : Theme.pathwayHeight;
             }
             clip: true
             color: Theme.bgAlt

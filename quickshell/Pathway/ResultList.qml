@@ -15,20 +15,26 @@ Item {
     signal activated
 
     // Any change to the result set puts the cursor back on the best match.
-    onResultsChanged: root.selectedIndex = 0
+    onResultsChanged: root.selectedIndex = Math.max(0, root.results.findIndex(r => r.kind !== "section"))
 
     function moveSelection(delta) {
         const n = root.results.length;
         if (n === 0)
             return;
         // Wrap in both directions - Raycast behaviour.
-        root.selectedIndex = ((root.selectedIndex + delta) % n + n) % n;
-        list.positionViewAtIndex(root.selectedIndex, ListView.Contain);
+        let i = root.selectedIndex;
+        for (let step = 0; step < n; ++step) {
+            i = ((i + delta) % n + n) % n;
+            if (root.results[i].kind !== "section")
+                break;
+        }
+        root.selectedIndex = i;
+        list.positionViewAtIndex(i, ListView.Contain);
     }
 
     function activateSelected() {
         const item = root.selectedItem;
-        if (!item)
+        if (!item || item.kind === "section")
             return;
         // Providers whose ids are not stable across time opt out (see
         // ClipboardProvider - cliphist recycles its ids).
@@ -60,6 +66,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
+                enabled: parent.modelData.kind !== "section"
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 

@@ -9,7 +9,7 @@ import Quickshell
 // origin (x rightwards, y up from the baseline). Widgets/Icon.qml scales each
 // glyph so max(w, h) fills its box and puts (cx, cy) at the box's centre.
 //
-// Measured from: /nix/store/6f0q8hy2jsv4pyzjhymfqgfm65kk5ffa-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
+// Measured from: /nix/store/rg703vas120lj5b4zbrmiba5ir6dqs2v-berkeley-mono-1.0.0/share/fonts/truetype/BerkeleyMonoNerdFont-Regular.ttf
 Singleton {
     // Used for a glyph nobody measured - a square filling the cell, which is
     // what setting a font size and hoping would have given anyway.
@@ -32,7 +32,6 @@ Singleton {
         "󰂁": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0081 battery-80
         "󰂂": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0082 battery-90
         "󰁹": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0079 battery
-        "": { w: 600, h: 1114, cx: 301, cy: 356 },  // U+0F0E7 bolt
         "󰂑": { w: 600, h: 998, cx: 300, cy: 356 },  // U+F0091 battery-unknown
         "󰤯": { w: 600, h: 476, cx: 300, cy: 356 },  // U+F092F wifi-strength-outline
         "󰤟": { w: 600, h: 476, cx: 300, cy: 356 },  // U+F091F wifi-strength-1
@@ -53,9 +52,6 @@ Singleton {
         "󰦝": { w: 600, h: 734, cx: 300, cy: 356 },  // U+F099D shield-lock.1
         "󰰜": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0C1C alpha-q-circle
         "󰨛": { w: 600, h: 360, cx: 300, cy: 356 },  // U+F0A1B vhs
-        "󰪡": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0AA1 circle-slice-4
-        "󰀨": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0028 alert-circle
-        "󰗠": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F05E0 check-circle.1
         "󰍬": { w: 600, h: 816, cx: 300, cy: 356 },  // U+F036C microphone.1
         "󰍭": { w: 600, h: 632, cx: 300, cy: 356 },  // U+F036D microphone-off
         "󰍉": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0349 magnify
@@ -68,6 +64,7 @@ Singleton {
         "󰐙": { w: 600, h: 600, cx: 300, cy: 356 },  // U+F0419 plus-circle-outline
         "󰭘": { w: 600, h: 350, cx: 300, cy: 356 },  // U+F0B58 account-group-outline
         "󰃬": { w: 600, h: 858, cx: 300, cy: 356 },  // U+F00EC calculator
+        "󰌌": { w: 600, h: 420, cx: 300, cy: 356 },  // U+F030C keyboard.1
         "󰖠": { w: 600, h: 748, cx: 300, cy: 356 },  // U+F05A0 webcam
         "󰌾": { w: 600, h: 786, cx: 300, cy: 356 },  // U+F033E lock.3
         "󰅶": { w: 600, h: 540, cx: 300, cy: 356 },  // U+F0176 coffee.1

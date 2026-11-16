@@ -51,7 +51,7 @@ in
         # Add hyprland keybinding for default browser (Super+B)
         (lib.mkIf (chromeEnabled || firefoxEnabled || vivaldiEnabled) {
           wayland.windowManager.hyprland.settings.bind = [
-            (bind "SUPER + B" (exec browserCmd.${defaultBrowser}))
+            (bind "Apps: Open browser" "SUPER + B" (exec browserCmd.${defaultBrowser}))
           ];
 
           # mimeapps.list is owned by home-manager, so the browser's own

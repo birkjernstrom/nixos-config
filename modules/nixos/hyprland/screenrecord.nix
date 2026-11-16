@@ -61,10 +61,10 @@ in
 
       bind = [
         # Press once to pick what to record, again to stop.
-        (bind (mod "SHIFT + R") (exec "screenrecord --with-webcam"))
-        (bind (mod "ALT + R") (exec "screenrecord"))
-        (bind (mod "ALT + bracketleft") (exec "screenrecord-webcam-resize smaller"))
-        (bind (mod "ALT + bracketright") (exec "screenrecord-webcam-resize larger"))
+        (bind "Screen capture: Record screen with webcam" (mod "SHIFT + R") (exec "screenrecord --with-webcam"))
+        (bind "Screen capture: Record screen" (mod "ALT + R") (exec "screenrecord"))
+        (bind "Screen capture: Shrink webcam overlay" (mod "ALT + bracketleft") (exec "screenrecord-webcam-resize smaller"))
+        (bind "Screen capture: Grow webcam overlay" (mod "ALT + bracketright") (exec "screenrecord-webcam-resize larger"))
       ];
     };
   };

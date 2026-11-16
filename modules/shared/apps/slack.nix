@@ -25,7 +25,7 @@ in
 
       # Add hyprland keybinding (Super+S to launch Slack)
       wayland.windowManager.hyprland.settings.bind = [
-        (bind "SUPER + S" (exec "slack"))
+        (bind "Apps: Open Slack" "SUPER + S" (exec "slack"))
       ];
     };
   };

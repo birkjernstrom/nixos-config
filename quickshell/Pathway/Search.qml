@@ -58,6 +58,8 @@ Singleton {
 
         const scored = [];
         for (let i = 0; i < index.length; ++i) {
+            if (index[i].item.kind === "section")
+                continue;
             const s = root._score(index[i], q, raw);
             if (s > 0)
                 scored.push({

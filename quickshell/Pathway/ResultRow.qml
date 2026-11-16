@@ -12,10 +12,11 @@ Rectangle {
 
     required property var item
     required property bool selected
+    readonly property bool section: root.item.kind === "section"
 
-    implicitHeight: Theme.pathwayRowHeight
+    implicitHeight: root.section ? 32 : Theme.pathwayRowHeight
     radius: Theme.radius
-    color: root.selected ? Theme.bgHover : "transparent"
+    color: root.selected && !root.section ? Theme.bgHover : "transparent"
 
     Behavior on color {
         ColorAnimation {
@@ -57,6 +58,8 @@ Rectangle {
                 return Icons.webcam;
             if (root.item.kind === "calc")
                 return Icons.calculator;
+            if (root.item.kind === "keybind" || root.item.id === "command:keybinds")
+                return Icons.keyboard;
             if (root.item.kind === "linear-task")
                 return Icons.taskAdd;
             if (root.item.id?.startsWith("linear-team:"))
@@ -66,7 +69,18 @@ Rectangle {
             return Icons.app;
         }
         color: Theme.fgDim
-        visible: !icon.visible
+        visible: !icon.visible && !root.section
+    }
+
+    StyledText {
+        anchors.left: parent.left
+        anchors.leftMargin: 12
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 4
+        text: root.item.name ?? ""
+        color: Theme.accent
+        font.bold: true
+        visible: root.section
     }
 
     // Bounded on both sides so a long name (a clipboard preview is the whole
@@ -78,15 +92,17 @@ Rectangle {
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
         spacing: 10
+        visible: !root.section
 
         StyledText {
             // Takes its natural width and no more, so the subtitle gets all the
             // slack. fillWidth here would make the two share the row and elide
             // the name even when there is room for it. minimumWidth 0 still lets
             // it shrink when the name alone overflows, as clipboard entries do.
+            // Keybinds get a fixed column so the actions line up.
             Layout.fillWidth: false
-            Layout.preferredWidth: implicitWidth
-            Layout.maximumWidth: implicitWidth
+            Layout.preferredWidth: root.item.kind === "keybind" ? 260 : implicitWidth
+            Layout.maximumWidth: root.item.kind === "keybind" ? 260 : implicitWidth
             Layout.minimumWidth: 0
 
             text: root.item.name ?? ""

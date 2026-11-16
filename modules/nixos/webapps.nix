@@ -147,7 +147,7 @@ in
 
     wayland.windowManager.hyprland.settings.bind =
       mkIf config.userSettings.hyprland.enable
-        (mapAttrsToList (_: site: bind (mod site.key) (exec (command site)))
+        (mapAttrsToList (_: site: bind "Apps: Open ${site.name}" (mod site.key) (exec (command site)))
           (filterAttrs (_: site: site.key != null) cfg.sites));
   };
 }

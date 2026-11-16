@@ -78,8 +78,8 @@ in
     };
 
     wayland.windowManager.hyprland.settings.bind = [
-      (bind (mod "D") (exec "dictate toggle"))
-      (bind (mod "SHIFT + D") (exec "dictate cancel"))
+      (bind "Dictation: Start or stop dictation" (mod "D") (exec "dictate toggle"))
+      (bind "Dictation: Cancel dictation" (mod "SHIFT + D") (exec "dictate cancel"))
     ];
   };
 }

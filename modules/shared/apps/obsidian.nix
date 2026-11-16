@@ -19,7 +19,7 @@ in
 
       # Add hyprland keybinding (Super+O to launch Obsidian)
       wayland.windowManager.hyprland.settings.bind = [
-        (bind "SUPER + O" (exec "obsidian"))
+        (bind "Apps: Open Obsidian" "SUPER + O" (exec "obsidian"))
       ];
     };
   };

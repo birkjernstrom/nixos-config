@@ -81,7 +81,7 @@ in
         # the focused one - with workspace 8 living alone on the laptop panel
         # (./workspaces.nix) the per-monitor view would hide half the layout.
         bind = [
-          (bind (mod "G") (lua ''function() hl.plugin.scrolloverview.overview("toggle all") end''))
+          (bind "Workspaces: Workspace overview" (mod "G") (lua ''function() hl.plugin.scrolloverview.overview("toggle all") end''))
         ];
       };
     };

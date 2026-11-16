@@ -51,7 +51,7 @@ in
     wayland.windowManager.hyprland.settings = {
       bind = [
         # Lock screen with hyprlock
-        (bind (mod "SHIFT + Q") (exec "hyprlock"))
+        (bind "System: Lock screen" (mod "SHIFT + Q") (exec "hyprlock"))
       ];
     };
   };

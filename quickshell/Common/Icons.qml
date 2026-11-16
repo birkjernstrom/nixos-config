@@ -60,6 +60,7 @@ Singleton {
     readonly property string taskAdd: "󰐙"
     readonly property string team: "󰭘"
     readonly property string calculator: "󰃬"
+    readonly property string keyboard: "󰌌"
     readonly property string webcam: "󰖠"
     readonly property string lock: "󰌾"
 

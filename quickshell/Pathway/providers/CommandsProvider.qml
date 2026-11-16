@@ -34,6 +34,18 @@ Singleton {
             }
         },
         {
+            id: "command:keybinds",
+            name: "Keybinds",
+            subtitle: "Every shortcut and what it does",
+            icon: "",
+            keywords: ["keybinds", "keybindings", "shortcuts", "hotkeys", "keys", "cheatsheet", "help"],
+            kind: "module",
+            activate: () => {
+                KeybindsProvider.refresh();
+                Nav.pushScope(KeybindsProvider, "Keybinds");
+            }
+        },
+        {
             id: "command:dnd",
             name: "Do Not Disturb",
             subtitle: "Toggle notifications",

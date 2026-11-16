@@ -82,6 +82,8 @@ Singleton {
     readonly property int pathwayWidth: 640
     readonly property int pathwayHeight: 400
     readonly property int pathwayRowHeight: 44
+    readonly property int pathwayWideWidth: 860
+    readonly property int pathwayWideHeight: 640
     readonly property int pathwayChatWidth: 780
     readonly property int pathwayChatHeight: 580
     readonly property color scrim: Qt.rgba(0, 0, 0, 0.35)

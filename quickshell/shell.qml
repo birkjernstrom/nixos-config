@@ -47,6 +47,11 @@ ShellRoot {
             pathway.showScoped(ThemeProvider, "Theme");
         }
 
+        function keybinds(): void {
+            KeybindsProvider.refresh();
+            pathway.showScoped(KeybindsProvider, "Keybinds");
+        }
+
         // `screenrecord --with-webcam` with several cameras connected, between
         // picking the region and starting. See WebcamProvider for the protocol.
         function webcam(cameras: string, reply: string): void {

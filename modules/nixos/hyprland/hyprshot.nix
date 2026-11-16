@@ -14,9 +14,9 @@ in
     wayland.windowManager.hyprland.settings = {
       bind = [
         # Screenshots with hyprshot
-        (bind "F11" (exec "hyprshot -m output"))                # Full screen
-        (bind (mod "F11") (exec "hyprshot -m window"))          # Active window
-        (bind (mod "SHIFT + S") (exec "hyprshot -m region"))    # Region selection
+        (bind "Screen capture: Screenshot screen" "F11" (exec "hyprshot -m output"))
+        (bind "Screen capture: Screenshot window" (mod "F11") (exec "hyprshot -m window"))
+        (bind "Screen capture: Screenshot region" (mod "SHIFT + S") (exec "hyprshot -m region"))
       ];
     };
   };
