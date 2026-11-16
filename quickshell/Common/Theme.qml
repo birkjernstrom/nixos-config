@@ -39,12 +39,6 @@ Singleton {
     // use their text colour, the darkest they have.
     readonly property color workspaceActiveFg: Themes.light ? root.fg : "white"
 
-    // Agent states (Agents.qml), for the bar module and the picker rows.
-    // Waiting shares the warning slot on purpose: it is the one that wants you.
-    readonly property color agentWorking: Themes.base0D
-    readonly property color agentWaiting: Themes.base0A
-    readonly property color agentIdle: Themes.base03   // same as fgDim
-
     // The first of the cool accents that stays legible on the card, else text.
     readonly property color chatLink: {
         for (const c of [Themes.base0D, Themes.base0C, Themes.base0E]) {

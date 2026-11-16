@@ -62,9 +62,8 @@ Singleton {
             id: "grayscale-dark",
             name: "Grayscale Dark",
             palette: GrayscaleDark,
-            // Every accent slot in Grayscale is a mid-grey, so errors, warnings,
-            // urgent workspaces and agents waiting on you would vanish into the
-            // rest. One muted red and one muted amber keep those readable
+            // Every accent slot in Grayscale is a mid-grey, so errors, warnings
+            // and urgent workspaces would vanish into the rest. One muted red and one muted amber keep those readable
             // without breaking the monochrome look.
             overrides: ({
                 base08: "#c76b6b",
@@ -76,8 +75,8 @@ Singleton {
             name: "Rosé Pine",
             palette: RosePine,
             // The base16 port puts a dark grey in base07, the terminal's bright
-            // white, and the pale "rose" in base0A, where warnings and agents
-            // waiting on you would barely show. Rosé Pine's text colour and its
+            // white, and the pale "rose" in base0A, where warnings would
+            // barely show. Rosé Pine's text colour and its
             // gold instead.
             overrides: ({
                 base07: "#e0def4",

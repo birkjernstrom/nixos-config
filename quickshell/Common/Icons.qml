@@ -40,27 +40,12 @@ Singleton {
     readonly property string bluetoothOff: "󰂲"
 
     // Tailscale, as one shield at three fills: off, on, and on-through-an-exit
-    // node. Same reasoning as the agent set above - the silhouette is the
-    // constant, so the interior is what gets read at a glance.
+    // node. The silhouette is the constant, so the interior is what gets read
+    // at a glance.
     readonly property string tailscale: "󰦝"
     readonly property string tailscaleExitNode: "󰰜"
     readonly property string tailscaleOff: "󰨛"
 
-    // Agent states (Agents.qml). One silhouette, three interiors: the circle
-    // is the constant, so a glance reads the interior as a status rather than
-    // re-reading three unrelated shapes. All three measure 600x600, so the
-    // count beside them sits on the same line whichever is showing.
-    readonly property string agentWorking: "󰪡"
-    readonly property string agentWaiting: "󰀨"
-    readonly property string agentIdle: "󰗠"
-
-    function agent(state) {
-        if (state === "waiting")
-            return root.agentWaiting;
-        if (state === "working")
-            return root.agentWorking;
-        return root.agentIdle;
-    }
 
     readonly property string microphone: "󰍬"
     readonly property string microphoneOff: "󰍭"

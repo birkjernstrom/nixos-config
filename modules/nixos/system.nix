@@ -16,7 +16,6 @@
     ./tailscale.nix
     ./ssh.nix
     ./steam.nix
-    ./agents/system.nix
   ];
 
   # gtksourceview 5.21.0's test-buffer aborts (SIGABRT) and Hydra has no build

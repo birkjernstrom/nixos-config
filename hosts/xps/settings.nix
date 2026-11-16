@@ -7,7 +7,6 @@
     primo.enable = true;
     tailscale.enable = true;
     ssh.enable = true;
-    agents.enable = true;
     clamav.enable = true;
     clamav.onAccess.enable = true;
     steam.enable = true;
@@ -15,7 +14,6 @@
 
   # Maps to config.userSettings.*
   user = {
-    agents.enable = true;
     dictation.enable = true;
     themes.enable = true;
     cli = {

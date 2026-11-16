@@ -6,7 +6,6 @@
     ./quickshell
     ./webapps.nix
     ./mako.nix
-    ./agents/home.nix
     ./dictation
     ./themes
   ];

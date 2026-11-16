@@ -47,27 +47,11 @@ ShellRoot {
             pathway.showScoped(ThemeProvider, "Theme");
         }
 
-        // SUPER+A. Re-read first so ages and states are current on open.
-        function agents(): void {
-            Agents.refresh();
-            pathway.showScoped(AgentsProvider, "Agents");
-        }
-
         // `screenrecord --with-webcam` with several cameras connected, between
         // picking the region and starting. See WebcamProvider for the protocol.
         function webcam(cameras: string, reply: string): void {
             WebcamProvider.ask(cameras, reply);
             pathway.showScoped(WebcamProvider, "Camera");
-        }
-    }
-
-    // Poked by every agent hook (`agent-status hook`) so the bar follows a
-    // state change immediately rather than on its next poll.
-    IpcHandler {
-        target: "agents"
-
-        function refresh(): void {
-            Agents.refresh();
         }
     }
 

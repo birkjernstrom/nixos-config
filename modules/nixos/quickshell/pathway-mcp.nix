@@ -62,6 +62,6 @@ pkgs.writeShellApplication {
     )
     [[ $session == - ]] || args+=(--resume "$session")
 
-    PATHWAY_MCP_TOKEN="$(<"$secret")" AGENT_STATUS_IGNORE=1 exec claude "''${args[@]}"
+    PATHWAY_MCP_TOKEN="$(<"$secret")" exec claude "''${args[@]}"
   '';
 }

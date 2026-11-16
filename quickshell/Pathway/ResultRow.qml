@@ -63,17 +63,9 @@ Rectangle {
                 return Icons.team;
             if (root.item.id?.startsWith("mcp:"))
                 return Icons.chat;
-            if (root.item.kind?.startsWith("agent-"))
-                return Icons.agent(root.item.kind.slice(6));
             return Icons.app;
         }
-        color: {
-            if (root.item.kind === "agent-waiting")
-                return Theme.agentWaiting;
-            if (root.item.kind === "agent-working")
-                return Theme.agentWorking;
-            return Theme.fgDim;
-        }
+        color: Theme.fgDim
         visible: !icon.visible
     }
 
